@@ -1,7 +1,9 @@
 <?php
 
-use App\Models\Users\User;
 use Carbon\Carbon;
+use App\Models\Users\User;
+use App\Models\Products\Category;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +18,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get("/test", function (Request $request) {
+
+    // $categories = Category::whereNotExists(function ($query) {
+    //         $query->select(DB::raw('1'))
+    //             ->from('products_categories')
+    //             ->whereColumn('products_categories.category_id', 'categories.id');
+    //     })->toRawSql();
+
+    // dd($categories);
+
     // User::create([
     //     "first_name" => "Ayoub",
     //     "last_name" => "Kheyar",

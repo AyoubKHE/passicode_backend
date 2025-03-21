@@ -22,12 +22,12 @@ class AdminsCollection extends ResourceCollection
                 'per_page' => $this->perPage(),
                 'total' => $this->total(),
             ],
-            'links' => [
-                'first' => $this->url(1),
-                'last' => $this->url($this->lastPage()),
-                'prev' => $this->previousPageUrl(),
-                'next' => $this->nextPageUrl(),
-            ],
+            // 'links' => [
+            //     'first' => $this->url(1),
+            //     'last' => $this->url($this->lastPage()),
+            //     'prev' => $this->previousPageUrl(),
+            //     'next' => $this->nextPageUrl(),
+            // ],
         ];
     }
 }

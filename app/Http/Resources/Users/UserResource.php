@@ -36,7 +36,7 @@ class UserResource extends JsonResource
             "password_reset_token_sent_at" => $this->password_reset_token,
             "last_login" => $this->last_login,
             "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at,
+            "updated_at" => $this->updated_at
         ];
 
         if (!$this->show_only_user) {
