@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Categories\GetCategoryByIdController;
 use App\Http\Controllers\Categories\CategoryCreationController;
 use App\Http\Controllers\Categories\DeleteCategoryByIdController;
 use App\Http\Controllers\Categories\GetPaginatedCategoriesController;
 use App\Http\Controllers\Categories\CategoryCreationPageDataController;
-use App\Http\Controllers\FormationsCategories\GetFormationCategoryByIdController;
 use App\Http\Controllers\FormationsCategories\UpdateFormationCategoryByIdController;
 use App\Http\Controllers\FormationsCategories\UpdateFormationCategoryImageByIdController;
 use App\Http\Controllers\FormationsCategories\GetPaginatedFormationsCategoriesByFilterController;
@@ -51,14 +51,14 @@ Route::get(
 //     ->middleware('IsAdmin');
 
 
-// // tests made
-// Route::get(
-//     '/categories/get-by-id/{formation_category_id}',
-//     GetFormationCategoryByIdController::class
-// )
-//     ->name('categories.get-by-id')
-//     ->middleware('UsersJwtAuthentication')
-//     ->middleware('IsAdmin');
+// tests made
+Route::get(
+    '/categories/get-by-id/{category_id}',
+    GetCategoryByIdController::class
+)
+    ->name('categories.get-by-id')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
 
 
 // // tests made
