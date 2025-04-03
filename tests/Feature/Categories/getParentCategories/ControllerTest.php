@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Categories\CategoryCreationPageDataTests;
+namespace Tests\Feature\Categories\getParentCategories;
 
 use Throwable;
 use Tests\TestCase;
@@ -86,7 +86,7 @@ class ControllerTest extends TestCase
                         'is_active' => false,
                         'image_path' => 'categories/id_2/image_2_name.png',
                         'is_leaf_category' => true,
-                        'parent_id' => 1,
+                        'parent_id' => null,
                         'created_at' => now(),
 
                     ],
@@ -96,7 +96,7 @@ class ControllerTest extends TestCase
                         'is_active' => false,
                         'image_path' => 'categories/id_3/image_3_name.png',
                         'is_leaf_category' => false,
-                        'parent_id' => 1,
+                        'parent_id' => null,
                         'created_at' => now(),
                     ],
                     [
@@ -105,7 +105,7 @@ class ControllerTest extends TestCase
                         'is_active' => true,
                         'image_path' => 'categories/id_4/image_4_name.png',
                         'is_leaf_category' => false,
-                        'parent_id' => 1,
+                        'parent_id' => null,
                         'created_at' => now(),
                     ]
                 ));
@@ -217,7 +217,7 @@ class ControllerTest extends TestCase
     }
 
 
-    public function test_successfull_get_category_creation_page_data(): void
+    public function test_successfull_get_parent_categories(): void
     {
         $this->adminLogin();
 
@@ -225,16 +225,16 @@ class ControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->access_token,
-        ])->getJson('api/categories/create-category-page-data');
+        ])->getJson('api/categories/get-parent-categories');
 
         try {
 
             $response->assertStatus(200)
                 ->assertJsonPath(
-                    'category_creation_page_data.parent_categories.0.name',
+                    'parent_categories.0.name',
                     'Djezzy'
                 )->assertJsonPath(
-                    'category_creation_page_data.parent_categories.1.name',
+                    'parent_categories.1.name',
                     'Mobilis'
                 );
 

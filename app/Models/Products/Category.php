@@ -40,15 +40,10 @@ class Category extends Model
         return $this->hasMany(Category::class, "parent_id", "id");
     }
 
-    // public function products()
-    // {
-    //     return $this->belongsToMany(Product::class, "productscategories_products", "productcategory_id", "product_id", "id", "id")
-    //         ->withPivot("is_active")
-    //         ->with("addedBy")
-    //         ->with("brand")
-    //         ->with("images")
-    //         ->where("productsCategories_products.is_active", 1);
-    // }
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, "products_categories", "category_id", "product_id", "id", "id");
+    }
 
     // public function productsExcept(int $except_id)
     // {

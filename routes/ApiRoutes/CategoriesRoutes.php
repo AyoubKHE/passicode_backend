@@ -1,13 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Categories\getParentCategories;
 use App\Http\Controllers\Categories\GetCategoryByIdController;
 use App\Http\Controllers\Categories\CategoryCreationController;
 use App\Http\Controllers\Categories\DeleteCategoryByIdController;
+use App\Http\Controllers\Categories\UpdateImageController;
+use App\Http\Controllers\Categories\UpdateParentCategoryController;
 use App\Http\Controllers\Categories\GetPaginatedCategoriesController;
+use App\Http\Controllers\Categories\UpdateCategoryBaseDataController;
 use App\Http\Controllers\Categories\CategoryCreationPageDataController;
-use App\Http\Controllers\FormationsCategories\UpdateFormationCategoryByIdController;
-use App\Http\Controllers\FormationsCategories\UpdateFormationCategoryImageByIdController;
 use App\Http\Controllers\FormationsCategories\GetPaginatedFormationsCategoriesByFilterController;
 
 // tests made
@@ -27,6 +29,16 @@ Route::get(
     CategoryCreationPageDataController::class
 )
     ->name('categories.create-category-page-data')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
+
+
+// tests made
+Route::get(
+    '/categories/get-parent-categories',
+    getParentCategories::class
+)
+    ->name('categories.get-parent-categories')
     ->middleware('UsersJwtAuthentication')
     ->middleware('IsAdmin');
 
@@ -61,24 +73,33 @@ Route::get(
     ->middleware('IsAdmin');
 
 
-// // tests made
-// Route::put(
-//     '/categories/update-by-id/{formation_category_id}',
-//     UpdateFormationCategoryByIdController::class
-// )
-//     ->name('categories.update-by-id')
-//     ->middleware('UsersJwtAuthentication')
-//     ->middleware('IsAdmin');
+// tests made
+Route::put(
+    '/categories/update-base-data/{category_id}',
+    UpdateCategoryBaseDataController::class
+)
+    ->name('categories.update-base-data')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
 
 
-// // tests made
-// Route::post(
-//     '/categories/update-image-by-id/{formation_category_id}',
-//     UpdateFormationCategoryImageByIdController::class
-// )
-//     ->name('categories.update-image-by-id')
-//     ->middleware('UsersJwtAuthentication')
-//     ->middleware('IsAdmin');
+Route::put(
+    '/categories/update-parent-category/{category_id}',
+    UpdateParentCategoryController::class
+)
+    ->name('categories.update-parent-category')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
+
+
+// tests made
+Route::post(
+    '/categories/update-image/{category_id}',
+    UpdateImageController::class
+)
+    ->name('categories.update-image')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
 
 
 // tests made

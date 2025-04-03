@@ -12,15 +12,15 @@ use App\Http\Resources\Products\CategoriesCollection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 
-class CategoryCreationPageDataController extends Controller
+class getParentCategories extends Controller
 {
     private Request $global_request_object;
-    private array $category_creation_page_data;
+    private array $parent_categories;
 
-    private function prepareCategoryCreationPageData()
+    private function prepareParentCategories()
     {
         try {
-            $this->category_creation_page_data['parent_categories'] =
+            $this->parent_categories =
                 Category::select('id', 'name')
                     ->whereNotExists(function ($query) {
                         $query->select(DB::raw('1'))
@@ -42,10 +42,10 @@ class CategoryCreationPageDataController extends Controller
     {
         $this->global_request_object = $request;
 
-        $this->prepareCategoryCreationPageData();
+        $this->prepareParentCategories();
 
         return response()->json([
-            'category_creation_page_data' => $this->category_creation_page_data,
+            'parent_categories' => $this->parent_categories,
         ], 200);
     }
 }
