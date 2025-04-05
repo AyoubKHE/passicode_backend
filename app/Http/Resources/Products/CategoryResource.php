@@ -19,6 +19,8 @@ class CategoryResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "description" => $this->description,
+            "price" => $this->price,
+            "discount" => $this->discount,
             "category_image_url" => Storage::url($this->image_path),
             "is_active" => $this->is_active,
             "is_leaf_category" => $this->is_leaf_category,

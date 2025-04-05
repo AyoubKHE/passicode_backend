@@ -17,6 +17,8 @@ class Category extends Model
         "id",
         "name",
         "description",
+        "price",
+        "discount",
         "image_path",
         "is_active",
         // "show_on_website_header",

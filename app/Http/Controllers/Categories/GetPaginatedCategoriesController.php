@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Categories;
 use Exception;
 use Throwable;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Products\Category;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Products\CategoriesCollection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 
 class GetPaginatedCategoriesController extends Controller
@@ -37,6 +38,20 @@ class GetPaginatedCategoriesController extends Controller
             );
         }
 
+        // $this->paginated_categories = Cache::rememberForever(
+        //     "categories_page:{$page}_limit:{$limit}",
+        //     function () use ($page, $limit) {
+        //         try {
+        //             $paginated_categories = Category::paginate(perPage: $limit, page: $page);
+        //         } catch (Throwable $th) {
+        //             throw new Exception(
+        //                 'An error occurred while accessing the database. Please try again later.',
+        //                 500
+        //             );
+        //         }
+        //         return $paginated_categories;
+        //     }
+        // );
     }
 
     public function __invoke(Request $request)

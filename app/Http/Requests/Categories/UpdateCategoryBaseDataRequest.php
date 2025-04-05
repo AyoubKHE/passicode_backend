@@ -39,9 +39,9 @@ class UpdateCategoryBaseDataRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     try {
                         $existing_category = Category::where(
-                                'name',
-                                $value
-                            )->where(
+                            'name',
+                            $value
+                        )->where(
                                 'id',
                                 '!=',
                                 $this->category_id
@@ -64,9 +64,9 @@ class UpdateCategoryBaseDataRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     try {
                         $existing_category = Category::where(
-                                'description',
-                                $value
-                            )->where(
+                            'description',
+                            $value
+                        )->where(
                                 'id',
                                 '!=',
                                 $this->category_id
@@ -79,6 +79,22 @@ class UpdateCategoryBaseDataRequest extends FormRequest
                         $fail("The description has already been taken.");
                     }
                 },
+            ],
+
+
+            "price" => [
+                "nullable",
+                "numeric",
+                "min:0",
+                "max:99999999.99"
+            ],
+
+
+            "discount" => [
+                "nullable",
+                "integer",
+                "min:0",
+                "max:100"
             ],
 
 

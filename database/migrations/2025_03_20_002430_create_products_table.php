@@ -11,14 +11,11 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->unsignedInteger("id", true);
+            $table->id();
 
-            $table->string("name", 255)->nullable(false)->unique();
-            $table->text("description")->nullable(false)->unique();
-            $table->decimal('price', 10, 2)->nullable(false);
-            $table->unsignedSmallInteger("discount")->nullable(true);
-            $table->string("image_path", 255)->nullable(false);
-            $table->boolean("is_active")->nullable(false);
+            $table->string("code", 255)->nullable(false)->unique();
+            $table->boolean("sold")->nullable(false);
+            $table->timestamp('expiration_date')->nullable(true);
 
             $table->timestamps();
         });

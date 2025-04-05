@@ -45,9 +45,9 @@ class CategoryCreationRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     try {
                         $existing_category = Category::where(
-                                'name',
-                                $value
-                            )->first();
+                            'name',
+                            $value
+                        )->first();
                     } catch (Throwable $th) {
                         $fail('An error occurred while accessing the database. Please try again later.');
                     }
@@ -68,9 +68,9 @@ class CategoryCreationRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     try {
                         $existing_category = Category::where(
-                                'description',
-                                $value
-                            )->first();
+                            'description',
+                            $value
+                        )->first();
                     } catch (Throwable $th) {
                         $fail('An error occurred while accessing the database. Please try again later.');
                     }
@@ -79,6 +79,22 @@ class CategoryCreationRequest extends FormRequest
                         $fail("The description has already been taken.");
                     }
                 },
+            ],
+
+
+            "price" => [
+                "nullable",
+                "numeric",
+                "min:0",
+                "max:99999999.99"
+            ],
+
+
+            "discount" => [
+                "nullable",
+                "integer",
+                "min:0",
+                "max:100"
             ],
 
 

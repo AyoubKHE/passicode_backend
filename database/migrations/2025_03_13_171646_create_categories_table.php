@@ -15,6 +15,8 @@ return new class extends Migration {
 
             $table->string("name", 255)->nullable(false)->unique();
             $table->text("description")->nullable(false)->unique();
+            $table->decimal('price', 10, 2)->nullable(true);
+            $table->unsignedSmallInteger("discount")->nullable(true);
             $table->string("image_path", 255)->nullable(false);
             $table->boolean("is_active")->nullable(false);
             // $table->boolean("show_on_website_header")->nullable(false)->default(false);
