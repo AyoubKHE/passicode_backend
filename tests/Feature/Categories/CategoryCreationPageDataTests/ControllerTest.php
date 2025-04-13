@@ -113,54 +113,39 @@ class ControllerTest extends TestCase
 
                 Product::insert(array(
                     [
-                        'name' => 'Netflix 20 USD',
-                        'description' => 'Netflix 20 USD Description',
-                        'price' => 8000,
-                        'discount' => 0,
-                        'is_active' => true,
-                        'image_path' => 'products/id_1/image_1_name.png',
+                        'code' => 'code1',
+                        'sold' => false,
+                        'expiration_date' => null,
+                        'purchase_price' => 2500,
                         'created_at' => now(),
-
                     ],
                     [
-                        'name' => 'Netflix 30 USD',
-                        'description' => 'Netflix 30 USD Description',
-                        'price' => 8000,
-                        'discount' => 0,
-                        'is_active' => true,
-                        'image_path' => 'products/id_2/image_2_name.png',
+                        'code' => 'code2',
+                        'sold' => false,
+                        'expiration_date' => null,
+                        'purchase_price' => 2500,
                         'created_at' => now(),
-
                     ],
                     [
-                        'name' => 'Netflix 40 USD',
-                        'description' => 'Netflix 40 USD Description',
-                        'price' => 8000,
-                        'discount' => 0,
-                        'is_active' => true,
-                        'image_path' => 'products/id_3/image_3_name.png',
+                        'code' => 'code3',
+                        'sold' => false,
+                        'expiration_date' => null,
+                        'purchase_price' => 2500,
                         'created_at' => now(),
-
                     ],
                     [
-                        'name' => 'Playstation 10 £',
-                        'description' => 'Playstation 10 £ Description',
-                        'price' => 6500,
-                        'discount' => 0,
-                        'is_active' => true,
-                        'image_path' => 'products/id_4/image_4_name.png',
+                        'code' => 'code4',
+                        'sold' => false,
+                        'expiration_date' => null,
+                        'purchase_price' => 2500,
                         'created_at' => now(),
-
                     ],
                     [
-                        'name' => 'Playstation 20 £',
-                        'description' => 'Playstation 20 £ Description',
-                        'price' => 6500,
-                        'discount' => 0,
-                        'is_active' => true,
-                        'image_path' => 'products/id_5/image_5_name.png',
+                        'code' => 'code5',
+                        'sold' => false,
+                        'expiration_date' => null,
+                        'purchase_price' => 2500,
                         'created_at' => now(),
-
                     ],
                 ));
 

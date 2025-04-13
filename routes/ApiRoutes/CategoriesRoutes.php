@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Categories\getLeafCategories;
 use App\Http\Controllers\Categories\getParentCategories;
+use App\Http\Controllers\Categories\UpdateImageController;
 use App\Http\Controllers\Categories\GetCategoryByIdController;
 use App\Http\Controllers\Categories\CategoryCreationController;
 use App\Http\Controllers\Categories\DeleteCategoryByIdController;
-use App\Http\Controllers\Categories\UpdateImageController;
 use App\Http\Controllers\Categories\UpdateParentCategoryController;
 use App\Http\Controllers\Categories\GetPaginatedCategoriesController;
 use App\Http\Controllers\Categories\UpdateCategoryBaseDataController;
@@ -39,6 +40,16 @@ Route::get(
     getParentCategories::class
 )
     ->name('categories.get-parent-categories')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
+
+
+// tests made
+Route::get(
+    '/categories/get-leaf-categories',
+    getLeafCategories::class
+)
+    ->name('categories.get-leaf-categories')
     ->middleware('UsersJwtAuthentication')
     ->middleware('IsAdmin');
 

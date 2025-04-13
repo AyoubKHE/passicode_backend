@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Categories\getParentCategories;
+namespace Tests\Feature\Categories\getLeafCategories;
 
 use Throwable;
 use Tests\TestCase;
@@ -75,39 +75,41 @@ class ControllerTest extends TestCase
                         'description' => 'Netflix Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
-                        'is_leaf_category' => true,
-                        'parent_id' => null,
-                        'created_at' => now(),
-
-                    ],
-                    [
-                        'name' => 'Playstation',
-                        'description' => 'Playstation Description',
-                        'is_active' => false,
-                        'image_path' => 'categories/id_2/image_2_name.png',
-                        'is_leaf_category' => true,
-                        'parent_id' => null,
-                        'created_at' => now(),
-
-                    ],
-                    [
-                        'name' => 'Djezzy',
-                        'description' => 'Djezzy Description',
-                        'is_active' => false,
-                        'image_path' => 'categories/id_3/image_3_name.png',
                         'is_leaf_category' => false,
                         'parent_id' => null,
                         'created_at' => now(),
+
                     ],
                     [
-                        'name' => 'Mobilis',
-                        'description' => 'Mobilis Description',
+                        'name' => 'Netflix 10$',
+                        'description' => 'Netflix 10$ Description',
                         'is_active' => true,
-                        'image_path' => 'categories/id_4/image_4_name.png',
-                        'is_leaf_category' => false,
-                        'parent_id' => null,
+                        'image_path' => 'categories/id_1/image_1_name.png',
+                        'is_leaf_category' => true,
+                        'parent_id' => 1,
                         'created_at' => now(),
-                    ]
+
+                    ],
+                    [
+                        'name' => 'Netflix 20$',
+                        'description' => 'Netflix 20$ Description',
+                        'is_active' => true,
+                        'image_path' => 'categories/id_1/image_1_name.png',
+                        'is_leaf_category' => true,
+                        'parent_id' => 1,
+                        'created_at' => now(),
+
+                    ],
+                    [
+                        'name' => 'Netflix 30$',
+                        'description' => 'Netflix 30$ Description',
+                        'is_active' => true,
+                        'image_path' => 'categories/id_1/image_1_name.png',
+                        'is_leaf_category' => true,
+                        'parent_id' => 1,
+                        'created_at' => now(),
+
+                    ],
                 ));
 
 
@@ -157,23 +159,23 @@ class ControllerTest extends TestCase
                 Product_Category::insert(array(
                     [
                         'product_id' => 1,
-                        'category_id' => 1,
+                        'category_id' => 2,
                     ],
                     [
                         'product_id' => 2,
-                        'category_id' => 1,
+                        'category_id' => 2,
                     ],
                     [
                         'product_id' => 3,
-                        'category_id' => 1,
+                        'category_id' => 3,
                     ],
                     [
                         'product_id' => 4,
-                        'category_id' => 2,
+                        'category_id' => 3,
                     ],
                     [
                         'product_id' => 5,
-                        'category_id' => 2,
+                        'category_id' => 4,
                     ],
                 ));
             });
@@ -206,7 +208,7 @@ class ControllerTest extends TestCase
     }
 
 
-    public function test_successfull_get_parent_categories(): void
+    public function test_successfull_get_leaf_categories(): void
     {
         $this->adminLogin();
 
@@ -214,17 +216,20 @@ class ControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->access_token,
-        ])->getJson('api/categories/get-parent-categories');
+        ])->getJson('api/categories/get-leaf-categories');
 
         try {
 
             $response->assertStatus(200)
                 ->assertJsonPath(
-                    'parent_categories.0.name',
-                    'Djezzy'
+                    'leaf_categories.0.name',
+                    'Netflix 10$'
                 )->assertJsonPath(
-                    'parent_categories.1.name',
-                    'Mobilis'
+                    'leaf_categories.1.name',
+                    'Netflix 20$'
+                )->assertJsonPath(
+                    'leaf_categories.2.name',
+                    'Netflix 30$'
                 );
 
         } catch (Throwable $th) {

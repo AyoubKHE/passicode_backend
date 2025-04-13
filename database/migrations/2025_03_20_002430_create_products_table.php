@@ -15,7 +15,8 @@ return new class extends Migration {
 
             $table->string("code", 255)->nullable(false)->unique();
             $table->boolean("sold")->nullable(false);
-            $table->timestamp('expiration_date')->nullable(true);
+            $table->string('expiration_date', 50)->nullable(true);
+            $table->decimal('purchase_price', 10, 2)->nullable(false);
 
             $table->timestamps();
         });
