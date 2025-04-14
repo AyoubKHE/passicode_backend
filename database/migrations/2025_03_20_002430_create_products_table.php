@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
 
             $table->string("code", 255)->nullable(false)->unique();
+            $table->string("code_start", 5)->nullable(false);
             $table->boolean("sold")->nullable(false);
             $table->string('expiration_date', 50)->nullable(true);
             $table->decimal('purchase_price', 10, 2)->nullable(false);

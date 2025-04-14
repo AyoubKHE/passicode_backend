@@ -20,6 +20,9 @@ class UpdateProductBaseDataController extends Controller
     private function updateBasicData()
     {
         if (array_key_exists('code', $this->sent_inputs)) {
+
+            $this->sent_inputs['code_start'] = substr($this->sent_inputs['code'], 0, 5);
+
             $this->sent_inputs["code"] = Crypt::encryptString($this->sent_inputs["code"]);
         }
 

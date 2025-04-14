@@ -68,28 +68,32 @@ class ControllerTest extends TestCase
         try {
             Product::insert(array(
                 [
-                    'code' => Crypt::encryptString("code1"),
+                    'code' => Crypt::encryptString("SDHF5454SDSD"),
+                    'code_start' => "SDHF5",
                     'sold' => false,
                     'expiration_date' => null,
                     'purchase_price' => 2500,
                     'created_at' => now(),
                 ],
                 [
-                    'code' => Crypt::encryptString("code2"),
+                    'code' => Crypt::encryptString("HJG54D698DS5"),
+                    'code_start' => "HJG54",
                     'sold' => false,
                     'expiration_date' => null,
                     'purchase_price' => 3000,
                     'created_at' => now(),
                 ],
                 [
-                    'code' => Crypt::encryptString("code3"),
+                    'code' => Crypt::encryptString("54TUR87EDGZ2"),
+                    'code_start' => "54TUR",
                     'sold' => false,
                     'expiration_date' => null,
                     'purchase_price' => 3500,
                     'created_at' => now(),
                 ],
                 [
-                    'code' => Crypt::encryptString("code4"),
+                    'code' => Crypt::encryptString("54TDH58TFJHD"),
+                    'code_start' => "54TDH",
                     'sold' => false,
                     'expiration_date' => null,
                     'purchase_price' => 4000,
@@ -110,8 +114,6 @@ class ControllerTest extends TestCase
         } catch (Throwable $th) {
             $this->markTestSkipped($th->getMessage());
         }
-
-        Storage::deleteDirectory("products");
     }
     protected function tearDown(): void
     {
@@ -139,6 +141,29 @@ class ControllerTest extends TestCase
             $response->assertStatus(200)
                 ->assertJsonFragment([
                     'total' => 4
+                ]);
+
+        } catch (Throwable $th) {
+            $this->fail("Test failed: " . $th->getMessage());
+        }
+    }
+
+
+    public function test_successfull_get_paginated_products_by_code(): void
+    {
+        $this->adminLogin();
+
+        $this->createFakeProducts();
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->access_token,
+        ])->getJson('api/products/get-paginated-products?code=54TDH&limit=5&page=1');
+
+        try {
+
+            $response->assertStatus(200)
+                ->assertJsonFragment([
+                    'total' => 1
                 ]);
 
         } catch (Throwable $th) {

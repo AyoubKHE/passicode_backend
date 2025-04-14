@@ -19,12 +19,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/test", function (Request $request) {
 
-    // $categories = Category::whereNotExists(function ($query) {
-    //         $query->select(DB::raw('1'))
-    //             ->from('products_categories')
-    //             ->whereColumn('products_categories.category_id', 'categories.id');
-    //     })->toRawSql();
-
     // dd($categories);
 
     // User::create([

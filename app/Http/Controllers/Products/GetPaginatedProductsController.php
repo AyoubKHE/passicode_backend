@@ -20,6 +20,7 @@ class GetPaginatedProductsController extends Controller
     {
         $page = (int) $this->global_request_object->get('page', 1);
         $limit = (int) $this->global_request_object->get('limit', 10);
+        $code = $this->global_request_object->get('code', "");
 
         if ($limit > 100) {
             throw new Exception(
@@ -27,15 +28,30 @@ class GetPaginatedProductsController extends Controller
                 400
             );
         }
-
-        try {
-            $this->paginated_products = Product::where('sold', 0)
-                ->paginate(perPage: $limit, page: $page);
-        } catch (Throwable $th) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
+        if ($code) {
+            try {
+                $this->paginated_products = Product::where(
+                    'code_start',
+                    'like',
+                    $code . "%"
+                )
+                    ->paginate(perPage: $limit, page: $page);
+            } catch (Throwable $th) {
+                throw new Exception(
+                    'An error occurred while accessing the database. Please try again later.',
+                    500
+                );
+            }
+        } else {
+            try {
+                $this->paginated_products = Product::where('sold', 0)
+                    ->paginate(perPage: $limit, page: $page);
+            } catch (Throwable $th) {
+                throw new Exception(
+                    'An error occurred while accessing the database. Please try again later.',
+                    500
+                );
+            }
         }
 
         // $this->paginated_products = Cache::rememberForever(

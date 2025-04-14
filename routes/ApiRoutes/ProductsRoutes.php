@@ -7,6 +7,7 @@ use App\Http\Controllers\Products\DeleteProductByIdController;
 use App\Http\Controllers\Products\GetPaginatedProductsController;
 use App\Http\Controllers\Products\UpdateProductBaseDataController;
 use App\Http\Controllers\Products\UpdateRelatedCategoryController;
+use App\Http\Controllers\Products\GetPaginatedProductsByCodeController;
 
 
 // tests made

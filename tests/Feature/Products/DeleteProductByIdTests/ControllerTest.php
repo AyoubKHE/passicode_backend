@@ -71,6 +71,7 @@ class ControllerTest extends TestCase
 
             Product::create([
                 'code' => Crypt::encryptString("code1"),
+                'code_start' => "code1",
                 'sold' => false,
                 'expiration_date' => null,
                 'purchase_price' => 2500,
@@ -90,8 +91,6 @@ class ControllerTest extends TestCase
         } catch (Throwable $th) {
             $this->markTestSkipped($th->getMessage());
         }
-
-        Storage::deleteDirectory("products");
     }
     protected function tearDown(): void
     {

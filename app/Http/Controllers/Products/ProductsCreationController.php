@@ -24,6 +24,9 @@ class ProductsCreationController extends Controller
     {
         foreach ($this->prepared_products as $prepared_product) {
 
+
+            $prepared_product['code_start'] = substr($prepared_product['code'], 0, 5);
+
             $prepared_product['code'] = Crypt::encryptString($prepared_product['code']);
 
             $prepared_product['sold'] = false;

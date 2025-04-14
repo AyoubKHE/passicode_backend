@@ -1,16 +1,17 @@
 <?php
 
-namespace Tests\Feature\Products\UpdateProductBaseDataTests;
+namespace Tests\Feature\Products\GetPaginatedProductsByCodeTests;
 
-use App\Models\Products\Product;
 use Throwable;
 use Tests\TestCase;
 use App\Models\Users\User;
 use App\Models\Admins\Admin;
 use App\Services\JWTService;
+use App\Models\Products\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 /**
@@ -28,7 +29,6 @@ class ControllerTest extends TestCase
         try {
             DB::transaction(function () {
                 User::create([
-                    'id' => 1,
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
@@ -68,19 +68,35 @@ class ControllerTest extends TestCase
         try {
             Product::insert(array(
                 [
-                    'code' => Crypt::encryptString("code1"),
-                    'code_start' => "code1",
+                    'code' => Crypt::encryptString("SDHF5454SDSD"),
+                    'code_start' => "SDHF5",
                     'sold' => false,
-                    'expiration_date' => "2026-12-31",
+                    'expiration_date' => null,
                     'purchase_price' => 2500,
                     'created_at' => now(),
                 ],
                 [
-                    'code' => Crypt::encryptString("code2"),
-                    'code_start' => "code2",
+                    'code' => Crypt::encryptString("HJG54D698DS5"),
+                    'code_start' => "HJG54",
                     'sold' => false,
-                    'expiration_date' => "2026-12-31",
-                    'purchase_price' => 2500,
+                    'expiration_date' => null,
+                    'purchase_price' => 3000,
+                    'created_at' => now(),
+                ],
+                [
+                    'code' => Crypt::encryptString("54TUR87EDGZ2"),
+                    'code_start' => "54TUR",
+                    'sold' => false,
+                    'expiration_date' => null,
+                    'purchase_price' => 3500,
+                    'created_at' => now(),
+                ],
+                [
+                    'code' => Crypt::encryptString("54TDH58TFJHD"),
+                    'code_start' => "54TDH",
+                    'sold' => false,
+                    'expiration_date' => null,
+                    'purchase_price' => 4000,
                     'created_at' => now(),
                 ],
             ));
@@ -88,8 +104,8 @@ class ControllerTest extends TestCase
         } catch (Throwable $th) {
             $this->markTestSkipped("test skipped because a problem occured while creating fake products manually");
         }
-    }
 
+    }
 
     protected function setUp(): void
     {
@@ -106,11 +122,10 @@ class ControllerTest extends TestCase
         } catch (Throwable $th) {
             $this->markTestSkipped($th->getMessage());
         }
-
     }
 
 
-    public function test_successfull_update_product_base_data(): void
+    public function test_successfull_get_paginated_products_by_code(): void
     {
         $this->adminLogin();
 
@@ -118,28 +133,13 @@ class ControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->access_token,
-        ])->putJson('api/products/update-base-data/1', [
-                    'code' => 'code11',
-                    'expiration_date' => "2027-12-31",
-                    'purchase_price' => 3000,
-                ]);
+        ])->getJson('api/products/get-paginated-products-by-code/54TDH?limit=5&page=1');
 
         try {
 
-            $this->assertDatabaseHas(
-                "products",
-                [
-                    "id" => 1,
-                    'code_start' => "code1",
-                    'expiration_date' => "2027-12-31",
-                    'purchase_price' => 3000
-                ]
-            );
-
-
             $response->assertStatus(200)
                 ->assertJsonFragment([
-                    'message' => "Product's base data updated successfully."
+                    'total' => 1
                 ]);
 
         } catch (Throwable $th) {

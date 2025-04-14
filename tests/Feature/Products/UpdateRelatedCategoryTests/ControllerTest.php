@@ -104,6 +104,7 @@ class ControllerTest extends TestCase
                 Product::insert(array(
                     [
                         'code' => Crypt::encryptString("code1"),
+                        'code_start' => "code1",
                         'sold' => false,
                         'expiration_date' => null,
                         'purchase_price' => 2500,
@@ -111,6 +112,7 @@ class ControllerTest extends TestCase
                     ],
                     [
                         'code' => Crypt::encryptString("code2"),
+                        'code_start' => "code2",
                         'sold' => false,
                         'expiration_date' => null,
                         'purchase_price' => 3000,
@@ -118,6 +120,7 @@ class ControllerTest extends TestCase
                     ],
                     [
                         'code' => Crypt::encryptString("code3"),
+                        'code_start' => "code3",
                         'sold' => false,
                         'expiration_date' => null,
                         'purchase_price' => 3500,
