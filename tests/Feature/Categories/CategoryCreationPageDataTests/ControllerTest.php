@@ -114,6 +114,7 @@ class ControllerTest extends TestCase
                 Product::insert(array(
                     [
                         'code' => 'code1',
+                        'code_start' => "code1",
                         'sold' => false,
                         'expiration_date' => null,
                         'purchase_price' => 2500,
@@ -121,6 +122,7 @@ class ControllerTest extends TestCase
                     ],
                     [
                         'code' => 'code2',
+                        'code_start' => "code2",
                         'sold' => false,
                         'expiration_date' => null,
                         'purchase_price' => 2500,
@@ -128,6 +130,7 @@ class ControllerTest extends TestCase
                     ],
                     [
                         'code' => 'code3',
+                        'code_start' => "code3",
                         'sold' => false,
                         'expiration_date' => null,
                         'purchase_price' => 2500,
@@ -135,6 +138,7 @@ class ControllerTest extends TestCase
                     ],
                     [
                         'code' => 'code4',
+                        'code_start' => "code4",
                         'sold' => false,
                         'expiration_date' => null,
                         'purchase_price' => 2500,
@@ -142,6 +146,7 @@ class ControllerTest extends TestCase
                     ],
                     [
                         'code' => 'code5',
+                        'code_start' => "code5",
                         'sold' => false,
                         'expiration_date' => null,
                         'purchase_price' => 2500,

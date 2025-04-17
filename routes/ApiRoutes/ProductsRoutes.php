@@ -7,7 +7,7 @@ use App\Http\Controllers\Products\DeleteProductByIdController;
 use App\Http\Controllers\Products\GetPaginatedProductsController;
 use App\Http\Controllers\Products\UpdateProductBaseDataController;
 use App\Http\Controllers\Products\UpdateRelatedCategoryController;
-use App\Http\Controllers\Products\GetPaginatedProductsByCodeController;
+use App\Http\Controllers\Products\GetPaginatedProductsByFilterController;
 
 
 // tests made
@@ -27,6 +27,16 @@ Route::get(
     GetPaginatedProductsController::class
 )
     ->name('products.get-paginated-products')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
+
+
+// tests made
+Route::post(
+    '/products/get-paginated-products-by-filter',
+    GetPaginatedProductsByFilterController::class
+)
+    ->name('products.get-paginated-products-by-filter')
     ->middleware('UsersJwtAuthentication')
     ->middleware('IsAdmin');
 
