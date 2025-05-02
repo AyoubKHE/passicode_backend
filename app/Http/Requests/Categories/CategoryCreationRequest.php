@@ -103,7 +103,6 @@ class CategoryCreationRequest extends FormRequest
                 "boolean"
             ],
 
-
             "parent_id" => [
                 'nullable',
                 'integer',

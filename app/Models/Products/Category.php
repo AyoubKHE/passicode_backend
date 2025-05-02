@@ -21,7 +21,6 @@ class Category extends Model
         "discount",
         "image_path",
         "is_active",
-        // "show_on_website_header",
         "is_leaf_category",
         "parent_id",
         "created_at",

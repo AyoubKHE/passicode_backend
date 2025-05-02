@@ -71,6 +71,8 @@ class ControllerTest extends TestCase
                     'description' => 'Netflix Description',
                     'is_active' => true,
                     'image_path' => 'categories/id_1/image_1_name.png',
+
+
                     'is_leaf_category' => true,
                     'parent_id' => null,
                     'created_at' => now(),
@@ -81,6 +83,8 @@ class ControllerTest extends TestCase
                     'description' => 'Playstation Description',
                     'is_active' => true,
                     'image_path' => 'categories/id_2/image_2_name.png',
+
+
                     'is_leaf_category' => true,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -91,6 +95,8 @@ class ControllerTest extends TestCase
                     'description' => 'ITunes Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -101,6 +107,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 4 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -111,6 +119,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 5 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -121,6 +131,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 6 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -131,6 +143,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 7 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -141,6 +155,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 8 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -151,6 +167,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 9 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -161,6 +179,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 10 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -171,6 +191,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 11 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -181,6 +203,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 12 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -191,6 +215,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 13 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -201,6 +227,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 14 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -211,6 +239,8 @@ class ControllerTest extends TestCase
                     'description' => 'Cat 15 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
+
+
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),

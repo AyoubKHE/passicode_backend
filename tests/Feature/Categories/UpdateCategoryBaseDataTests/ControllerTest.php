@@ -70,6 +70,8 @@ class ControllerTest extends TestCase
                 [
                     'name' => 'Netflix',
                     'description' => 'Netflix Description',
+
+
                     'is_active' => true,
                     'is_leaf_category' => true,
                     'parent_id' => null,

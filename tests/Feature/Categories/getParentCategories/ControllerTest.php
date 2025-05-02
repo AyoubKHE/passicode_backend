@@ -75,6 +75,8 @@ class ControllerTest extends TestCase
                         'description' => 'Netflix Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
+
+
                         'is_leaf_category' => true,
                         'parent_id' => null,
                         'created_at' => now(),
@@ -85,6 +87,8 @@ class ControllerTest extends TestCase
                         'description' => 'Playstation Description',
                         'is_active' => false,
                         'image_path' => 'categories/id_2/image_2_name.png',
+
+
                         'is_leaf_category' => true,
                         'parent_id' => null,
                         'created_at' => now(),
@@ -95,6 +99,8 @@ class ControllerTest extends TestCase
                         'description' => 'Djezzy Description',
                         'is_active' => false,
                         'image_path' => 'categories/id_3/image_3_name.png',
+
+
                         'is_leaf_category' => false,
                         'parent_id' => null,
                         'created_at' => now(),
@@ -104,6 +110,8 @@ class ControllerTest extends TestCase
                         'description' => 'Mobilis Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_4/image_4_name.png',
+
+
                         'is_leaf_category' => false,
                         'parent_id' => null,
                         'created_at' => now(),

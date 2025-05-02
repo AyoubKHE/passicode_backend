@@ -73,6 +73,8 @@ class ControllerTest extends TestCase
                         'description' => 'Netflix Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
+
+
                         'is_leaf_category' => false,
                         'parent_id' => null,
                         'created_at' => now(),
@@ -82,6 +84,8 @@ class ControllerTest extends TestCase
                         'description' => 'Netflix Turc 10$ Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
+
+
                         'is_leaf_category' => true,
                         'parent_id' => 1,
                         'created_at' => now(),
