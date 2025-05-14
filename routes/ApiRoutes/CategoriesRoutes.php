@@ -7,11 +7,12 @@ use App\Http\Controllers\Categories\UpdateImageController;
 use App\Http\Controllers\Categories\GetCategoryByIdController;
 use App\Http\Controllers\Categories\CategoryCreationController;
 use App\Http\Controllers\Categories\DeleteCategoryByIdController;
+use App\Http\Controllers\Categories\getChildCategoriesController;
 use App\Http\Controllers\Categories\UpdateParentCategoryController;
 use App\Http\Controllers\Categories\GetPaginatedCategoriesController;
 use App\Http\Controllers\Categories\UpdateCategoryBaseDataController;
 use App\Http\Controllers\Categories\CategoryCreationPageDataController;
-use App\Http\Controllers\FormationsCategories\GetPaginatedFormationsCategoriesByFilterController;
+use App\Http\Controllers\Categories\getChildCategoriesByNameController;
 
 // tests made
 Route::post(
@@ -52,6 +53,22 @@ Route::get(
     ->name('categories.get-leaf-categories')
     ->middleware('UsersJwtAuthentication')
     ->middleware('IsAdmin');
+
+
+// tests made
+Route::get(
+    '/categories/get-child-categories/{category_id}',
+    getChildCategoriesController::class
+)
+    ->name('categories.get-child-categories');
+
+    
+// tests made
+Route::get(
+    '/categories/get-child-categories-by-name/{category_name}',
+    getChildCategoriesByNameController::class
+)
+    ->name('categories.get-child-categories-by-name');
 
 
 // tests made
