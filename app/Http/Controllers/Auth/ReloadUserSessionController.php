@@ -118,7 +118,11 @@ class ReloadUserSessionController extends Controller
         }
 
         try {
-            $this->user = User::where("id", $refresh_token_payload["user_data"]->user_id)->first();
+            $this->user = User::where(
+                "id",
+                $refresh_token_payload["user_data"]->user_id
+            )
+                ->first();
 
         } catch (Throwable $throwable) {
             throw new Exception(

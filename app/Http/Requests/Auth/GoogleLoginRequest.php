@@ -3,8 +3,9 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ResetPasswordRequest extends FormRequest
+class GoogleLoginRequest extends FormRequest
 {
 
     /**
@@ -31,18 +32,14 @@ class ResetPasswordRequest extends FormRequest
     {
         return [
 
-            'password_reset_token' => [
+            'id_token' => [
                 'required',
                 'string',
             ],
 
-            'new_password' => [
+            'role' => [
                 'required',
-                'string',
-                'min:1',
-                // 'min:8',
-                'max:50',
-                // 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#]).{8,30}$/'
+                Rule::in(['Super Admin', 'Client'])
             ],
         ];
     }

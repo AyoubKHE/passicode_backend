@@ -135,13 +135,6 @@ class UsersJwtAuthentication
             );
         }
 
-        if ($logged_in_user->email_verification_token) {
-            throw new Exception(
-                "The logged in user email address has not been verified.",
-                403
-            );
-        }
-
         $this->global_request_object->attributes
             ->set(
                 'logged_in_user',

@@ -13,14 +13,14 @@ return new class extends Migration {
         Schema::create('categories', function (Blueprint $table) {
             $table->unsignedInteger("id", true);
 
-            $table->string("name", 255)->nullable(false)->unique();
+            $table->string("name", 255)->nullable(false)->unique()->index();
             $table->text("description")->nullable(false)->unique();
             $table->decimal('price', 10, 2)->nullable(true);
             $table->unsignedSmallInteger("discount")->nullable(true);
             $table->string("image_path", 255)->nullable(false);
             $table->boolean("is_active")->nullable(false);
             $table->boolean("is_leaf_category")->nullable(false);
-            $table->unsignedInteger('parent_id')->nullable(true);
+            $table->unsignedInteger('parent_id')->nullable(true)->index();
             $table->foreign('parent_id')->references('id')->on('categories')->nullOnDelete();
 
             $table->timestamp('created_at')->nullable(false);

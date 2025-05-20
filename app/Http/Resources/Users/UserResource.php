@@ -30,10 +30,9 @@ class UserResource extends JsonResource
             "first_name" => $this->first_name,
             "last_name" => $this->last_name,
             "email" => $this->email,
+            "image_url" => $this->image_url,
             "role" => $this->role,
             "is_active" => $this->is_active,
-            "email_verification_token_sent_at" => $this->email_verification_token_sent_at,
-            "password_reset_token_sent_at" => $this->password_reset_token,
             "last_login" => $this->last_login,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at

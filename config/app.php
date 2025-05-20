@@ -127,6 +127,10 @@ return [
 
     'JWT_SECRET' => (string) env('JWT_SECRET'),
 
+    'GOOGLE_CLIENT_ID' => (string) env('GOOGLE_CLIENT_ID'),
+
+    'GOOGLE_CLIENT_SECRET' => (string) env('GOOGLE_CLIENT_SECRET'),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
