@@ -21,7 +21,7 @@ class GetProductByIdController extends Controller
                 "id",
                 $this->global_request_object->product_id
             )
-                ->with(['categories'])
+                ->with(['category'])
                 ->first();
         } catch (Throwable $th) {
             throw new Exception(

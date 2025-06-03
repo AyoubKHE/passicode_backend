@@ -22,3 +22,7 @@ require __DIR__ . '/ApiRoutes/UsersRoutes.php';
 require __DIR__ . '/ApiRoutes/CategoriesRoutes.php';
 
 require __DIR__ . '/ApiRoutes/ProductsRoutes.php';
+
+require __DIR__ . '/ApiRoutes/OrderRoutes.php';
+
+require __DIR__ . '/ApiRoutes/PaymentsRoutes.php';

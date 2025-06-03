@@ -131,6 +131,10 @@ return [
 
     'GOOGLE_CLIENT_SECRET' => (string) env('GOOGLE_CLIENT_SECRET'),
 
+    'CHARGILY_PUBLIC_KEY' => (string) env('CHARGILY_PUBLIC_KEY'),
+
+    'CHARGILY_SECRET_KEY' => (string) env('CHARGILY_SECRET_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

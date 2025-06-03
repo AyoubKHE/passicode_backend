@@ -74,8 +74,7 @@ class ControllerTest extends TestCase
                     'description' => 'Netflix Description',
                     'is_active' => true,
                     'image_path' => 'categories/id_1/image_1_name.png',
-
-
+                    'quantity' => 0,
                     'is_leaf_category' => false,
                     'parent_id' => null,
                     'created_at' => now(),
@@ -86,8 +85,7 @@ class ControllerTest extends TestCase
                     'description' => 'Netflix Turc Description',
                     'is_active' => true,
                     'image_path' => 'categories/id_1/image_1_name.png',
-
-
+                    'quantity' => 0,
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
@@ -98,8 +96,7 @@ class ControllerTest extends TestCase
                     'description' => 'Netflix Turc 10$ Description',
                     'is_active' => true,
                     'image_path' => 'categories/id_1/image_1_name.png',
-
-
+                    'quantity' => 0,
                     'is_leaf_category' => true,
                     'parent_id' => 2,
                     'created_at' => now(),
@@ -173,7 +170,7 @@ class ControllerTest extends TestCase
                 [
                     "id" => 1,
                     'sold' => 0,
-                    'expiration_date' => null,
+                    'expiration_date' => "9999-12-31",
                     'purchase_price' => 2000,
                 ]
             );
@@ -182,7 +179,7 @@ class ControllerTest extends TestCase
                 [
                     "id" => 2,
                     'sold' => 0,
-                    'expiration_date' => null,
+                    'expiration_date' => "9999-12-31",
                     'purchase_price' => 2500,
                 ]
             );
@@ -207,31 +204,10 @@ class ControllerTest extends TestCase
 
 
             $this->assertDatabaseHas(
-                "products_categories",
+                "categories",
                 [
-                    "product_id" => 1,
-                    'category_id' => 3,
-                ]
-            );
-            $this->assertDatabaseHas(
-                "products_categories",
-                [
-                    "product_id" => 2,
-                    'category_id' => 3,
-                ]
-            );
-            $this->assertDatabaseHas(
-                "products_categories",
-                [
-                    "product_id" => 3,
-                    'category_id' => 3,
-                ]
-            );
-            $this->assertDatabaseHas(
-                "products_categories",
-                [
-                    "product_id" => 4,
-                    'category_id' => 3,
+                    "id" => 3,
+                    'quantity' => 4,
                 ]
             );
 

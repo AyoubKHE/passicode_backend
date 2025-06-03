@@ -58,7 +58,7 @@ class UsersJwtAuthentication
         }
 
         if (!$user) {
-            throw new Exception('User not found', 404);
+            throw new Exception('Logged in user not found.', 404);
         }
 
         $user->refresh_token = null;

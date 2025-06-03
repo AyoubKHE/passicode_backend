@@ -8,11 +8,12 @@ use Tests\TestCase;
 use App\Models\Users\User;
 use App\Models\Admins\Admin;
 use App\Services\JWTService;
+use App\Models\Products\Product;
+use App\Models\Products\Category;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Products\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 /**
@@ -35,7 +36,6 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -81,16 +81,30 @@ class ControllerTest extends TestCase
                 );
             }
 
-            Category::create([
-                'name' => 'Netflix',
-                'description' => 'Netflix Description',
-                'is_active' => true,
-                'is_leaf_category' => true,
-                'parent_id' => null,
-                'image_path' => $this->old_category_image_path,
-                'created_at' => now(),
-            ]);
+            DB::transaction(function () use ($image) {
+                Category::create([
+                    'name' => 'Netflix',
+                    'description' => 'Netflix Description',
+                    'is_active' => true,
+                    'is_leaf_category' => true,
+                    'quantity' => 0,
+                    'parent_id' => null,
+                    'image_path' => $this->old_category_image_path,
+                    'created_at' => now(),
+                ]);
 
+                // Product::insert(array(
+                //     [
+                //         'category_id' => 1,
+                //         'code' => 'code1',
+                //         'code_start' => "code1",
+                //         'sold' => false,
+                //         'expiration_date' => "9999-12-31",
+                //         'purchase_price' => 2500,
+                //         'created_at' => now(),
+                //     ],
+                // ));
+            });
 
         } catch (Throwable $th) {
             $this->markTestSkipped("test skipped because a problem occured while creating a category manually");
@@ -131,7 +145,6 @@ class ControllerTest extends TestCase
         try {
 
             Storage::assertMissing($this->old_category_image_path);
-
 
             $this->assertDatabaseMissing(
                 "categories",

@@ -118,6 +118,8 @@ class CategoryCreationController extends Controller
     {
         $this->prepared_category = $this->global_request_object->validated();
 
+        $this->prepared_category['quantity'] = 0;
+
         $this->prepared_category['is_leaf_category'] = true;
 
         $this->prepared_category['created_at'] = now();

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Products;
 
-use App\Models\Products\Product;
 use Exception;
 use Throwable;
 use Illuminate\Support\Arr;
+use App\Models\Products\Product;
+use App\Models\Products\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
-use App\Models\Products\Product_Category;
 use App\Http\Requests\Products\ProductsCreationRequest;
 
 
@@ -20,16 +20,57 @@ class ProductsCreationController extends Controller
     private array $prepared_products;
     private int $related_category_id;
 
+    private function updateCategoryQuantity()
+    {
+        try {
+
+            $related_category = Category::where(
+                "id",
+                $this->related_category_id
+            )
+                ->first();
+        } catch (Throwable $th) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+
+        $related_category->quantity += count($this->prepared_products);
+
+        try {
+            $is_updated = $related_category->save();
+        } catch (Throwable $throwable) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+
+        if (!$is_updated) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+    }
+
     private function storeProducts(): void
     {
         foreach ($this->prepared_products as $prepared_product) {
 
 
+            $prepared_product['category_id'] = $this->related_category_id;
+            
             $prepared_product['code_start'] = substr($prepared_product['code'], 0, 5);
 
             $prepared_product['code'] = Crypt::encryptString($prepared_product['code']);
 
             $prepared_product['sold'] = false;
+
+            if (!$prepared_product['expiration_date']) {
+                $prepared_product['expiration_date'] = "9999-12-31";
+            }
 
             $prepared_product['created_at'] = now();
 
@@ -45,25 +86,6 @@ class ProductsCreationController extends Controller
             }
 
             if (!$stored_product) {
-                throw new Exception(
-                    'An error occurred while accessing the database. Please try again later.',
-                    500
-                );
-            }
-
-            try {
-                $is_inserted = Product_Category::insert([
-                    'product_id' => $stored_product->id,
-                    'category_id' => $this->related_category_id
-                ]);
-            } catch (Throwable $th) {
-                throw new Exception(
-                    'An error occurred while accessing the database. Please try again later.',
-                    500
-                );
-            }
-
-            if (!$is_inserted) {
                 throw new Exception(
                     'An error occurred while accessing the database. Please try again later.',
                     500
@@ -88,6 +110,8 @@ class ProductsCreationController extends Controller
 
         DB::transaction(function () {
             $this->storeProducts();
+
+            $this->updateCategoryQuantity();
         });
 
         return response()->json([

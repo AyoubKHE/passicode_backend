@@ -17,11 +17,11 @@ class ProductResource extends JsonResource
     {
         return [
             "id" => $this->id,
+            "category" => $this->relationLoaded('category') ? $this->category : null,
             "code" => Crypt::decryptString($this->code),
             "sold" => $this->sold,
             "expiration_date" => $this->expiration_date,
             "purchase_price" => $this->purchase_price,
-            "categories" => $this->relationLoaded('categories') ? $this->categories : [],
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at
         ];

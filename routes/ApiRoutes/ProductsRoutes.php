@@ -6,7 +6,6 @@ use App\Http\Controllers\Products\ProductsCreationController;
 use App\Http\Controllers\Products\DeleteProductByIdController;
 use App\Http\Controllers\Products\GetPaginatedProductsController;
 use App\Http\Controllers\Products\UpdateProductBaseDataController;
-use App\Http\Controllers\Products\UpdateRelatedCategoryController;
 use App\Http\Controllers\Products\GetPaginatedProductsByFilterController;
 
 
@@ -57,16 +56,6 @@ Route::put(
     UpdateProductBaseDataController::class
 )
     ->name('products.update-base-data')
-    ->middleware('UsersJwtAuthentication')
-    ->middleware('IsAdmin');
-
-
-// tests made
-Route::get(
-    '/products/update-related-category/{product_id}/{type}/{category_id}',
-    UpdateRelatedCategoryController::class
-)
-    ->name('products.update-related-category')
     ->middleware('UsersJwtAuthentication')
     ->middleware('IsAdmin');
 

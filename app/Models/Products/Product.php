@@ -2,6 +2,7 @@
 
 namespace App\Models\Products;
 
+use App\Models\Products\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,6 +16,7 @@ class Product extends Model
 
     protected $fillable = [
         "id",
+        "category_id",
         "code",
         "code_start",
         "sold",
@@ -24,15 +26,8 @@ class Product extends Model
         "updated_at",
     ];
 
-    public function categories()
+    public function category()
     {
-        return $this->belongsToMany(
-            Category::class,
-            "products_categories",
-            "product_id",
-            "category_id",
-            "id",
-            "id"
-        );
+        return $this->belongsTo(Category::class, "category_id", "id");
     }
 }

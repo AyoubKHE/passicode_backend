@@ -16,7 +16,7 @@ class AllCategoriesCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'categories' => CategoryResource::collection($this->collection),
+            'categories' => PublicCategoryResource::collection($this->collection),
         ];
     }
 }

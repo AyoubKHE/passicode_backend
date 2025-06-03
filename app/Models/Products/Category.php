@@ -19,6 +19,7 @@ class Category extends Model
         "description",
         "price",
         "discount",
+        "quantity",
         "image_path",
         "is_active",
         "is_leaf_category",
@@ -27,9 +28,9 @@ class Category extends Model
         "updated_at"
     ];
 
-    protected $hidden = [
-        'pivot',
-    ];
+    // protected $hidden = [
+    //     'pivot',
+    // ];
 
     public function parentCategory()
     {
@@ -43,46 +44,6 @@ class Category extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, "products_categories", "category_id", "product_id", "id", "id");
+        return $this->hasMany(Product::class, "category_id", "id");
     }
-
-    // public function productsExcept(int $except_id)
-    // {
-    //     return $this->belongsToMany(Product::class, "productscategories_products", "productcategory_id", "product_id", "id", "id")
-    //         ->withPivot("is_active")
-    //         ->with("addedBy")
-    //         ->with("brand")
-    //         ->with("images")
-    //         ->where("products.id", "!=", $except_id)
-    //         ->where("productsCategories_products.is_active", 1);
-    // }
-
-    // public function productsPivot()
-    // {
-    //     return $this->hasMany(ProductCategory_Product::class, "productCategory_id", "id");
-    // }
-
-
-
-    // public static function tree($root)
-    // {
-    //     $all_categories = ProductCategory::get();
-
-    //     $sub_categories = $all_categories->where("parent_id", $root);
-
-    //     static::formatTree($sub_categories, $all_categories);
-
-    //     return $sub_categories;
-    // }
-
-    // private static function formatTree($categories, $all_categories)
-    // {
-    //     foreach ($categories as $category) {
-
-    //         $category->sub_categories = $all_categories->where("parent_id", $category->id);
-
-    //         static::formatTree($category->sub_categories, $all_categories);
-
-    //     }
-    // }
 }

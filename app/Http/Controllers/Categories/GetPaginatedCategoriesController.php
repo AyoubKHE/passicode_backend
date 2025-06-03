@@ -21,6 +21,7 @@ class GetPaginatedCategoriesController extends Controller
     {
         $page = (int) $this->global_request_object->get('page', 1);
         $limit = (int) $this->global_request_object->get('limit', 10);
+        $name = $this->global_request_object->get('name', "");
 
         if ($limit > 100) {
             throw new Exception(
@@ -29,13 +30,29 @@ class GetPaginatedCategoriesController extends Controller
             );
         }
 
-        try {
-            $this->paginated_categories = Category::paginate(perPage: $limit, page: $page);
-        } catch (Throwable $th) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
+        if ($name) {
+            try {
+                $this->paginated_categories = Category::where(
+                    'name',
+                    'like',
+                    $name . "%"
+                )
+                    ->paginate(perPage: $limit, page: $page);
+            } catch (Throwable $th) {
+                throw new Exception(
+                    'An error occurred while accessing the database. Please try again later.',
+                    500
+                );
+            }
+        } else {
+            try {
+                $this->paginated_categories = Category::paginate(perPage: $limit, page: $page);
+            } catch (Throwable $th) {
+                throw new Exception(
+                    'An error occurred while accessing the database. Please try again later.',
+                    500
+                );
+            }
         }
 
         // $this->paginated_categories = Cache::rememberForever(

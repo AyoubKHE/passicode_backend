@@ -9,6 +9,7 @@ use App\Models\Users\User;
 use App\Models\Admins\Admin;
 use App\Services\JWTService;
 use App\Models\Products\Product;
+use App\Models\Products\Category;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -35,7 +36,6 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -69,15 +69,30 @@ class ControllerTest extends TestCase
     {
         try {
 
-            Product::create([
-                'code' => Crypt::encryptString("code1"),
-                'code_start' => "code1",
-                'sold' => false,
-                'expiration_date' => null,
-                'purchase_price' => 2500,
-                'created_at' => now(),
-            ]);
+            DB::transaction(function () {
+                Category::insert(array(
+                    [
+                        'name' => 'Netflix',
+                        'description' => 'Netflix Description',
+                        'is_active' => true,
+                        'quantity' => 1,
+                        'is_leaf_category' => true,
+                        'parent_id' => null,
+                        'image_path' => 'categories/id_1/image_1_name.png',
+                        'created_at' => now(),
+                    ],
+                ));
 
+                Product::create([
+                    'category_id' => 1,
+                    'code' => Crypt::encryptString("code1"),
+                    'code_start' => "code1",
+                    'sold' => false,
+                    'expiration_date' => "9999-12-31",
+                    'purchase_price' => 2500,
+                    'created_at' => now(),
+                ]);
+            });
 
         } catch (Throwable $th) {
             $this->markTestSkipped("test skipped because a problem occured while creating a product manually");
@@ -122,6 +137,15 @@ class ControllerTest extends TestCase
                     'sold' => false,
                     'purchase_price' => 2500,
                     'expiration_date' => null,
+                ]
+            );
+
+
+            $this->assertDatabaseHas(
+                "categories",
+                [
+                    'id' => 1,
+                    'quantity' => 0
                 ]
             );
 

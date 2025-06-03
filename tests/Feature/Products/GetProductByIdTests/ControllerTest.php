@@ -33,7 +33,6 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Super Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -73,8 +72,7 @@ class ControllerTest extends TestCase
                         'description' => 'Netflix Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
-
-
+                        'quantity' => 0,
                         'is_leaf_category' => false,
                         'parent_id' => null,
                         'created_at' => now(),
@@ -84,8 +82,7 @@ class ControllerTest extends TestCase
                         'description' => 'Netflix Turc 10$ Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
-
-
+                        'quantity' => 0,
                         'is_leaf_category' => true,
                         'parent_id' => 1,
                         'created_at' => now(),
@@ -95,44 +92,31 @@ class ControllerTest extends TestCase
 
                 Product::insert(array(
                     [
+                        'category_id' => 2,
                         'code' => Crypt::encryptString("code1"),
                         'code_start' => "code1",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
                     ],
                     [
+                        'category_id' => 2,
                         'code' => Crypt::encryptString("code2"),
                         'code_start' => "code2",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 3000,
                         'created_at' => now(),
                     ],
                     [
+                        'category_id' => 2,
                         'code' => Crypt::encryptString("code3"),
                         'code_start' => "code3",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 3500,
                         'created_at' => now(),
-                    ],
-                ));
-
-
-                Product_Category::insert(array(
-                    [
-                        'product_id' => 1,
-                        'category_id' => 2,
-                    ],
-                    [
-                        'product_id' => 2,
-                        'category_id' => 2,
-                    ],
-                    [
-                        'product_id' => 3,
-                        'category_id' => 2,
                     ],
                 ));
             });

@@ -1,10 +1,9 @@
 <?php
 
-use Carbon\Carbon;
-use App\Models\Users\User;
-use App\Models\Products\Category;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Payments\ChargilyPayBack;
+use App\Http\Controllers\Payments\ChargilyPayWebhook;
+use App\Http\Controllers\Payments\ChargilyPayRedirect;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,18 +16,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/test", function (Request $request) {
+// Route::post(
+//     'chargilypay/redirect/{payment_id}',
+//     ChargilyPayRedirect::class
+// )
+//     ->name('chargilypay.redirect');
 
-    // dd($categories);
 
-    // User::create([
-    //     "first_name" => "Ayoub",
-    //     "last_name" => "Kheyar",
-    //     "email" => "a@a.com",
-    //     "password" => Hash::make("111111"),
-    //     "is_active" => "1",
-    //     "role" => "Super Admin",
-    //     "created_at" => now()
-    // ]);
+// Route::get(
+//     'chargilypay/back',
+//     ChargilyPayBack::class
+// )
+//     ->name('chargilypay.back');
 
-});
+
+// Route::post(
+//     'chargilypay/webhook',
+//     ChargilyPayWebhook::class
+// )
+//     ->name('chargilypay.webhook_endpoint');
+
+
+
+// Route::get("/test", function (Request $request) {
+
+// logging order id
+// Log::channel('order_confirmation_fails')->error(
+//     "Order confirmation failure\nOrder ID : 12648.\nError : Error message.\n----------------------------------------------------------------------------\n"
+// );
+
+// User::create([
+//     "first_name" => "Ayoub",
+//     "last_name" => "Kheyar",
+//     "email" => "a@a.com",
+//     "password" => Hash::make("111111"),
+//     "is_active" => "1",
+//     "role" => "Super Admin",
+//     "created_at" => now()
+// ]);
+// });

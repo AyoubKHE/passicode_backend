@@ -2,15 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\Auth\RegisterController;
+
+//! temp function for testing purposes
+use App\Http\Controllers\Auth\TempLoginController;
+//! temp function for testing purposes
+
 use App\Http\Controllers\Auth\GoogleLoginController;
-use App\Http\Controllers\Auth\PasswordResetController;
-use App\Http\Controllers\Auth\ForgetPasswordController;
-use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ReloadUserSessionController;
-use App\Http\Controllers\Auth\SendEmailVerificationLinkController;
+
+
+//! temp function for testing purposes 
+Route::get(
+    '/auth/temp-login',
+    TempLoginController::class
+);
+//! temp function for testing purposes 
 
 
 //! tests not made

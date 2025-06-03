@@ -142,7 +142,7 @@ class GetPaginatedProductsByFilterController extends Controller
             function (Builder $query) {
 
                 if ($this->sent_filter['expiration_date'] === null) {
-                    $query->whereNull('expiration_date');
+                    $query->where('expiration_date', "9999-12-31");
                 } else {
                     if (array_key_exists("from", $this->sent_filter['expiration_date'])) {
                         $min_expiration_date = $this->sent_filter['expiration_date']['from'];
@@ -175,7 +175,7 @@ class GetPaginatedProductsByFilterController extends Controller
                     $query->whereBetween(
                         'expiration_date',
                         [$min_expiration_date, $max_expiration_date]
-                    );
+                    )->where('expiration_date', '!=', "9999-12-31");
                 }
             }
         );
@@ -193,17 +193,15 @@ class GetPaginatedProductsByFilterController extends Controller
 
     private function prepareRelatedCategory()
     {
-        if (array_key_exists('related_category_id', $this->sent_filter)) {
-            $this->product_filter_query->whereHas(
-                'categories',
-                function (Builder $query) {
-                    $query->where(
-                        'category_id',
-                        $this->sent_filter['related_category_id']
-                    );
-                }
-            );
-        }
+        $this->product_filter_query->when(
+            array_key_exists('related_category_id', $this->sent_filter),
+            function (Builder $query) {
+                $query->where(
+                    'category_id',
+                    $this->sent_filter['related_category_id']
+                );
+            }
+        );
     }
 
     private function prepareCode()

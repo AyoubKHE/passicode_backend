@@ -23,6 +23,10 @@ class getChildCategoriesController extends Controller
                 "parent_id",
                 $this->global_request_object->category_id
             )
+                ->where(
+                    "is_active",
+                    1
+                )
                 ->orderBy('id', 'asc')
                 ->get();
         } catch (Throwable $th) {

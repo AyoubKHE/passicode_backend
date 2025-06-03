@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Products\Category;
 use App\Models\Products\Product;
-use App\Models\Products\Product_Category;
 
 /**
  * @runTestsInSeparateProcesses
@@ -75,8 +74,7 @@ class ControllerTest extends TestCase
                         'description' => 'Netflix Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
-
-
+                        'quantity' => 0,
                         'is_leaf_category' => true,
                         'parent_id' => null,
                         'created_at' => now(),
@@ -87,8 +85,7 @@ class ControllerTest extends TestCase
                         'description' => 'Playstation Description',
                         'is_active' => false,
                         'image_path' => 'categories/id_2/image_2_name.png',
-
-
+                        'quantity' => 0,
                         'is_leaf_category' => true,
                         'parent_id' => 1,
                         'created_at' => now(),
@@ -99,8 +96,7 @@ class ControllerTest extends TestCase
                         'description' => 'Djezzy Description',
                         'is_active' => false,
                         'image_path' => 'categories/id_3/image_3_name.png',
-
-
+                        'quantity' => 0,
                         'is_leaf_category' => false,
                         'parent_id' => 1,
                         'created_at' => now(),
@@ -110,8 +106,7 @@ class ControllerTest extends TestCase
                         'description' => 'Mobilis Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_4/image_4_name.png',
-
-
+                        'quantity' => 0,
                         'is_leaf_category' => false,
                         'parent_id' => 1,
                         'created_at' => now(),
@@ -121,68 +116,49 @@ class ControllerTest extends TestCase
 
                 Product::insert(array(
                     [
+                        'category_id' => 1,
                         'code' => 'code1',
                         'code_start' => "code1",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
                     ],
                     [
+                        'category_id' => 1,
                         'code' => 'code2',
                         'code_start' => "code2",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
                     ],
                     [
+                        'category_id' => 1,
                         'code' => 'code3',
                         'code_start' => "code3",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
                     ],
                     [
+                        'category_id' => 2,
                         'code' => 'code4',
                         'code_start' => "code4",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
                     ],
                     [
+                        'category_id' => 2,
                         'code' => 'code5',
                         'code_start' => "code5",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
-                    ],
-                ));
-
-
-                Product_Category::insert(array(
-                    [
-                        'product_id' => 1,
-                        'category_id' => 1,
-                    ],
-                    [
-                        'product_id' => 2,
-                        'category_id' => 1,
-                    ],
-                    [
-                        'product_id' => 3,
-                        'category_id' => 1,
-                    ],
-                    [
-                        'product_id' => 4,
-                        'category_id' => 2,
-                    ],
-                    [
-                        'product_id' => 5,
-                        'category_id' => 2,
                     ],
                 ));
             });

@@ -23,9 +23,9 @@ class CategoryCreationPageDataController extends Controller
             $this->category_creation_page_data['parent_categories'] =
                 Category::select('id', 'name')
                     ->whereNotExists(function ($query) {
-                        $query->select(DB::raw('1'))
-                            ->from('products_categories')
-                            ->whereColumn('products_categories.category_id', 'categories.id');
+                        $query->select(DB::raw(1))
+                            ->from('products')
+                            ->whereColumn('products.category_id', 'categories.id');
                     })
                     ->orderBy('id', 'asc')
                     ->get()

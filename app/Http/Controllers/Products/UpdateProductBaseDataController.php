@@ -26,6 +26,13 @@ class UpdateProductBaseDataController extends Controller
             $this->sent_inputs["code"] = Crypt::encryptString($this->sent_inputs["code"]);
         }
 
+        if (array_key_exists('expiration_date', $this->sent_inputs)) {
+
+            if (!$this->sent_inputs['expiration_date']) {
+                $this->sent_inputs['expiration_date'] = "9999-12-31";
+            }
+        }
+
         $this->sent_inputs["updated_at"] = now();
 
         try {
@@ -73,7 +80,6 @@ class UpdateProductBaseDataController extends Controller
         }
     }
 
-
     private function loadRequestedProduct()
     {
         try {
@@ -93,7 +99,6 @@ class UpdateProductBaseDataController extends Controller
             throw new Exception('Requested product not found.', 404);
         }
     }
-
 
     public function __invoke(UpdateProductBaseDataRequest $request)
     {

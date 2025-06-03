@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'UsersJwtAuthentication' => \App\Http\Middleware\MyMiddlewares\UsersJwtAuthentication::class,
         'IsSuperAdmin' => \App\Http\Middleware\MyMiddlewares\IsSuperAdmin::class,
         'IsAdmin' => \App\Http\Middleware\MyMiddlewares\IsAdmin::class,
+        'IsClient' => \App\Http\Middleware\MyMiddlewares\IsClient::class,
     ];
 }

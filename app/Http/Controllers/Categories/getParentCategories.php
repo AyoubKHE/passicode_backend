@@ -23,9 +23,9 @@ class getParentCategories extends Controller
             $this->parent_categories =
                 Category::select('id', 'name')
                     ->whereNotExists(function ($query) {
-                        $query->select(DB::raw('1'))
-                            ->from('products_categories')
-                            ->whereColumn('products_categories.category_id', 'categories.id');
+                        $query->select(DB::raw(1))
+                            ->from('products')
+                            ->whereColumn('products.category_id', 'categories.id');
                     })
                     ->orderBy('id', 'asc')
                     ->get()

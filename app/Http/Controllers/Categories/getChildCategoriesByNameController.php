@@ -23,7 +23,12 @@ class getChildCategoriesByNameController extends Controller
                 'name',
                 'like',
                 $this->global_request_object->category_name . '%'
-            )->first();
+            )
+                ->where(
+                    "is_active",
+                    1
+                )
+                ->first();
 
         } catch (Throwable $th) {
             throw new Exception(
@@ -48,6 +53,10 @@ class getChildCategoriesByNameController extends Controller
                     "parent_id",
                     $category->id
                 )
+                    ->where(
+                        "is_active",
+                        1
+                    )
                     ->orderBy('id', 'asc')
                     ->get();
             } catch (Throwable $th) {
