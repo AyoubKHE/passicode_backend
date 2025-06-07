@@ -40,10 +40,10 @@ class OrderCreationController extends Controller
             "amount" => $this->chargily_payment->amount,
             "currency" => $this->chargily_payment->currency,
             "description" => "Payment ID={$this->chargily_payment->id}",
-            "success_url" => "https://70d4-154-247-137-214.ngrok-free.app/payment/success",
-            "failure_url" => "https://70d4-154-247-137-214.ngrok-free.app/payment/failure",
+            "success_url" => "https://7478-154-246-172-63.ngrok-free.app/payment/success",
+            "failure_url" => "https://7478-154-246-172-63.ngrok-free.app/payment/failure",
             // "webhook_endpoint" => route("chargilypay.webhook_endpoint"),
-            "webhook_endpoint" => "https://70d4-154-247-137-214.ngrok-free.app/api/chargilypay/webhook",
+            "webhook_endpoint" => "https://7478-154-246-172-63.ngrok-free.app/api/chargilypay/webhook",
         ]);
     }
 
@@ -192,6 +192,7 @@ class OrderCreationController extends Controller
                 ->orderBy('expiration_date', 'asc')
                 ->orderBy('purchase_price', 'asc')
                 ->limit($this->received_data['quantity'])
+                ->lockForUpdate()
                 ->get();
         } catch (Throwable $th) {
             throw new Exception(
@@ -233,6 +234,7 @@ class OrderCreationController extends Controller
                 "id",
                 $this->received_data['category_id']
             )
+                ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
             throw new Exception(
@@ -264,13 +266,10 @@ class OrderCreationController extends Controller
 
         $this->received_data = $this->global_request_object->validated();
 
-        $this->loadRequestedCategory();
-
-        $this->moreValidations();
-
-        $this->loadProducts();
-
         DB::transaction(function () {
+            $this->loadRequestedCategory();
+            $this->moreValidations();
+            $this->loadProducts();
             $this->updateRequestedCategoryQuantity();
             $this->updateProductsSoldStatus();
             $this->createOrder();

@@ -99,7 +99,23 @@ class CategoryCreationController extends Controller
 
     private function storeCategoryImage(): void
     {
-        $table_status = DB::select("SHOW TABLE STATUS LIKE 'categories'");
+        try {
+            $table_status = DB::select("SHOW TABLE STATUS LIKE 'categories'");
+
+        } catch (Throwable $th) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+
+        if (count($table_status) === 0) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+
         $this->category_id = $table_status[0]->Auto_increment;
 
         $image_file = $this->global_request_object->file('image');

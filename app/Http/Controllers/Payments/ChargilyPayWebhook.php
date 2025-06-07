@@ -6,6 +6,7 @@ use Exception;
 use Throwable;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderItem;
+use App\Models\Products\Product;
 use App\Models\Products\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -115,12 +116,94 @@ class ChargilyPayWebhook extends Controller
             );
         }
     }
+    private function loadOrderRestData()
+    {
+        try {
+            $orderItems = OrderItem::where(
+                "order_id",
+                $this->order->id
+            )
+                ->lockForUpdate()
+                ->get();
+        } catch (Throwable $th) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+
+        if (count($orderItems) === 0) {
+            throw new Exception(
+                'Order items not found.',
+                404
+            );
+        }
+
+
+        $this->order_products = $orderItems->map(function ($item) {
+            try {
+                $product = Product::where(
+                    "id",
+                    $item->product_id
+                )
+                    ->lockForUpdate()
+                    ->first();
+            } catch (Throwable $th) {
+                throw new Exception(
+                    'An error occurred while accessing the database. Please try again later.',
+                    500
+                );
+            }
+
+            if (!$product) {
+                throw new Exception(
+                    'Product not found.',
+                    404
+                );
+            }
+
+            return $product;
+        });
+
+        
+        if (count($this->order_products) === 0) {
+            throw new Exception(
+                'Order products not found.',
+                404
+            );
+        }
+
+
+        try {
+            $this->related_category = Category::where(
+                "id",
+                $this->order_products[0]->category_id
+            )
+                ->lockForUpdate()
+                ->first();
+        } catch (Throwable $th) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+
+        if (!$this->related_category) {
+            throw new Exception(
+                'Category not found.',
+                404
+            );
+        }
+    }
     private function cancel(string $status)
     {
         if ($this->order->status === "pending") {
             try {
 
                 DB::transaction(function () use ($status) {
+
+                    $this->loadOrderRestData();
+
                     $this->cancelChargilyPayment($status);
 
                     $this->cancelOrder($status);
@@ -210,13 +293,7 @@ class ChargilyPayWebhook extends Controller
                 "id",
                 $metadata['payment_id']
             )
-                ->with('order', function ($query) {
-                    $query->with('orderItems', function ($query) {
-                        $query->with('product', function ($query) {
-                            $query->with('category');
-                        });
-                    });
-                })
+                ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
             throw new Exception(
@@ -232,41 +309,27 @@ class ChargilyPayWebhook extends Controller
             );
         }
 
-        if (!$this->chargily_payment->order) {
+        try {
+            $this->order = Order::where(
+                "id",
+                $this->chargily_payment->order_id
+            )
+                ->lockForUpdate()
+                ->first();
+        } catch (Throwable $th) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+
+        if (!$this->order) {
             throw new Exception(
                 'Order not found.',
                 404
             );
         }
 
-        $this->order = $this->chargily_payment->order;
-
-        if (count($this->order->orderItems) === 0) {
-            throw new Exception(
-                'Order items not found.',
-                404
-            );
-        }
-
-        $this->order_products = $this->order->orderItems->map(function ($item) {
-            return $item->product;
-        });
-
-        if (count($this->order_products) === 0) {
-            throw new Exception(
-                'Order products not found.',
-                404
-            );
-        }
-
-        $this->related_category = $this->order_products[0]->category;
-
-        if (!$this->related_category) {
-            throw new Exception(
-                'Category not found.',
-                404
-            );
-        }
     }
     protected function chargilyPayInstance()
     {
@@ -284,64 +347,26 @@ class ChargilyPayWebhook extends Controller
             $this->checkout = $webhook->getData();
             if ($this->checkout && $this->checkout instanceof CheckoutElement) {
                 if ($this->checkout) {
-                    // $metadata = $this->checkout->getMetadata();
-                    // try {
-                    //     $this->chargily_payment = ChargilyPayment::where(
-                    //         "id",
-                    //         $metadata['payment_id']
-                    //     )
-                    //         ->first();
-                    // } catch (Throwable $th) {
-                    //     throw new Exception(
-                    //         'An error occurred while accessing the database. Please try again later.',
-                    //         500
-                    //     );
-                    // }
 
-                    // if (!$this->chargily_payment) {
-                    //     throw new Exception(
-                    //         'Payment not found.',
-                    //         404
-                    //     );
-                    // }
+                    return DB::transaction(function () {
+                        $this->loadOrderData();
 
-                    // try {
-                    //     $this->order = Order::where(
-                    //         "id",
-                    //         $this->chargily_payment->order_id
-                    //     )
-                    //         ->first();
-                    // } catch (Throwable $th) {
-                    //     throw new Exception(
-                    //         'An error occurred while accessing the database. Please try again later.',
-                    //         500
-                    //     );
-                    // }
+                        if ($this->checkout->getStatus() === "paid") {
+                            $this->confirm();
 
-                    // if (!$this->order) {
-                    //     throw new Exception(
-                    //         'Order not found.',
-                    //         404
-                    //     );
-                    // }
+                            return response()->json(["status" => true, "message" => "Payment has been completed"]);
+                        } else {
+                            if ($this->checkout->getStatus() === "failed") {
+                                $this->cancel("failed");
+                            } else if ($this->checkout->getStatus() === "canceled") {
+                                $this->cancel("canceled");
+                            } else if ($this->checkout->getStatus() === "expired") {
+                                $this->cancel("expired");
+                            }
 
-                    $this->loadOrderData();
-
-                    if ($this->checkout->getStatus() === "paid") {
-                        $this->confirm();
-
-                        return response()->json(["status" => true, "message" => "Payment has been completed"]);
-                    } else {
-                        if ($this->checkout->getStatus() === "failed") {
-                            $this->cancel("failed");
-                        } else if ($this->checkout->getStatus() === "canceled") {
-                            $this->cancel("canceled");
-                        } else if ($this->checkout->getStatus() === "expired") {
-                            $this->cancel("expired");
+                            return response()->json(["status" => true, "message" => "Payment has been canceled"]);
                         }
-
-                        return response()->json(["status" => true, "message" => "Payment has been canceled"]);
-                    }
+                    });
                 }
             }
         }
