@@ -76,7 +76,7 @@ class ProductsCreationRequest extends FormRequest
 
             'related_category_id' => [
                 'required',
-                'integer',
+                'numeric',
                 Rule::exists('categories', 'id'),
             ],
         ];

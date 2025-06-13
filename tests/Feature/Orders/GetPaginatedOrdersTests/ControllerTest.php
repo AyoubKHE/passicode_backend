@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests\Feature\Orders\GetMyOrdersTests;
+namespace Tests\Feature\Orders\GetPaginatedOrdersTests;
 
+use App\Models\Admins\Admin;
 use Throwable;
 use Tests\TestCase;
 use App\Models\Users\User;
@@ -28,7 +29,7 @@ class ControllerTest extends TestCase
 
     private string $access_token;
 
-    private function clientLogin()
+    private function adminLogin()
     {
         try {
             DB::transaction(function () {
@@ -36,12 +37,12 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'role' => 'Client',
+                    'role' => 'Super Admin',
                     'is_active' => true,
                     'created_at' => now()
                 ]);
 
-                Client::create(
+                Admin::create(
                     [
                         'user_id' => 1,
                     ],
@@ -173,7 +174,7 @@ class ControllerTest extends TestCase
 
             ChargilyPayment::insert(array(
                 [
-                    'chargily_payment_id' => (string) Str::ulid(),
+                    'chargily_payment_id' => "01JX7Q2HZSKSCWA6RACY8WGVFS",
                     'user_id' => 1,
                     'order_id' => 1,
                     'status' => "paid",
@@ -216,21 +217,21 @@ class ControllerTest extends TestCase
     }
 
 
-    public function test_successfull_get_my_orders(): void
+    public function test_successfull_get_paginated_orders(): void
     {
-        $this->clientLogin();
+        $this->adminLogin();
 
         $this->createFakeOrders();
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->access_token,
-        ])->getJson('api/orders/get-my-orders');
+        ])->getJson('api/orders/get-paginated-orders');
 
         try {
 
             $response->assertStatus(200)
                 ->assertJsonFragment([
-                    'total' => 1
+                    'total' => 2
                 ]);
 
         } catch (Throwable $th) {

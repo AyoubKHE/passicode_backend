@@ -105,7 +105,7 @@ class CategoryCreationRequest extends FormRequest
 
             "parent_id" => [
                 'nullable',
-                'integer',
+                'numeric',
                 Rule::exists('categories', 'id')
             ],
 

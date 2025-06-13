@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests\Feature\Orders\GetMyOrdersTests;
+namespace Tests\Feature\Orders\GetPaginatedOrdersByFilterTests;
 
 use Throwable;
 use Tests\TestCase;
 use App\Models\Users\User;
 use Illuminate\Support\Str;
+use App\Models\Admins\Admin;
 use App\Models\Orders\Order;
 use App\Services\JWTService;
 use App\Models\Clients\Client;
@@ -22,13 +23,13 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
-class ControllerTest extends TestCase
+class CategoryFilterTest extends TestCase
 {
     use DatabaseMigrations;
 
     private string $access_token;
 
-    private function clientLogin()
+    private function adminLogin()
     {
         try {
             DB::transaction(function () {
@@ -36,12 +37,12 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'role' => 'Client',
+                    'role' => 'Super Admin',
                     'is_active' => true,
                     'created_at' => now()
                 ]);
 
-                Client::create(
+                Admin::create(
                     [
                         'user_id' => 1,
                     ],
@@ -69,20 +70,32 @@ class ControllerTest extends TestCase
     {
 
         DB::transaction(function () {
-            Category::create(
+            Category::insert(array(
                 [
                     'name' => 'Netflix 10$',
                     'description' => 'Netflix 10$ Description',
                     'price' => 2700,
                     'discount' => 15,
-                    'quantity' => 1,
+                    'quantity' => 3,
                     'is_active' => true,
                     'is_leaf_category' => true,
                     'parent_id' => null,
                     'image_path' => 'categories/id_1/image_1_name.png',
                     'created_at' => now(),
                 ],
-            );
+                [
+                    'name' => 'Netflix 20$',
+                    'description' => 'Netflix 20$ Description',
+                    'price' => 5500,
+                    'discount' => 10,
+                    'quantity' => 1,
+                    'is_active' => true,
+                    'is_leaf_category' => true,
+                    'parent_id' => null,
+                    'image_path' => 'categories/id_2/image_2_name.png',
+                    'created_at' => now(),
+                ],
+            ));
 
 
             Product::insert(array(
@@ -114,10 +127,10 @@ class ControllerTest extends TestCase
                     'created_at' => now(),
                 ],
                 [
-                    'category_id' => 1,
+                    'category_id' => 2,
                     'code' => Crypt::encryptString("54TDH58TFJHD"),
                     'code_start' => "54TDH",
-                    'sold' => false,
+                    'sold' => true,
                     'expiration_date' => "9999-12-31",
                     'purchase_price' => 2500,
                     'created_at' => now(),
@@ -173,7 +186,7 @@ class ControllerTest extends TestCase
 
             ChargilyPayment::insert(array(
                 [
-                    'chargily_payment_id' => (string) Str::ulid(),
+                    'chargily_payment_id' => "01JX7Q2HZSKSCWA6RACY8WGVFS",
                     'user_id' => 1,
                     'order_id' => 1,
                     'status' => "paid",
@@ -216,15 +229,17 @@ class ControllerTest extends TestCase
     }
 
 
-    public function test_successfull_get_my_orders(): void
+    public function test_successfull_get_paginated_orders_by_filter_category(): void
     {
-        $this->clientLogin();
+        $this->adminLogin();
 
         $this->createFakeOrders();
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->access_token,
-        ])->getJson('api/orders/get-my-orders');
+        ])->postJson('api/orders/get-paginated-orders-by-filter', [
+                    'user_id' => 1
+                ]);
 
         try {
 

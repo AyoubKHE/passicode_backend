@@ -43,7 +43,7 @@ class GetPaginatedProductsByFilterRequest extends FormRequest
 
 
             'related_category_id' => [
-                'integer',
+                'numeric',
                 Rule::exists('categories', 'id'),
             ],
 

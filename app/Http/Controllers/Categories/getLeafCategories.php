@@ -18,7 +18,8 @@ class getLeafCategories extends Controller
     {
         try {
             $this->leaf_categories =
-                Category::where('is_leaf_category', 1)
+                Category::select('id', 'name')
+                    ->where('is_leaf_category', 1)
                     ->orderBy('id', 'asc')
                     ->get()
                     ->toArray();

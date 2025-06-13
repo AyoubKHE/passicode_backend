@@ -35,7 +35,7 @@ class OrderCreationRequest extends FormRequest
         return [
             'category_id' => [
                 'required',
-                'integer',
+                'numeric',
                 Rule::exists('categories', 'id'),
             ],
 

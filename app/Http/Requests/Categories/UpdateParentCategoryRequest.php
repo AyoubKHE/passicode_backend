@@ -33,7 +33,7 @@ class UpdateParentCategoryRequest extends FormRequest
         return [
             "new_parent_id" => [
                 'nullable',
-                'integer',
+                'numeric',
                 Rule::exists('categories', 'id')
             ],
         ];
