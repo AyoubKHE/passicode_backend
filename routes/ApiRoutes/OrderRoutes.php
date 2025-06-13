@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Orders\GetMyOrdersController;
+use App\Http\Controllers\Orders\GetOrderByIdController;
 use App\Http\Controllers\Orders\OrderCreationController;
 use App\Http\Controllers\Orders\GetPaginatedOrdersController;
 use App\Http\Controllers\Orders\OrdersFilterDialogDataController;
@@ -43,6 +44,16 @@ Route::post(
     GetPaginatedOrdersByFilterController::class
 )
     ->name('orders.get-paginated-orders-by-filter')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
+
+
+// tests made
+Route::get(
+    '/orders/get-by-id/{order_id}',
+    GetOrderByIdController::class
+)
+    ->name('orders.get-by-id')
     ->middleware('UsersJwtAuthentication')
     ->middleware('IsAdmin');
 
