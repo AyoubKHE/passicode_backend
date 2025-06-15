@@ -37,6 +37,14 @@ class GetPaginatedCategoriesController extends Controller
                     'like',
                     $name . "%"
                 )
+                    ->orderBy(
+                        'is_leaf_category',
+                        'desc'
+                    )
+                    ->orderBy(
+                        'id',
+                        'asc'
+                    )
                     ->paginate(perPage: $limit, page: $page);
             } catch (Throwable $th) {
                 throw new Exception(
@@ -46,7 +54,16 @@ class GetPaginatedCategoriesController extends Controller
             }
         } else {
             try {
-                $this->paginated_categories = Category::paginate(perPage: $limit, page: $page);
+                $this->paginated_categories = Category::
+                    orderBy(
+                        'is_leaf_category',
+                        'desc'
+                    )
+                    ->orderBy(
+                        'id',
+                        'asc'
+                    )
+                    ->paginate(perPage: $limit, page: $page);
             } catch (Throwable $th) {
                 throw new Exception(
                     'An error occurred while accessing the database. Please try again later.',

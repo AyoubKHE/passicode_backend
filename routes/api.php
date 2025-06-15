@@ -19,6 +19,8 @@ require __DIR__ . '/ApiRoutes/AuthRoutes.php';
 
 require __DIR__ . '/ApiRoutes/UsersRoutes.php';
 
+require __DIR__ . '/ApiRoutes/ClientsRoutes.php';
+
 require __DIR__ . '/ApiRoutes/CategoriesRoutes.php';
 
 require __DIR__ . '/ApiRoutes/ProductsRoutes.php';

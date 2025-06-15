@@ -3,10 +3,7 @@
 namespace App\Http\Resources\Users;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Users\PhoneNumberResource;
-use App\Http\Resources\Users\SocialMediaAccountResource;
 
 class UserResource extends JsonResource
 {
