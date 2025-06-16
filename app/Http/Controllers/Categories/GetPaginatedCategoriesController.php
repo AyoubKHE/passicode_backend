@@ -38,10 +38,6 @@ class GetPaginatedCategoriesController extends Controller
                     $name . "%"
                 )
                     ->orderBy(
-                        'is_leaf_category',
-                        'desc'
-                    )
-                    ->orderBy(
                         'id',
                         'asc'
                     )
@@ -54,15 +50,10 @@ class GetPaginatedCategoriesController extends Controller
             }
         } else {
             try {
-                $this->paginated_categories = Category::
-                    orderBy(
-                        'is_leaf_category',
-                        'desc'
-                    )
-                    ->orderBy(
-                        'id',
-                        'asc'
-                    )
+                $this->paginated_categories = Category::orderBy(
+                    'id',
+                    'asc'
+                )
                     ->paginate(perPage: $limit, page: $page);
             } catch (Throwable $th) {
                 throw new Exception(

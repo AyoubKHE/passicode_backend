@@ -36,6 +36,7 @@ class ChargilyPayWebhook extends Controller
     {
         foreach ($this->order_products as $product) {
             $product->sold = 0;
+            $product->updated_at = now();
             try {
                 $is_updated = $product->save();
             } catch (Throwable $throwable) {
@@ -56,6 +57,7 @@ class ChargilyPayWebhook extends Controller
     private function updateRelatedCategoryQuantity()
     {
         $this->related_category->quantity += count($this->order_products);
+        $this->related_category->updated_at = now();
 
         try {
             $is_updated = $this->related_category->save();
@@ -165,7 +167,7 @@ class ChargilyPayWebhook extends Controller
             return $product;
         });
 
-        
+
         if (count($this->order_products) === 0) {
             throw new Exception(
                 'Order products not found.',

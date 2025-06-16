@@ -38,6 +38,8 @@ class ProductsCreationController extends Controller
 
         $related_category->quantity += count($this->prepared_products);
 
+        $related_category->updated_at = now();
+
         try {
             $is_updated = $related_category->save();
         } catch (Throwable $throwable) {
@@ -61,7 +63,7 @@ class ProductsCreationController extends Controller
 
 
             $prepared_product['category_id'] = $this->related_category_id;
-            
+
             $prepared_product['code_start'] = substr($prepared_product['code'], 0, 5);
 
             $prepared_product['code'] = Crypt::encryptString($prepared_product['code']);

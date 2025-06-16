@@ -40,10 +40,10 @@ class OrderCreationController extends Controller
             "amount" => $this->chargily_payment->amount,
             "currency" => $this->chargily_payment->currency,
             "description" => "Payment ID={$this->chargily_payment->id}",
-            "success_url" => "https://7478-154-246-172-63.ngrok-free.app/payment/success",
-            "failure_url" => "https://7478-154-246-172-63.ngrok-free.app/payment/failure",
+            "success_url" => "https://9924-154-247-182-75.ngrok-free.app/payment/success",
+            "failure_url" => "https://9924-154-247-182-75.ngrok-free.app/payment/failure",
             // "webhook_endpoint" => route("chargilypay.webhook_endpoint"),
-            "webhook_endpoint" => "https://7478-154-246-172-63.ngrok-free.app/api/chargilypay/webhook",
+            "webhook_endpoint" => "https://9924-154-247-182-75.ngrok-free.app/api/chargilypay/webhook",
         ]);
     }
 
@@ -144,6 +144,7 @@ class OrderCreationController extends Controller
     {
         foreach ($this->products as $product) {
             $product->sold = 1;
+            $product->updated_at = now();
             try {
                 $is_updated = $product->save();
             } catch (Throwable $throwable) {
@@ -165,6 +166,7 @@ class OrderCreationController extends Controller
     private function updateRequestedCategoryQuantity()
     {
         $this->requested_category->quantity -= (int) $this->received_data['quantity'];
+        $this->requested_category->updated_at = now();
         try {
             $is_updated = $this->requested_category->save();
         } catch (Throwable $throwable) {

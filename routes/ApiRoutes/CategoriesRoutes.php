@@ -13,6 +13,7 @@ use App\Http\Controllers\Categories\GetPaginatedCategoriesController;
 use App\Http\Controllers\Categories\UpdateCategoryBaseDataController;
 use App\Http\Controllers\Categories\CategoryCreationPageDataController;
 use App\Http\Controllers\Categories\getChildCategoriesByNameController;
+use App\Http\Controllers\Categories\GetPaginatedCategoriesByFilterController;
 
 // tests made
 Route::post(
@@ -62,7 +63,7 @@ Route::get(
 )
     ->name('categories.get-child-categories');
 
-    
+
 // tests made
 Route::get(
     '/categories/get-child-categories-by-name/{category_name}',
@@ -81,14 +82,14 @@ Route::get(
     ->middleware('IsAdmin');
 
 
-// // tests made
-// Route::post(
-//     '/categories/get-paginated-categories-by-filter',
-//     GetPaginatedFormationsCategoriesByFilterController::class
-// )
-//     ->name('categories.get-paginated-categories-by-filter')
-//     ->middleware('UsersJwtAuthentication')
-//     ->middleware('IsAdmin');
+// tests made
+Route::post(
+    '/categories/get-paginated-categories-by-filter',
+    GetPaginatedCategoriesByFilterController::class
+)
+    ->name('categories.get-paginated-categories-by-filter')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
 
 
 // tests made

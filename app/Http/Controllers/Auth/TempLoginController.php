@@ -90,7 +90,7 @@ class TempLoginController extends Controller
         try {
             $this->user = User::where(
                 "email",
-                "ayoub.kheyar06@gmail.com"
+                "itsayoubkheyar06@gmail.com"
             )
                 ->first();
 

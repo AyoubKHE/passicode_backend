@@ -19,6 +19,7 @@ class DeleteProductByIdController extends Controller
         $related_category = $this->requested_product->category;
 
         $related_category->quantity -= 1;
+        $related_category->updated_at = now();
 
         try {
             $is_updated = $related_category->save();
