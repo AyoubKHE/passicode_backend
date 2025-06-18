@@ -17,16 +17,8 @@ return new class extends Migration {
             $table->string("last_name", 30)->nullable(false);
             $table->string("email", 255)->nullable(false);
             $table->string("image_url", 255)->nullable(true);
-
-            // $table->string("password", 255)->nullable(true);
             $table->enum('role', ["Super Admin", "Admin", "Client"])->nullable(false);
             $table->boolean("is_active")->nullable(false);
-
-            // $table->string('email_verification_token')->nullable(true);
-            // $table->timestamp('email_verification_token_sent_at')->nullable(true);
-
-            // $table->string('password_reset_token')->nullable(true);
-            // $table->timestamp('password_reset_token_sent_at')->nullable(true);
 
             $table->string('refresh_token')->nullable(true);
 

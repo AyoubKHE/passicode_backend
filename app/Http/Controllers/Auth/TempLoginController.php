@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use Exception;
-use Illuminate\Http\Request;
 use Throwable;
 use App\Models\Users\User;
 use App\Services\JWTService;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;

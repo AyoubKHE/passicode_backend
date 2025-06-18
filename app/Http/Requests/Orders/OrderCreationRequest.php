@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests\Orders;
 
-use Throwable;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Products\Category;
 
 class OrderCreationRequest extends FormRequest
 {

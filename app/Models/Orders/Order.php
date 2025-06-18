@@ -3,9 +3,8 @@
 namespace App\Models\Orders;
 
 use App\Models\Users\User;
-use App\Models\Orders\ChargilyPayment;
 use App\Models\Orders\OrderItem;
-
+use App\Models\Orders\ChargilyPayment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

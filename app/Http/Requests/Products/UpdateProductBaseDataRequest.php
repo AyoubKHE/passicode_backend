@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Products;
 
-use Throwable;
 use App\Models\Products\Product;
-use App\Models\Products\Category;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Foundation\Http\FormRequest;
 

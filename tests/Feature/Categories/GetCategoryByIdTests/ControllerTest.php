@@ -31,7 +31,6 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Super Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -68,13 +67,10 @@ class ControllerTest extends TestCase
                     'name' => 'Netflix',
                     'description' => 'Netflix Description',
                     'is_active' => true,
-
-
                     'is_leaf_category' => true,
                     'parent_id' => null,
                     'image_path' => 'categories/id_1/image_1_name.png',
                     'created_at' => now(),
-
                 ],
             ));
         } catch (Throwable $th) {

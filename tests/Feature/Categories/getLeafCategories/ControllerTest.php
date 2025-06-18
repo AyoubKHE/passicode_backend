@@ -4,16 +4,14 @@ namespace Tests\Feature\Categories\getLeafCategories;
 
 use Throwable;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\Users\User;
 use App\Models\Admins\Admin;
 use App\Services\JWTService;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Products\Category;
 use App\Models\Products\Product;
-use App\Models\Products\Product_Category;
+use App\Models\Products\Category;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 /**
  * @runTestsInSeparateProcesses
@@ -33,7 +31,6 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -75,120 +72,85 @@ class ControllerTest extends TestCase
                         'description' => 'Netflix Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
-
-
                         'is_leaf_category' => false,
                         'parent_id' => null,
                         'created_at' => now(),
-
                     ],
                     [
                         'name' => 'Netflix 10$',
                         'description' => 'Netflix 10$ Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
-
-
                         'is_leaf_category' => true,
                         'parent_id' => 1,
                         'created_at' => now(),
-
                     ],
                     [
                         'name' => 'Netflix 20$',
                         'description' => 'Netflix 20$ Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
-
-
                         'is_leaf_category' => true,
                         'parent_id' => 1,
                         'created_at' => now(),
-
                     ],
                     [
                         'name' => 'Netflix 30$',
                         'description' => 'Netflix 30$ Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
-
-
                         'is_leaf_category' => true,
                         'parent_id' => 1,
                         'created_at' => now(),
-
                     ],
                 ));
 
 
                 Product::insert(array(
                     [
+                        'category_id' => 2,
                         'code' => 'code1',
                         'code_start' => "code1",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
-
                     ],
                     [
+                        'category_id' => 2,
                         'code' => 'code2',
                         'code_start' => "code2",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
-
                     ],
                     [
+                        'category_id' => 3,
                         'code' => 'code3',
                         'code_start' => "code3",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
-
                     ],
                     [
+                        'category_id' => 3,
                         'code' => 'code4',
                         'code_start' => "code4",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
                     ],
                     [
+                        'category_id' => 4,
                         'code' => 'code5',
                         'code_start' => "code5",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
-
-                    ],
-                ));
-
-
-                Product_Category::insert(array(
-                    [
-                        'product_id' => 1,
-                        'category_id' => 2,
-                    ],
-                    [
-                        'product_id' => 2,
-                        'category_id' => 2,
-                    ],
-                    [
-                        'product_id' => 3,
-                        'category_id' => 3,
-                    ],
-                    [
-                        'product_id' => 4,
-                        'category_id' => 3,
-                    ],
-                    [
-                        'product_id' => 5,
-                        'category_id' => 4,
                     ],
                 ));
             });

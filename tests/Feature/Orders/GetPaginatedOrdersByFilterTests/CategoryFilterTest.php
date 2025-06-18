@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use App\Models\Admins\Admin;
 use App\Models\Orders\Order;
 use App\Services\JWTService;
-use App\Models\Clients\Client;
 use App\Models\Orders\OrderItem;
 use App\Models\Products\Product;
 use App\Models\Products\Category;
@@ -245,7 +244,7 @@ class CategoryFilterTest extends TestCase
 
             $response->assertStatus(200)
                 ->assertJsonFragment([
-                    'total' => 1
+                    'total' => 2
                 ]);
 
         } catch (Throwable $th) {

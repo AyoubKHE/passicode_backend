@@ -33,7 +33,6 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -141,12 +140,12 @@ class ControllerTest extends TestCase
                     'products' => array(
                         [
                             'code' => 'code 1',
-                            'expiration_date' => null,
+                            'expiration_date' => "9999-12-31",
                             'purchase_price' => 2000,
                         ],
                         [
                             'code' => 'code 2',
-                            'expiration_date' => null,
+                            'expiration_date' => "9999-12-31",
                             'purchase_price' => 2500,
                         ],
                         [

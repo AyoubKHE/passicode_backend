@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Products;
 
 use Exception;
-use Illuminate\Support\Facades\Crypt;
 use Throwable;
 use App\Models\Products\Product;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Crypt;
 use App\Http\Requests\Products\UpdateProductBaseDataRequest;
 
 

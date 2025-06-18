@@ -1,9 +1,5 @@
 <?php
 
-use App\Models\Users\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes

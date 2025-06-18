@@ -31,7 +31,6 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -71,180 +70,135 @@ class ControllerTest extends TestCase
                     'description' => 'Netflix Description',
                     'is_active' => true,
                     'image_path' => 'categories/id_1/image_1_name.png',
-
-
                     'is_leaf_category' => true,
                     'parent_id' => null,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Playstation',
                     'description' => 'Playstation Description',
                     'is_active' => true,
                     'image_path' => 'categories/id_2/image_2_name.png',
-
-
                     'is_leaf_category' => true,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'ITunes',
                     'description' => 'ITunes Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 4',
                     'description' => 'Cat 4 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 5',
                     'description' => 'Cat 5 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 6',
                     'description' => 'Cat 6 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 7',
                     'description' => 'Cat 7 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 8',
                     'description' => 'Cat 8 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 9',
                     'description' => 'Cat 9 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 10',
                     'description' => 'Cat 10 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 11',
                     'description' => 'Cat 11 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 12',
                     'description' => 'Cat 12 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 13',
                     'description' => 'Cat 13 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 14',
                     'description' => 'Cat 14 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Cat 15',
                     'description' => 'Cat 15 Description',
                     'is_active' => false,
                     'image_path' => 'categories/id_3/image_3_name.png',
-
-
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
             ));
 
@@ -283,7 +237,7 @@ class ControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->access_token,
-        ])->getJson('api/categories/get-paginated-categories?limit=3&page=5');
+        ])->getJson('api/categories/get-paginated-categories');
 
         try {
 

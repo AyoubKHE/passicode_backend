@@ -35,7 +35,7 @@ class ControllerTest extends TestCase
                 [
                     'name' => 'Netflix USA',
                     'description' => 'Netflix USA Description',
-                    'is_active' => false,
+                    'is_active' => true,
                     'image_path' => 'categories/id_2/image_2_name.png',
                     'is_leaf_category' => false,
                     'parent_id' => 1,
@@ -45,7 +45,7 @@ class ControllerTest extends TestCase
                 [
                     'name' => 'Netflix Turkey',
                     'description' => 'Netflix Turkey Description',
-                    'is_active' => false,
+                    'is_active' => true,
                     'image_path' => 'categories/id_3/image_3_name.png',
                     'is_leaf_category' => false,
                     'parent_id' => 1,

@@ -32,7 +32,6 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -78,7 +77,6 @@ class ControllerTest extends TestCase
                         'is_leaf_category' => true,
                         'parent_id' => null,
                         'created_at' => now(),
-
                     ],
                     [
                         'name' => 'Playstation',

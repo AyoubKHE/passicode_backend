@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Orders;
 
-use Chargily\ChargilyPay\Elements\CheckoutElement;
 use Exception;
 use Throwable;
 use Illuminate\Support\Str;
@@ -17,6 +16,7 @@ use App\Models\Orders\ChargilyPayment;
 use Chargily\ChargilyPay\Auth\Credentials;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\Orders\OrderCreationRequest;
+use Chargily\ChargilyPay\Elements\CheckoutElement;
 
 
 class OrderCreationController extends Controller
@@ -32,19 +32,27 @@ class OrderCreationController extends Controller
 
     private function createCheckout()
     {
-        $this->checkout = $this->chargilyPayInstance()->checkouts()->create([
-            "metadata" => [
-                "payment_id" => $this->chargily_payment->id,
-            ],
-            "locale" => "fr",
-            "amount" => $this->chargily_payment->amount,
-            "currency" => $this->chargily_payment->currency,
-            "description" => "Payment ID={$this->chargily_payment->id}",
-            "success_url" => "https://9924-154-247-182-75.ngrok-free.app/payment/success",
-            "failure_url" => "https://9924-154-247-182-75.ngrok-free.app/payment/failure",
-            // "webhook_endpoint" => route("chargilypay.webhook_endpoint"),
-            "webhook_endpoint" => "https://9924-154-247-182-75.ngrok-free.app/api/chargilypay/webhook",
-        ]);
+        try {
+            $this->checkout = $this->chargilyPayInstance()->checkouts()->create([
+                "metadata" => [
+                    "payment_id" => $this->chargily_payment->id,
+                ],
+                "locale" => "fr",
+                "amount" => $this->chargily_payment->amount,
+                "currency" => $this->chargily_payment->currency,
+                "description" => "Payment ID={$this->chargily_payment->id}",
+                "success_url" => "https://9924-154-247-182-75.ngrok-free.app/payment/success",
+                "failure_url" => "https://9924-154-247-182-75.ngrok-free.app/payment/failure",
+                // "webhook_endpoint" => route("chargilypay.webhook_endpoint"),
+                "webhook_endpoint" => "https://9924-154-247-182-75.ngrok-free.app/api/chargilypay/webhook",
+            ]);
+        } catch (Throwable $th) {
+            throw new Exception(
+                'An error occurred while creating chargily checkout. Please try again later.',
+                500
+            );
+        }
+
     }
 
     private function createChargilyPayment()

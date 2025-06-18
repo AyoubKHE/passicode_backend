@@ -136,7 +136,7 @@ class ControllerTest extends TestCase
                     'id' => 1,
                     'sold' => false,
                     'purchase_price' => 2500,
-                    'expiration_date' => null,
+                    'expiration_date' => "9999-12-31",
                 ]
             );
 

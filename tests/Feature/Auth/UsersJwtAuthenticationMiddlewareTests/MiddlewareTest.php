@@ -2,17 +2,12 @@
 
 namespace Tests\Feature\Auth\UsersJwtAuthenticationMiddlewareTests;
 
-use Exception;
 use Throwable;
 use Tests\TestCase;
 use App\Models\Users\User;
 use App\Models\Admins\Admin;
 use App\Services\JWTService;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 /**
@@ -51,7 +46,6 @@ class MiddlewareTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -102,7 +96,6 @@ class MiddlewareTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -170,7 +163,6 @@ class MiddlewareTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Admin',
                     'is_active' => true,
                     'refresh_token' => "refresh token",

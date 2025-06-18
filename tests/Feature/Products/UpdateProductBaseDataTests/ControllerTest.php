@@ -2,12 +2,13 @@
 
 namespace Tests\Feature\Products\UpdateProductBaseDataTests;
 
-use App\Models\Products\Product;
 use Throwable;
 use Tests\TestCase;
 use App\Models\Users\User;
 use App\Models\Admins\Admin;
 use App\Services\JWTService;
+use App\Models\Products\Product;
+use App\Models\Products\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
@@ -32,7 +33,6 @@ class ControllerTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -62,32 +62,62 @@ class ControllerTest extends TestCase
         $this->access_token = $access_token_object->getJwtToken();
     }
 
-    private function createFakeProducts()
+    private function createFakeProductsAndCategories()
     {
-
         try {
-            Product::insert(array(
-                [
-                    'code' => Crypt::encryptString("code1"),
-                    'code_start' => "code1",
-                    'sold' => false,
-                    'expiration_date' => "2026-12-31",
-                    'purchase_price' => 2500,
-                    'created_at' => now(),
-                ],
-                [
-                    'code' => Crypt::encryptString("code2"),
-                    'code_start' => "code2",
-                    'sold' => false,
-                    'expiration_date' => "2026-12-31",
-                    'purchase_price' => 2500,
-                    'created_at' => now(),
-                ],
-            ));
+
+            DB::transaction(function () {
+                Category::insert(array(
+                    [
+                        'name' => 'Netflix',
+                        'description' => 'Netflix Description',
+                        'is_active' => true,
+                        'image_path' => 'categories/id_1/image_1_name.png',
+                        'quantity' => 0,
+                        'is_leaf_category' => false,
+                        'parent_id' => null,
+                        'created_at' => now(),
+                    ],
+                    [
+                        'name' => 'Netflix Turc 10$',
+                        'description' => 'Netflix Turc 10$ Description',
+                        'is_active' => true,
+                        'image_path' => 'categories/id_1/image_1_name.png',
+                        'quantity' => 0,
+                        'is_leaf_category' => true,
+                        'parent_id' => 1,
+                        'created_at' => now(),
+                    ],
+                ));
+
+
+                Product::insert(array(
+                    [
+                        'category_id' => 2,
+                        'code' => Crypt::encryptString("code1"),
+                        'code_start' => "code1",
+                        'sold' => false,
+                        'expiration_date' => "2026-12-31",
+                        'purchase_price' => 2500,
+                        'created_at' => now(),
+                    ],
+                    [
+                        'category_id' => 2,
+                        'code' => Crypt::encryptString("code2"),
+                        'code_start' => "code2",
+                        'sold' => false,
+                        'expiration_date' => "2026-12-31",
+                        'purchase_price' => 2500,
+                        'created_at' => now(),
+                    ],
+                ));
+            });
+
 
         } catch (Throwable $th) {
-            $this->markTestSkipped("test skipped because a problem occured while creating fake products manually");
+            $this->markTestSkipped("test skipped because a problem occured while creating fake categories and products manually");
         }
+
     }
 
 
@@ -114,7 +144,7 @@ class ControllerTest extends TestCase
     {
         $this->adminLogin();
 
-        $this->createFakeProducts();
+        $this->createFakeProductsAndCategories();
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->access_token,

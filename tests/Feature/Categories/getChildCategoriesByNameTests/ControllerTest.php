@@ -30,22 +30,20 @@ class ControllerTest extends TestCase
                     'is_leaf_category' => false,
                     'parent_id' => null,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Netflix USA',
                     'description' => 'Netflix USA Description',
-                    'is_active' => false,
+                    'is_active' => true,
                     'image_path' => 'categories/id_2/image_2_name.png',
                     'is_leaf_category' => false,
                     'parent_id' => 1,
                     'created_at' => now(),
-
                 ],
                 [
                     'name' => 'Netflix Turkey',
                     'description' => 'Netflix Turkey Description',
-                    'is_active' => false,
+                    'is_active' => true,
                     'image_path' => 'categories/id_3/image_3_name.png',
                     'is_leaf_category' => false,
                     'parent_id' => 1,

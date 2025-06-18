@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources\Admins;
 
-use Exception;
-use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Resources\Users\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;

@@ -10,9 +10,7 @@ use App\Services\JWTService;
 use App\Models\Products\Product;
 use App\Models\Products\Category;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
-use App\Models\Products\Product_Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 /**
@@ -33,7 +31,6 @@ class SoldFilterTest extends TestCase
                     'first_name' => 'Ayoub',
                     'last_name' => 'Kheyar',
                     'email' => 'ayoub.kheyar06@gmail.com',
-                    'password' => Hash::make('a'),
                     'role' => 'Super Admin',
                     'is_active' => true,
                     'created_at' => now()
@@ -73,8 +70,6 @@ class SoldFilterTest extends TestCase
                         'description' => 'Netflix Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_1/image_1_name.png',
-
-
                         'is_leaf_category' => false,
                         'parent_id' => null,
                         'created_at' => now(),
@@ -84,8 +79,6 @@ class SoldFilterTest extends TestCase
                         'description' => 'Netflix Turc 10$ Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_2/image_2_name.png',
-
-
                         'is_leaf_category' => true,
                         'parent_id' => 1,
                         'created_at' => now(),
@@ -95,8 +88,6 @@ class SoldFilterTest extends TestCase
                         'description' => 'Netflix Turc 20$ Description',
                         'is_active' => true,
                         'image_path' => 'categories/id_3/image_3_name.png',
-
-
                         'is_leaf_category' => true,
                         'parent_id' => 1,
                         'created_at' => now(),
@@ -107,44 +98,31 @@ class SoldFilterTest extends TestCase
 
                 Product::insert(array(
                     [
+                        'category_id' => 2,
                         'code' => Crypt::encryptString("code1"),
                         'code_start' => "code1",
                         'sold' => true,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 2500,
                         'created_at' => now(),
                     ],
                     [
+                        'category_id' => 2,
                         'code' => Crypt::encryptString("code2"),
                         'code_start' => "code2",
                         'sold' => false,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 3000,
                         'created_at' => now(),
                     ],
                     [
+                        'category_id' => 3,
                         'code' => Crypt::encryptString("code3"),
                         'code_start' => "code3",
                         'sold' => true,
-                        'expiration_date' => null,
+                        'expiration_date' => "9999-12-31",
                         'purchase_price' => 3500,
                         'created_at' => now(),
-                    ],
-                ));
-
-
-                Product_Category::insert(array(
-                    [
-                        'product_id' => 1,
-                        'category_id' => 2,
-                    ],
-                    [
-                        'product_id' => 2,
-                        'category_id' => 2,
-                    ],
-                    [
-                        'product_id' => 3,
-                        'category_id' => 3,
                     ],
                 ));
             });

@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use App\Models\Products\Category;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Products\CategoriesCollection;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 
 class CategoryCreationPageDataController extends Controller

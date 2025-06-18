@@ -6,7 +6,6 @@ use Exception;
 use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cookie;
 
 class LogoutController extends Controller
 {

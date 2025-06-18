@@ -5,17 +5,12 @@ namespace Tests\Feature\Orders\OrderCreationTests;
 use Throwable;
 use Tests\TestCase;
 use App\Models\Users\User;
-use App\Models\Admins\Admin;
 use App\Services\JWTService;
 use App\Models\Clients\Client;
 use App\Models\Products\Product;
 use App\Models\Products\Category;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Products\Product_Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 /**

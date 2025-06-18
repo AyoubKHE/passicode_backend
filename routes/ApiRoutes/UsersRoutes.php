@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Users\GetMyAccountController;
 use App\Http\Controllers\Users\ToggleActiveController;
-
-// use App\Http\Controllers\Users\GetMyAccountController;
 
 
 // tests made
@@ -16,9 +15,9 @@ Route::put(
     ->middleware('IsSuperAdmin');
 
 // tests made
-// Route::get(
-//     '/users/get-my-account',
-//     GetMyAccountController::class
-// )
-//     ->name('users.get-my-account')
-//     ->middleware('UsersJwtAuthentication');
+Route::get(
+    '/users/get-my-account',
+    GetMyAccountController::class
+)
+    ->name('users.get-my-account')
+    ->middleware('UsersJwtAuthentication');

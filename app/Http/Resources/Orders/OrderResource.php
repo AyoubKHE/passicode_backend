@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Orders\OrdersItemsCollection;
 
 class OrderResource extends JsonResource
 {

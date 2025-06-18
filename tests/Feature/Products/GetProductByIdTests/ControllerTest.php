@@ -10,9 +10,7 @@ use App\Services\JWTService;
 use App\Models\Products\Product;
 use App\Models\Products\Category;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
-use App\Models\Products\Product_Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 /**
