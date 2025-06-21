@@ -41,6 +41,7 @@ class OrderCreationRequest extends FormRequest
                 'required',
                 'integer',
                 'min:1',
+                'max:5',
             ],
         ];
 
