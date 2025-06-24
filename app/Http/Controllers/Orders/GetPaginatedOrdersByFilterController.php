@@ -102,6 +102,21 @@ class GetPaginatedOrdersByFilterController extends Controller
         );
     }
 
+    private function prepareProduct()
+    {
+        $this->order_filter_query->when(
+            array_key_exists('product_id', $this->sent_filter),
+            function (Builder $query) {
+                $query->whereHas(
+                    'orderItems',
+                    function (Builder $query) {
+                        $query->where('product_id', $this->sent_filter['product_id']);
+                    }
+                );
+            }
+        );
+    }
+
     private function prepareCategory()
     {
         $this->order_filter_query->when(
@@ -186,6 +201,8 @@ class GetPaginatedOrdersByFilterController extends Controller
         $this->prepareUser();
 
         $this->prepareCategory();
+
+        $this->prepareProduct();
 
         $this->prepareStatus();
 

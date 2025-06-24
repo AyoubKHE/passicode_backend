@@ -53,6 +53,11 @@ class GetPaginatedOrdersByFilterRequest extends FormRequest
                 Rule::exists('categories', 'id'),
             ],
 
+            'product_id' => [
+                'numeric',
+                Rule::exists('products', 'id'),
+            ],
+
 
             'status' => [
                 Rule::in(["pending", "paid", "failed", "canceled", "expired"])
