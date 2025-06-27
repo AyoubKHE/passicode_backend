@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->boolean("sold")->nullable(false);
             $table->date('expiration_date')->nullable(false);
             $table->decimal('purchase_price', 10, 2)->nullable(false);
+            $table->string("supplier", 255)->nullable(true);
 
             $table->timestamps();
         });

@@ -159,7 +159,8 @@ class ControllerTest extends TestCase
                             'purchase_price' => 3500,
                         ]
                     ),
-                    'related_category_id' => 3
+                    'related_category_id' => 3,
+                    'supplier' => 'OneClick DZ',
                 ]);
 
         try {
@@ -171,6 +172,7 @@ class ControllerTest extends TestCase
                     'sold' => 0,
                     'expiration_date' => "9999-12-31",
                     'purchase_price' => 2000,
+                    'supplier' => 'OneClick DZ'
                 ]
             );
             $this->assertDatabaseHas(
@@ -180,6 +182,7 @@ class ControllerTest extends TestCase
                     'sold' => 0,
                     'expiration_date' => "9999-12-31",
                     'purchase_price' => 2500,
+                    'supplier' => 'OneClick DZ'
                 ]
             );
             $this->assertDatabaseHas(
@@ -189,6 +192,7 @@ class ControllerTest extends TestCase
                     'sold' => 0,
                     'expiration_date' => "2025-12-31",
                     'purchase_price' => 3000,
+                    'supplier' => 'OneClick DZ'
                 ]
             );
             $this->assertDatabaseHas(
@@ -198,6 +202,7 @@ class ControllerTest extends TestCase
                     'sold' => 0,
                     'expiration_date' => "2026-12-31",
                     'purchase_price' => 3500,
+                    'supplier' => 'OneClick DZ'
                 ]
             );
 

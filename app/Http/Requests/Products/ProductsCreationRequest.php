@@ -79,6 +79,12 @@ class ProductsCreationRequest extends FormRequest
                 'numeric',
                 Rule::exists('categories', 'id'),
             ],
+
+            "supplier" => [
+                "required",
+                "string",
+                "max:255",
+            ],
         ];
     }
 }

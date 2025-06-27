@@ -22,6 +22,7 @@ class Product extends Model
         "sold",
         "expiration_date",
         "purchase_price",
+        "supplier",
         "created_at",
         "updated_at",
     ];

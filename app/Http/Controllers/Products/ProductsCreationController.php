@@ -19,6 +19,7 @@ class ProductsCreationController extends Controller
     private ProductsCreationRequest $global_request_object;
     private array $prepared_products;
     private int $related_category_id;
+    private string $supplier;
 
     private function updateCategoryQuantity()
     {
@@ -70,9 +71,12 @@ class ProductsCreationController extends Controller
 
             $prepared_product['sold'] = false;
 
+
             if (!$prepared_product['expiration_date']) {
                 $prepared_product['expiration_date'] = "9999-12-31";
             }
+
+            $prepared_product['supplier'] = $this->supplier;
 
             $prepared_product['created_at'] = now();
 
@@ -102,6 +106,7 @@ class ProductsCreationController extends Controller
 
         $this->prepared_products = Arr::only($sent_inputs, 'products')['products'];
         $this->related_category_id = Arr::only($sent_inputs, 'related_category_id')['related_category_id'];
+        $this->supplier = Arr::only($sent_inputs, 'supplier')['supplier'];
     }
 
     public function __invoke(ProductsCreationRequest $request): JsonResponse

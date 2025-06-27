@@ -91,6 +91,10 @@ class GetPaginatedProductsByFilterRequest extends FormRequest
                 "max:99999999.99",
             ],
 
+            'supplier' => [
+                "string",
+                "max:255"
+            ],
 
             'created_at' => [
                 'array',

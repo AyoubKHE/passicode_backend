@@ -69,6 +69,12 @@ class UpdateProductBaseDataRequest extends FormRequest
                 "min:0",
                 "max:99999999.99"
             ],
+
+
+            "supplier" => [
+                "string",
+                "max:255",
+            ],
         ];
 
     }

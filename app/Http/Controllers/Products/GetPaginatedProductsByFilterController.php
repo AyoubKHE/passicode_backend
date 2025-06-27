@@ -99,6 +99,20 @@ class GetPaginatedProductsByFilterController extends Controller
         );
     }
 
+    private function prepareSupplier()
+    {
+        $this->product_filter_query->when(
+            array_key_exists('supplier', $this->sent_filter),
+            function (Builder $query) {
+                $query->where(
+                    'supplier',
+                    'like',
+                    "%" . $this->sent_filter['supplier'] . "%"
+                );
+            }
+        );
+    }
+
     private function preparePurchasePrice()
     {
         $this->product_filter_query->when(
@@ -259,6 +273,8 @@ class GetPaginatedProductsByFilterController extends Controller
         $this->prepareExpirationDate();
 
         $this->preparePurchasePrice();
+
+        $this->prepareSupplier();
 
         $this->prepareCreatedAt();
 
