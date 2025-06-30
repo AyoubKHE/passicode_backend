@@ -15,6 +15,7 @@ use Chargily\ChargilyPay\ChargilyPay;
 use App\Models\Orders\ChargilyPayment;
 use Chargily\ChargilyPay\Auth\Credentials;
 use Illuminate\Database\Eloquent\Collection;
+use App\Models\Products\FailedQuantityRequest;
 use App\Http\Requests\Orders\OrderCreationRequest;
 use Chargily\ChargilyPay\Elements\CheckoutElement;
 
@@ -47,6 +48,13 @@ class OrderCreationController extends Controller
                 "webhook_endpoint" => "https://9924-154-247-182-75.ngrok-free.app/api/chargilypay/webhook",
             ]);
         } catch (Throwable $th) {
+            throw new Exception(
+                'An error occurred while creating chargily checkout. Please try again later.',
+                500
+            );
+        }
+
+        if (!$this->checkout) {
             throw new Exception(
                 'An error occurred while creating chargily checkout. Please try again later.',
                 500
@@ -212,6 +220,25 @@ class OrderCreationController extends Controller
         }
     }
 
+    private function logFailedQuantityRequest()
+    {
+        try {
+            FailedQuantityRequest::create([
+                'category_id' => $this->requested_category->id,
+                'user_id' => $this->global_request_object->get('logged_in_user')->id,
+                'available_quantity' => $this->requested_category->quantity,
+                'requested_quantity' => (int) $this->received_data['quantity'],
+                'status' => 'not_settled',
+                'created_at' => now(),
+                'settled_at' => null,
+            ]);
+        } catch (Throwable $th) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+    }
     private function moreValidations()
     {
         if (!$this->requested_category->is_active) {
@@ -276,28 +303,30 @@ class OrderCreationController extends Controller
 
         $this->received_data = $this->global_request_object->validated();
 
-        DB::transaction(function () {
-            $this->loadRequestedCategory();
-            $this->moreValidations();
-            $this->loadProducts();
-            $this->updateRequestedCategoryQuantity();
-            $this->updateProductsSoldStatus();
-            $this->createOrder();
-            $this->createOrderItems();
-            $this->createChargilyPayment();
-            $this->createCheckout();
-        });
+        try {
+            DB::transaction(function () {
+                $this->loadRequestedCategory();
+                $this->moreValidations();
+                $this->loadProducts();
+                $this->updateRequestedCategoryQuantity();
+                $this->updateProductsSoldStatus();
+                $this->createOrder();
+                $this->createOrderItems();
+                $this->createChargilyPayment();
+                $this->createCheckout();
+            });
+        } catch (Throwable $th) {
+            if ($th->getMessage() === "Requested quantity is not available.") {
+                $this->logFailedQuantityRequest();
+            }
 
-        if ($this->checkout) {
-            return response()->json([
-                'message' => 'Order created successfully.',
-                'payment_redirection_url' => (string) $this->checkout->getUrl(),
-            ], 200);
-        } else {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
+            throw $th;
         }
+
+        return response()->json([
+            'message' => 'Order created successfully.',
+            'payment_redirection_url' => (string) $this->checkout->getUrl(),
+        ], 200);
+
     }
 }

@@ -24,3 +24,5 @@ require __DIR__ . '/ApiRoutes/ProductsRoutes.php';
 require __DIR__ . '/ApiRoutes/OrderRoutes.php';
 
 require __DIR__ . '/ApiRoutes/PaymentsRoutes.php';
+
+require __DIR__ . '/ApiRoutes/FailedQuantityRequestsRoutes.php';
