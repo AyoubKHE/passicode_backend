@@ -14,6 +14,11 @@ class SimpleOrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        $profit = $this->orderItems->sum(function ($item) {
+            return (float) $item->price - ((float) $item->price * (int) $item->discount / 100) - (float) $item->product->purchase_price;
+        });
+
         return [
             "id" => $this->id,
             "public_id" => $this->public_id,
@@ -23,6 +28,7 @@ class SimpleOrderResource extends JsonResource
             ],
             "status" => $this->status,
             "amount" => $this->amount,
+            "profit" => $profit,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

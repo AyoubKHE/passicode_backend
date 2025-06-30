@@ -90,7 +90,7 @@ class ControllerTest extends TestCase
                     'name' => 'Netflix 10$',
                     'description' => 'Netflix 10$ Description',
                     'price' => 2700,
-                    'discount' => 15,
+                    'discount' => 0,
                     'quantity' => 1,
                     'is_active' => true,
                     'is_leaf_category' => true,
@@ -164,25 +164,25 @@ class ControllerTest extends TestCase
                     'order_id' => 1,
                     'product_id' => 1,
                     'price' => 2700,
-                    'discount' => 15,
+                    'discount' => 0,
                 ],
                 [
                     'order_id' => 1,
                     'product_id' => 2,
                     'price' => 2700,
-                    'discount' => 15,
+                    'discount' => 0,
                 ],
                 [
                     'order_id' => 1,
                     'product_id' => 3,
                     'price' => 2700,
-                    'discount' => 15,
+                    'discount' => 0,
                 ],
                 [
                     'order_id' => 2,
                     'product_id' => 4,
                     'price' => 2700,
-                    'discount' => 15,
+                    'discount' => 0,
                 ],
             ));
 

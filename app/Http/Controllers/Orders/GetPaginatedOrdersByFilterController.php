@@ -214,6 +214,11 @@ class GetPaginatedOrdersByFilterController extends Controller
 
         try {
             $this->paginated_orders = $this->order_filter_query
+                ->with('user')
+                ->with('orderItems', function ($query) {
+                    $query->with('product');
+                })
+                ->orderBy('created_at', 'desc')
                 ->paginate(perPage: $limit, page: $page);
         } catch (Throwable $th) {
             throw new Exception(

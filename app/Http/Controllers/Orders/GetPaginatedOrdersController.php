@@ -36,6 +36,9 @@ class GetPaginatedOrdersController extends Controller
                     $order_public_id . "%"
                 )
                     ->with('user')
+                    ->with('orderItems', function ($query) {
+                        $query->with('product');
+                    })
                     ->orderBy('created_at', 'desc')
                     ->paginate(perPage: $limit, page: $page);
             } catch (Throwable $th) {
@@ -47,6 +50,9 @@ class GetPaginatedOrdersController extends Controller
         } else {
             try {
                 $this->paginated_orders = Order::with('user')
+                    ->with('orderItems', function ($query) {
+                        $query->with('product');
+                    })
                     ->orderBy('created_at', 'desc')
                     ->paginate(perPage: $limit, page: $page);
             } catch (Throwable $th) {

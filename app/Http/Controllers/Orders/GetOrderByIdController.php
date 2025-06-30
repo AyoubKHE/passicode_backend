@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Orders;
 
 use Exception;
 use Throwable;
-use Illuminate\Http\Request;
 use App\Models\Orders\Order;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Orders\OrderResource;
+use App\Http\Resources\Orders\DashboardOrderResource;
 
 class GetOrderByIdController extends Controller
 {
@@ -45,7 +45,7 @@ class GetOrderByIdController extends Controller
 
         if ($this->requested_order) {
             return response()->json([
-                'order' => new OrderResource($this->requested_order),
+                'order' => new DashboardOrderResource($this->requested_order),
             ], 200);
         } else {
             return response()->json([
