@@ -50,11 +50,8 @@ class GetPaginatedFailedQuantityRequestsController extends Controller
             }
         } else {
             try {
-                $this->paginated_failed_quantity_requests = FailedQuantityRequest::where(
-                    'status',
-                    'not_settled'
-                )
-                    ->with('category')
+                $this->paginated_failed_quantity_requests = FailedQuantityRequest::
+                with('category')
                     ->with('user')
                     ->orderBy('created_at', 'asc')
                     ->paginate(perPage: $limit, page: $page);
