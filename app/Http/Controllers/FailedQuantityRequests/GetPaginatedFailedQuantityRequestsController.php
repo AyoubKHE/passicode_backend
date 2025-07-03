@@ -34,10 +34,7 @@ class GetPaginatedFailedQuantityRequestsController extends Controller
                     'id',
                     'like',
                     $id . "%"
-                )->where(
-                        'status',
-                        'not_settled'
-                    )
+                )
                     ->with('category')
                     ->with('user')
                     ->orderBy('created_at', 'asc')
