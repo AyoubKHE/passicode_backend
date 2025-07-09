@@ -195,6 +195,16 @@ class GetPaginatedProductsByFilterController extends Controller
         );
     }
 
+    private function prepareStatus()
+    {
+        $this->product_filter_query->when(
+            array_key_exists('status', $this->sent_filter),
+            function (Builder $query): void {
+                $query->where('status', $this->sent_filter['status']);
+            }
+        );
+    }
+
     private function prepareSold()
     {
         $this->product_filter_query->when(
@@ -269,6 +279,8 @@ class GetPaginatedProductsByFilterController extends Controller
         $this->prepareRelatedCategory();
 
         $this->prepareSold();
+
+        $this->prepareStatus();
 
         $this->prepareExpirationDate();
 

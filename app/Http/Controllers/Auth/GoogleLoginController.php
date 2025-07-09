@@ -8,6 +8,7 @@ use App\Models\Users\User;
 use App\Models\Admins\Admin;
 use App\Services\JWTService;
 use App\Models\Clients\Client;
+use App\Models\Settings\Setting;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -22,6 +23,27 @@ class GoogleLoginController extends Controller
     private User|null $user;
     private array $google_response;
 
+
+    private function loadIsAdminAvailableForBackorder()
+    {
+        if ($this->user->role === "Super Admin" || $this->user->role === "Admin") {
+            try {
+
+                $is_admin_available_for_backorder = Setting::where(
+                    "key",
+                    "is_admin_available_for_backorder"
+                )
+                    ->value('value');
+            } catch (Throwable $th) {
+                throw new Exception(
+                    'An error occurred while accessing the database. Please try again later.',
+                    500
+                );
+            }
+
+            $this->user->is_admin_available_for_backorder = $is_admin_available_for_backorder;
+        }
+    }
 
     private function prepareRefreshToken(): string
     {
@@ -78,6 +100,7 @@ class GoogleLoginController extends Controller
         try {
             if ($this->user->role === "Super Admin" || $this->user->role === "Admin") {
                 $this->user->load('admin');
+
             } else if ($this->user->role === "Client") {
                 $this->user->load('client');
             }
@@ -202,22 +225,34 @@ class GoogleLoginController extends Controller
 
     private function validateIdToken()
     {
-        $response = Http::get('https://oauth2.googleapis.com/tokeninfo', [
-            'id_token' => $this->global_request_object->input("id_token"),
-        ]);
+        try {
+            $response = Http::get('https://oauth2.googleapis.com/tokeninfo', [
+                'id_token' => $this->global_request_object->input("id_token"),
+            ]);
 
-        if ($response->failed()) {
-            throw new Exception('Invalid Google Token.', 401);
+            if ($response->failed()) {
+                throw new Exception('Invalid Google Token.', 401);
+            }
+
+            $this->google_response = $response->json();
+
+            if (
+                $this->google_response['exp'] < time() ||
+                $this->google_response['aud'] !== config('app.GOOGLE_CLIENT_ID')
+            ) {
+                throw new Exception('Invalid Google Token.', 401);
+            }
+        } catch (Throwable $th) {
+            if ($th->getMessage() === 'Invalid Google Token.') {
+                throw new Exception('Invalid Google Token.', 401);
+            } else {
+                throw new Exception(
+                    'Google Login failed. Please try again later.',
+                    500
+                );
+            }
         }
 
-        $this->google_response = $response->json();
-
-        if (
-            $this->google_response['exp'] < time() ||
-            $this->google_response['aud'] !== config('app.GOOGLE_CLIENT_ID')
-        ) {
-            throw new Exception('Invalid Google Token.', 401);
-        }
     }
 
     public function __invoke(GoogleLoginRequest $request): JsonResponse
@@ -239,6 +274,8 @@ class GoogleLoginController extends Controller
         $access_token = $this->prepareAccessToken();
 
         $refresh_token = $this->prepareRefreshToken();
+
+        $this->loadIsAdminAvailableForBackorder();
 
         return response()->json([
             'message' => 'User logged in successfully!',

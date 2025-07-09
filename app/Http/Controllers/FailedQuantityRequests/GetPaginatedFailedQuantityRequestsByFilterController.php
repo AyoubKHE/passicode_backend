@@ -128,6 +128,16 @@ class GetPaginatedFailedQuantityRequestsByFilterController extends Controller
         );
     }
 
+    private function prepareIsCategoryActive()
+    {
+        $this->failed_quantity_request_filter_query->when(
+            array_key_exists('is_category_active', $this->sent_filter),
+            function (Builder $query): void {
+                $query->where('is_category_active', $this->sent_filter['is_category_active']);
+            }
+        );
+    }
+
     private function prepareStatus()
     {
         $this->failed_quantity_request_filter_query->when(
@@ -201,6 +211,8 @@ class GetPaginatedFailedQuantityRequestsByFilterController extends Controller
         $this->prepareCategory();
 
         $this->prepareStatus();
+
+        $this->prepareIsCategoryActive();
 
         $this->prepareAvailableQuantity();
 

@@ -27,6 +27,7 @@ class FailedQuantityRequestResource extends JsonResource
             "available_quantity" => $this->available_quantity,
             "requested_quantity" => $this->requested_quantity,
             "status" => $this->status,
+            "is_category_active" => $this->is_category_active,
             "created_at" => $this->created_at,
             "settled_at" => $this->settled_at
         ];

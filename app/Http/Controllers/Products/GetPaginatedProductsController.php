@@ -44,8 +44,7 @@ class GetPaginatedProductsController extends Controller
             }
         } else {
             try {
-                $this->paginated_products = Product::where('sold', 0)
-                    ->paginate(perPage: $limit, page: $page);
+                $this->paginated_products = Product::paginate(perPage: $limit, page: $page);
             } catch (Throwable $th) {
                 throw new Exception(
                     'An error occurred while accessing the database. Please try again later.',

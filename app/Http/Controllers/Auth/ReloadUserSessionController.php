@@ -7,6 +7,7 @@ use Throwable;
 use App\Models\Users\User;
 use App\Services\JWTService;
 use Illuminate\Http\Request;
+use App\Models\Settings\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,6 +15,27 @@ class ReloadUserSessionController extends Controller
 {
     private Request $global_request_object;
     private User|null $user;
+
+    private function loadIsAdminAvailableForBackorder()
+    {
+        if ($this->user->role === "Super Admin" || $this->user->role === "Admin") {
+            try {
+
+                $is_admin_available_for_backorder = Setting::where(
+                    "key",
+                    "is_admin_available_for_backorder"
+                )
+                    ->value('value');
+            } catch (Throwable $th) {
+                throw new Exception(
+                    'An error occurred while accessing the database. Please try again later.',
+                    500
+                );
+            }
+
+            $this->user->is_admin_available_for_backorder = $is_admin_available_for_backorder;
+        }
+    }
 
     private function eagerLoadUserRelations(): void
     {
@@ -157,6 +179,8 @@ class ReloadUserSessionController extends Controller
         $this->eagerLoadUserRelations();
 
         $access_token = $this->prepareAccessToken();
+
+        $this->loadIsAdminAvailableForBackorder();
 
         return response()->json([
             'access_token' => $access_token,

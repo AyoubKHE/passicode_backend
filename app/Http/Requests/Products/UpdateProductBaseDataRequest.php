@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Products;
 
+use Illuminate\Validation\Rule;
 use App\Models\Products\Product;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Foundation\Http\FormRequest;
@@ -57,6 +58,11 @@ class UpdateProductBaseDataRequest extends FormRequest
             ],
 
 
+            "sold" => [
+                "boolean"
+            ],
+
+
             "expiration_date" => [
                 'nullable',
                 'date',
@@ -74,6 +80,11 @@ class UpdateProductBaseDataRequest extends FormRequest
             "supplier" => [
                 "string",
                 "max:255",
+            ],
+
+
+            'status' => [
+                Rule::in(["valid", "expired", "used", "unexisting", "under_review"])
             ],
         ];
 

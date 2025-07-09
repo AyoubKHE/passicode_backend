@@ -20,6 +20,7 @@ class FailedQuantityRequest extends Model
         "user_id",
         "available_quantity",
         "requested_quantity",
+        "is_category_active",
         "status",
         "created_at",
         "settled_at"

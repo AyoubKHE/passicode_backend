@@ -7,6 +7,7 @@ use Throwable;
 use App\Models\Users\User;
 use App\Services\JWTService;
 use Illuminate\Http\Request;
+use App\Models\Settings\Setting;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,27 @@ use App\Http\Resources\Users\UserResource;
 class TempLoginController extends Controller
 {
     private User|null $user;
+
+    private function loadIsAdminAvailableForBackorder()
+    {
+        if ($this->user->role === "Super Admin" || $this->user->role === "Admin") {
+            try {
+
+                $is_admin_available_for_backorder = Setting::where(
+                    "key",
+                    "is_admin_available_for_backorder"
+                )
+                    ->value('value');
+            } catch (Throwable $th) {
+                throw new Exception(
+                    'An error occurred while accessing the database. Please try again later.',
+                    500
+                );
+            }
+
+            $this->user->is_admin_available_for_backorder = $is_admin_available_for_backorder;
+        }
+    }
 
     private function prepareRefreshToken(): string
     {
@@ -113,6 +135,8 @@ class TempLoginController extends Controller
         $access_token = $this->prepareAccessToken();
 
         $refresh_token = $this->prepareRefreshToken();
+
+        $this->loadIsAdminAvailableForBackorder();
 
         return response()->json([
             'message' => 'User logged in successfully!',

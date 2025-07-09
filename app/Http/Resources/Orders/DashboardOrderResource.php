@@ -19,14 +19,13 @@ class DashboardOrderResource extends JsonResource
         $order_items = $this->orderItems->map(function ($item) {
             return [
                 "product" => [
+                    "id" => $item->product->id,
                     "code" => Crypt::decryptString($item->product->code),
+                    "status" => $item->product->status,
+                    "sold" => $item->product->sold,
                     "expiration_date" => $item->product->expiration_date === "9999-12-31" ? null : $item->product->expiration_date,
                     "purchase_price" => $item->product->purchase_price,
                     "supplier" => $item->product->supplier,
-                    "category" => [
-                        "name" => $item->product->category->name,
-                        "image_url" => Storage::url($item->product->category->image_path),
-                    ]
                 ],
                 "price" => $item->price,
                 "discount" => $item->discount,
@@ -38,6 +37,8 @@ class DashboardOrderResource extends JsonResource
             return $item['unit_profit'];
         });
 
+
+
         return [
             "id" => $this->id,
             "public_id" => $this->public_id,
@@ -46,12 +47,21 @@ class DashboardOrderResource extends JsonResource
                 "first_name" => $this->user->first_name,
                 "last_name" => $this->user->last_name
             ],
+            "category" => [
+                "id" => $this->category->id,
+                "name" => $this->category->name,
+                "image_url" => Storage::url($this->category->image_path),
+            ],
+            "quantity" => $this->quantity,
             "status" => $this->status,
+            "type" => $this->type,
             "amount" => $this->amount,
+            "more_informations" => $this->more_informations,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "chargily_payment" => [
                 "chargily_payment_id" => $this->chargilyPayment->chargily_payment_id,
+                "status" => $this->chargilyPayment->status,
             ],
             "order_items" => $order_items,
             "total_profit" => $total_profit,

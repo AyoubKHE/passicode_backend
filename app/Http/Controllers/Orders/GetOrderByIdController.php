@@ -22,11 +22,10 @@ class GetOrderByIdController extends Controller
                 $this->global_request_object->order_id
             )
                 ->with('user')
+                ->with('category')
                 ->with('chargilyPayment')
                 ->with('orderItems', function ($query) {
-                    $query->with('product', function ($query) {
-                        $query->with('category');
-                    });
+                    $query->with('product');
                 })
                 ->first();
         } catch (Throwable $th) {

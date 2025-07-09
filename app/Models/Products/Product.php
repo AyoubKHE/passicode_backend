@@ -20,6 +20,7 @@ class Product extends Model
         "code",
         "code_start",
         "sold",
+        "status",
         "expiration_date",
         "purchase_price",
         "supplier",

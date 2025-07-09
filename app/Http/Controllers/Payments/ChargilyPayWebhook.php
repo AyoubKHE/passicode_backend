@@ -74,49 +74,6 @@ class ChargilyPayWebhook extends Controller
             );
         }
     }
-    private function cancelOrder($status)
-    {
-        $this->order->status = $status;
-        $this->order->updated_at = now();
-
-        try {
-            $is_updated = $this->order->save();
-        } catch (Throwable $throwable) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
-
-        if (!$is_updated) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
-    }
-    private function cancelChargilyPayment($status)
-    {
-        $this->chargily_payment->chargily_payment_id = $this->checkout->getId();
-        $this->chargily_payment->status = $status;
-        $this->chargily_payment->updated_at = now();
-
-        try {
-            $is_updated = $this->chargily_payment->save();
-        } catch (Throwable $throwable) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
-
-        if (!$is_updated) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
-    }
     private function loadOrderRestData()
     {
         try {
@@ -196,6 +153,49 @@ class ChargilyPayWebhook extends Controller
             );
         }
     }
+    private function cancelOrder()
+    {
+        $this->order->status = "failed";
+        $this->order->updated_at = now();
+
+        try {
+            $is_updated = $this->order->save();
+        } catch (Throwable $throwable) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+
+        if (!$is_updated) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+    }
+    private function cancelChargilyPayment($status)
+    {
+        $this->chargily_payment->chargily_payment_id = $this->checkout->getId();
+        $this->chargily_payment->status = $status;
+        $this->chargily_payment->updated_at = now();
+
+        try {
+            $is_updated = $this->chargily_payment->save();
+        } catch (Throwable $throwable) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+
+        if (!$is_updated) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+    }
     private function cancel(string $status)
     {
         if ($this->order->status === "pending") {
@@ -203,20 +203,22 @@ class ChargilyPayWebhook extends Controller
 
                 DB::transaction(function () use ($status) {
 
-                    $this->loadOrderRestData();
-
                     $this->cancelChargilyPayment($status);
 
-                    $this->cancelOrder($status);
+                    $this->cancelOrder();
 
-                    $this->updateRelatedCategoryQuantity();
+                    if ($this->order->type === "instock") {
+                        $this->loadOrderRestData();
 
-                    $this->updateProductsSoldStatus();
+                        $this->updateRelatedCategoryQuantity();
+
+                        $this->updateProductsSoldStatus();
+                    }
                 });
             } catch (Throwable $th) {
                 // logging order id
-                Log::channel('order_confirmation_fails')->error(
-                    "Order cancellation failed\nOrder ID : {$this->order->id}.\nError : {$th->getMessage()}.\n----------------------------------------------------------------------------\n"
+                Log::channel('order_cancellation_fails')->error(
+                    "Order cancellation failed with payment status: {$status}\nOrder ID : {$this->order->id}.\nError : {$th->getMessage()}.\n----------------------------------------------------------------------------\n"
                 );
             }
         }
@@ -225,7 +227,12 @@ class ChargilyPayWebhook extends Controller
 
     private function confirmOrder()
     {
-        $this->order->status = "paid";
+        if ($this->order->type === "instock") {
+            $this->order->status = "completed";
+        } else if ($this->order->type === "backorder") {
+            $this->order->status = "processing";
+        }
+
         $this->order->updated_at = now();
 
         try {

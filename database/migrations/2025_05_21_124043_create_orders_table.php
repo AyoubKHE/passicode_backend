@@ -16,10 +16,25 @@ return new class extends Migration {
             $table->ulid('public_id')->nullable(false)->unique();
 
             $table->unsignedBigInteger('user_id')->nullable(false);
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
 
-            $table->enum("status", ["pending", "paid", "failed", "canceled", "expired"])->default("pending");
+            $table->unsignedInteger('category_id')->nullable(false);
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories');
+
+            $table->unsignedInteger("quantity")->nullable(false);
+
+            $table->enum("status", ["pending", "processing", "completed", "failed", "under_review", "partially_refunded", "refunded"])->default("pending");
+
             $table->string("amount");
+
+            $table->enum("type", ["instock", "backorder"])->nullable(false);
+
+            $table->text("more_informations")->nullable(true);
+
             $table->timestamps();
         });
     }

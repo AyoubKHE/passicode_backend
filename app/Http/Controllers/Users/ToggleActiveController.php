@@ -12,7 +12,6 @@ class ToggleActiveController extends Controller
 {
     private Request $global_request_object;
     private User|null $requested_user;
-    private array $sent_inputs;
 
 
     private function toggleActive()

@@ -60,7 +60,12 @@ class GetPaginatedOrdersByFilterRequest extends FormRequest
 
 
             'status' => [
-                Rule::in(["pending", "paid", "failed", "canceled", "expired"])
+                Rule::in(["pending", "processing", "completed", "failed", "under_review", "partially_refunded", "refunded"])
+            ],
+
+
+            'type' => [
+                Rule::in(["instock", "backorder"])
             ],
 
 

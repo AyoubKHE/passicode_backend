@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Orders;
 
 use Exception;
 use Throwable;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderItem;
 use App\Models\Products\Product;
+use App\Models\Settings\Setting;
 use App\Models\Products\Category;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -31,6 +33,14 @@ class OrderCreationController extends Controller
     private CheckoutElement|null $checkout;
     private array $received_data;
 
+    protected function chargilyPayInstance()
+    {
+        return new ChargilyPay(new Credentials([
+            "mode" => "test",
+            "public" => config('app.CHARGILY_PUBLIC_KEY'),
+            "secret" => config('app.CHARGILY_SECRET_KEY'),
+        ]));
+    }
     private function createCheckout()
     {
         try {
@@ -42,10 +52,10 @@ class OrderCreationController extends Controller
                 "amount" => $this->chargily_payment->amount,
                 "currency" => $this->chargily_payment->currency,
                 "description" => "Payment ID={$this->chargily_payment->id}",
-                "success_url" => "https://9924-154-247-182-75.ngrok-free.app/payment/success",
-                "failure_url" => "https://9924-154-247-182-75.ngrok-free.app/payment/failure",
+                "success_url" => "https://ee9d-105-97-236-168.ngrok-free.app/payment/success",
+                "failure_url" => "https://ee9d-105-97-236-168.ngrok-free.app/payment/failure",
                 // "webhook_endpoint" => route("chargilypay.webhook_endpoint"),
-                "webhook_endpoint" => "https://9924-154-247-182-75.ngrok-free.app/api/chargilypay/webhook",
+                "webhook_endpoint" => "https://ee9d-105-97-236-168.ngrok-free.app/api/chargilypay/webhook",
             ]);
         } catch (Throwable $th) {
             throw new Exception(
@@ -122,11 +132,13 @@ class OrderCreationController extends Controller
         }
     }
 
-    private function createOrder()
+    private function createOrder(string $type)
     {
         $this->order = new Order();
         $this->order->public_id = (string) Str::ulid();
         $this->order->user_id = $this->global_request_object->get('logged_in_user')->id;
+        $this->order->category_id = $this->requested_category->id;
+        $this->order->quantity = (int) $this->received_data['quantity'];
         $this->order->status = 'pending';
         $this->order->amount = (int) $this->requested_category->discount ?
             ((float) $this->requested_category->price - (float) $this->requested_category->price * (int) $this->requested_category->discount / 100)
@@ -135,6 +147,8 @@ class OrderCreationController extends Controller
             * (int) $this->received_data['quantity'];
 
         $this->order->amount = round((float) $this->order->amount, 2);
+
+        $this->order->type = $type;
 
         $this->order->created_at = now();
         $this->order->updated_at = null;
@@ -207,6 +221,8 @@ class OrderCreationController extends Controller
 
             $this->products = Product::where('category_id', $this->received_data['category_id'])
                 ->where('sold', false)
+                ->where('status', 'valid')
+                ->where('expiration_date', '>=', Carbon::now()->toDateString())
                 ->orderBy('expiration_date', 'asc')
                 ->orderBy('purchase_price', 'asc')
                 ->limit($this->received_data['quantity'])
@@ -220,47 +236,9 @@ class OrderCreationController extends Controller
         }
     }
 
-    private function logFailedQuantityRequest()
+    private function isQuantityAvailableInStock()
     {
-        try {
-            FailedQuantityRequest::create([
-                'category_id' => $this->requested_category->id,
-                'user_id' => $this->global_request_object->get('logged_in_user')->id,
-                'available_quantity' => $this->requested_category->quantity,
-                'requested_quantity' => (int) $this->received_data['quantity'],
-                'status' => 'not_settled',
-                'created_at' => now(),
-                'settled_at' => null,
-            ]);
-        } catch (Throwable $th) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
-    }
-    private function moreValidations()
-    {
-        if (!$this->requested_category->is_active) {
-            throw new Exception(
-                'Requested category is not active.',
-                422
-            );
-        }
-
-        if (!$this->requested_category->is_leaf_category) {
-            throw new Exception(
-                'Requested category is not a leaf category.',
-                422
-            );
-        }
-
-        if ($this->requested_category->quantity < (int) $this->received_data['quantity']) {
-            throw new Exception(
-                'Requested quantity is not available.',
-                422
-            );
-        }
+        return $this->requested_category->quantity >= (int) $this->received_data['quantity'];
     }
 
     private function loadRequestedCategory()
@@ -286,15 +264,66 @@ class OrderCreationController extends Controller
                 404
             );
         }
+
+        if (!$this->requested_category->is_active) {
+            throw new Exception(
+                'Requested category is not available.',
+                422
+            );
+        }
+
+        if (!$this->requested_category->is_leaf_category) {
+            throw new Exception(
+                'Requested category is not a leaf category.',
+                422
+            );
+        }
     }
 
-    protected function chargilyPayInstance()
+    private function logFailedQuantityRequest()
     {
-        return new ChargilyPay(new Credentials([
-            "mode" => "test",
-            "public" => config('app.CHARGILY_PUBLIC_KEY'),
-            "secret" => config('app.CHARGILY_SECRET_KEY'),
-        ]));
+        try {
+            FailedQuantityRequest::create([
+                'category_id' => $this->requested_category->id,
+                'user_id' => $this->global_request_object->get('logged_in_user')->id,
+                'available_quantity' => $this->requested_category->quantity,
+                'requested_quantity' => (int) $this->received_data['quantity'],
+                'is_category_active' => $this->requested_category->is_active,
+                'status' => 'not_settled',
+                'created_at' => now(),
+                'settled_at' => null,
+            ]);
+        } catch (Throwable $th) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+    }
+    private function isAdminAvailableForBackorder()
+    {
+        try {
+
+            $is_admin_available_for_backorder = Setting::where(
+                "key",
+                "is_admin_available_for_backorder"
+            )
+                ->value('value');
+        } catch (Throwable $th) {
+            throw new Exception(
+                'An error occurred while accessing the database. Please try again later.',
+                500
+            );
+        }
+
+        if ($is_admin_available_for_backorder === "true") {
+            return true;
+        } else {
+            throw new Exception(
+                'Requested category is not available.',
+                422
+            );
+        }
     }
 
     public function __invoke(OrderCreationRequest $global_request_object)
@@ -306,27 +335,35 @@ class OrderCreationController extends Controller
         try {
             DB::transaction(function () {
                 $this->loadRequestedCategory();
-                $this->moreValidations();
-                $this->loadProducts();
-                $this->updateRequestedCategoryQuantity();
-                $this->updateProductsSoldStatus();
-                $this->createOrder();
-                $this->createOrderItems();
-                $this->createChargilyPayment();
-                $this->createCheckout();
+                if ($this->isQuantityAvailableInStock()) {
+                    $this->loadProducts();
+                    $this->updateRequestedCategoryQuantity();
+                    $this->updateProductsSoldStatus();
+                    $this->createOrder("instock");
+                    $this->createOrderItems();
+                    $this->createChargilyPayment();
+                    $this->createCheckout();
+                } else {
+                    if ($this->isAdminAvailableForBackorder()) {
+                        $this->createOrder("backorder");
+                        $this->createChargilyPayment();
+                        $this->createCheckout();
+                    }
+                }
             });
         } catch (Throwable $th) {
-            if ($th->getMessage() === "Requested quantity is not available.") {
+            if ($th->getMessage() === "Requested category is not available.") {
                 $this->logFailedQuantityRequest();
             }
 
             throw $th;
         }
 
+
         return response()->json([
             'message' => 'Order created successfully.',
             'payment_redirection_url' => (string) $this->checkout->getUrl(),
-        ], 200);
+        ], 201);
 
     }
 }

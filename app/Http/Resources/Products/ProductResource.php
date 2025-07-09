@@ -20,6 +20,7 @@ class ProductResource extends JsonResource
             "category" => $this->relationLoaded('category') ? $this->category : null,
             "code" => Crypt::decryptString($this->code),
             "sold" => $this->sold,
+            "status" => $this->status,
             "expiration_date" => $this->expiration_date,
             "purchase_price" => $this->purchase_price,
             "supplier" => $this->supplier,

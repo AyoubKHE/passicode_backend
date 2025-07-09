@@ -38,6 +38,7 @@ class UserResource extends JsonResource
         if (!$this->show_only_user) {
             if ($this->role === "Super Admin" || $this->role === "Admin") {
                 $user["admin"]["id"] = $this->admin->id;
+                $user["is_admin_available_for_backorder"] = $this->is_admin_available_for_backorder;
             } else if ($this->role === "Client") {
                 $user["client"]["id"] = $this->client->id;
             }

@@ -36,6 +36,7 @@ class GetPaginatedOrdersController extends Controller
                     $order_public_id . "%"
                 )
                     ->with('user')
+                    ->with('category')
                     ->with('orderItems', function ($query) {
                         $query->with('product');
                     })

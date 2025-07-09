@@ -101,6 +101,13 @@ class UpdateCategoryBaseDataRequest extends FormRequest
             "is_active" => [
                 "boolean"
             ],
+
+
+            'quantity' => [
+                "integer",
+                "min:0",
+                "max:99999999",
+            ],
         ];
 
     }

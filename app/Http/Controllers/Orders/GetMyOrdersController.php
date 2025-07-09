@@ -33,16 +33,22 @@ class GetMyOrdersController extends Controller
                 "user_id",
                 $this->global_request_object->get('logged_in_user')->id
             )
-                ->where(
-                    "status",
-                    "paid"
-                )
-                ->with('chargilyPayment')
-                ->with('orderItems', function ($query) {
-                    $query->with('product', function ($query) {
-                        $query->with('category');
-                    });
+                ->where(function ($query) {
+                    $query->where("status", "completed")
+                        ->orWhere("status", "processing")
+                        ->orWhere("status", "under_review")
+                        ->orWhere("status", "partially_refunded")
+                        ->orWhere("status", "refunded");
                 })
+                ->with('category')
+                ->with('chargilyPayment')
+                ->with([
+                    'orderItems' => function ($query) {
+                        $query->whereHas('product', function ($query) {
+                            $query->where('status', 'valid');
+                        })->with('product');
+                    }
+                ])
                 ->orderBy('created_at', 'desc')
                 ->paginate(perPage: $limit, page: $page);
         } catch (Throwable $th) {

@@ -71,6 +71,7 @@ class ProductsCreationController extends Controller
 
             $prepared_product['sold'] = false;
 
+            $prepared_product['status'] = "valid";
 
             if (!$prepared_product['expiration_date']) {
                 $prepared_product['expiration_date'] = "9999-12-31";

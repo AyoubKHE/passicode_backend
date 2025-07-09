@@ -16,20 +16,23 @@ class OrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $order_items = $this->orderItems->map(function ($item) {
-            return [
-                "product" => [
-                    "code" => Crypt::decryptString($item->product->code),
-                    "expiration_date" => $item->product->expiration_date === "9999-12-31" ? null : $item->product->expiration_date,
-                    "category" => [
-                        "name" => $item->product->category->name,
-                        "image_url" => Storage::url($item->product->category->image_path),
-                    ]
-                ],
-                "price" => $item->price,
-                "discount" => $item->discount,
-            ];
-        });
+        $order_items = null;
+
+        if (
+            $this->status === "completed" ||
+            $this->status === "partially_refunded"
+        ) {
+            $order_items = $this->orderItems->map(function ($item) {
+                return [
+                    "product" => [
+                        "code" => Crypt::decryptString($item->product->code),
+                        "expiration_date" => $item->product->expiration_date === "9999-12-31" ? null : $item->product->expiration_date,
+                    ],
+                    "price" => $item->price,
+                    "discount" => $item->discount,
+                ];
+            });
+        }
 
         return [
             "id" => $this->id,
@@ -39,8 +42,15 @@ class OrderResource extends JsonResource
                 "first_name" => $this->user->first_name,
                 "last_name" => $this->user->last_name
             ],
+            "category" => [
+                "id" => $this->category->id,
+                "name" => $this->category->name,
+                "image_url" => Storage::url($this->category->image_path),
+            ],
+            "quantity" => $this->quantity,
             "status" => $this->status,
             "amount" => $this->amount,
+            "more_informations" => $this->more_informations,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "chargily_payment" => [

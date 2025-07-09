@@ -53,6 +53,11 @@ class GetPaginatedFailedQuantityRequestsByFilterRequest extends FormRequest
             ],
 
 
+            "is_category_active" => [
+                "boolean"
+            ],
+
+
             'available_quantity' => [
                 'array',
                 'min:1'

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Orders\GetPaginatedOrdersTests;
+namespace Tests\Feature\OrderItems\DeleteOrderItemTests;
 
 use Throwable;
 use Tests\TestCase;
@@ -74,7 +74,7 @@ class ControllerTest extends TestCase
                     'name' => 'Netflix 10$',
                     'description' => 'Netflix 10$ Description',
                     'price' => 2700,
-                    'discount' => 15,
+                    'discount' => 0,
                     'quantity' => 1,
                     'is_active' => true,
                     'is_leaf_category' => true,
@@ -91,6 +91,7 @@ class ControllerTest extends TestCase
                     'code' => Crypt::encryptString("SDHF5454SDSD"),
                     'code_start' => "SDHF5",
                     'sold' => true,
+                    'status' => "valid",
                     'expiration_date' => "2025-12-31",
                     'purchase_price' => 2500,
                     'created_at' => now(),
@@ -100,6 +101,7 @@ class ControllerTest extends TestCase
                     'code' => Crypt::encryptString("HJG54D698DS5"),
                     'code_start' => "HJG54",
                     'sold' => true,
+                    'status' => "valid",
                     'expiration_date' => "9999-12-31",
                     'purchase_price' => 2500,
                     'created_at' => now(),
@@ -109,6 +111,7 @@ class ControllerTest extends TestCase
                     'code' => Crypt::encryptString("54TUR87EDGZ2"),
                     'code_start' => "54TUR",
                     'sold' => true,
+                    'status' => "valid",
                     'expiration_date' => "2026-06-30",
                     'purchase_price' => 2500,
                     'created_at' => now(),
@@ -118,6 +121,7 @@ class ControllerTest extends TestCase
                     'code' => Crypt::encryptString("54TDH58TFJHD"),
                     'code_start' => "54TDH",
                     'sold' => false,
+                    'status' => "valid",
                     'expiration_date' => "9999-12-31",
                     'purchase_price' => 2500,
                     'created_at' => now(),
@@ -129,14 +133,10 @@ class ControllerTest extends TestCase
                 [
                     'public_id' => (string) Str::ulid(),
                     'user_id' => 1,
-                    'status' => "paid",
-                    'amount' => 8100,
-                    'created_at' => now(),
-                ],
-                [
-                    'public_id' => (string) Str::ulid(),
-                    'user_id' => 1,
-                    'status' => "failed",
+                    'category_id' => 1,
+                    'quantity' => 1,
+                    'status' => "processing",
+                    'type' => "backorder",
                     'amount' => 2700,
                     'created_at' => now(),
                 ],
@@ -148,25 +148,19 @@ class ControllerTest extends TestCase
                     'order_id' => 1,
                     'product_id' => 1,
                     'price' => 2700,
-                    'discount' => 15,
+                    'discount' => 0,
                 ],
                 [
                     'order_id' => 1,
                     'product_id' => 2,
                     'price' => 2700,
-                    'discount' => 15,
+                    'discount' => 0,
                 ],
                 [
                     'order_id' => 1,
                     'product_id' => 3,
                     'price' => 2700,
-                    'discount' => 15,
-                ],
-                [
-                    'order_id' => 2,
-                    'product_id' => 4,
-                    'price' => 2700,
-                    'discount' => 15,
+                    'discount' => 0,
                 ],
             ));
 
@@ -177,15 +171,6 @@ class ControllerTest extends TestCase
                     'user_id' => 1,
                     'order_id' => 1,
                     'status' => "paid",
-                    'currency' => "dzd",
-                    'amount' => 8100,
-                    'created_at' => now(),
-                ],
-                [
-                    'chargily_payment_id' => (string) Str::ulid(),
-                    'user_id' => 1,
-                    'order_id' => 2,
-                    'status' => "failed",
                     'currency' => "dzd",
                     'amount' => 2700,
                     'created_at' => now(),
@@ -216,7 +201,7 @@ class ControllerTest extends TestCase
     }
 
 
-    public function test_successfull_get_paginated_orders(): void
+    public function test_successfull_order_item_creation(): void
     {
         $this->adminLogin();
 
@@ -224,14 +209,45 @@ class ControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->access_token,
-        ])->getJson('api/orders/get-paginated-orders');
+        ])->deleteJson('api/order-items/delete/1/3');
 
         try {
 
+            $this->assertDatabaseMissing(
+                "ordersItems",
+                [
+                    'order_id' => 1,
+                    'product_id' => 3,
+                    'price' => "2700.00",
+                    'discount' => 0
+                ]
+            );
+
+
+            $this->assertDatabaseHas(
+                "categories",
+                [
+                    "id" => 1,
+                    'quantity' => 2,
+                ]
+            );
+
+
+            $this->assertDatabaseHas(
+                "products",
+                [
+                    "id" => 3,
+                    'sold' => 0,
+                ]
+            );
+
+
             $response->assertStatus(200)
-                ->assertJsonFragment([
-                    'total' => 2
-                ]);
+                ->assertJsonFragment(
+                    [
+                        'message' => 'Order item deleted successfully.'
+                    ]
+                );
 
         } catch (Throwable $th) {
             $this->fail("Test failed: " . $th->getMessage());

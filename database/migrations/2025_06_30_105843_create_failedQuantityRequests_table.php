@@ -22,8 +22,10 @@ return new class extends Migration {
             $table->unsignedInteger("available_quantity")->nullable(false);
             $table->unsignedInteger("requested_quantity")->nullable(false);
 
+            $table->boolean("is_category_active")->nullable(false);
+
             $table->enum("status", ["not_settled", "settled"])->default("not_settled");
-            
+
             $table->timestamp('created_at')->nullable(false);
             $table->timestamp('settled_at')->nullable(true);
         });

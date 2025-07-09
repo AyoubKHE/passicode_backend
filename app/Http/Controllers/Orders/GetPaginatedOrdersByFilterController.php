@@ -92,6 +92,16 @@ class GetPaginatedOrdersByFilterController extends Controller
         );
     }
 
+    private function prepareType()
+    {
+        $this->order_filter_query->when(
+            array_key_exists('type', $this->sent_filter),
+            function (Builder $query): void {
+                $query->where('type', $this->sent_filter['type']);
+            }
+        );
+    }
+
     private function prepareStatus()
     {
         $this->order_filter_query->when(
@@ -121,20 +131,28 @@ class GetPaginatedOrdersByFilterController extends Controller
     {
         $this->order_filter_query->when(
             array_key_exists('category_id', $this->sent_filter),
-            function (Builder $query) {
-                $query->whereHas(
-                    'orderItems',
-                    function (Builder $query) {
-                        $query->whereHas(
-                            'product',
-                            function (Builder $query) {
-                                $query->where('category_id', $this->sent_filter['category_id']);
-                            }
-                        );
-                    }
-                );
+            function (Builder $query): void {
+                $query->where('category_id', $this->sent_filter['category_id']);
             }
         );
+
+
+        // $this->order_filter_query->when(
+        //     array_key_exists('category_id', $this->sent_filter),
+        //     function (Builder $query) {
+        //         $query->whereHas(
+        //             'orderItems',
+        //             function (Builder $query) {
+        //                 $query->whereHas(
+        //                     'product',
+        //                     function (Builder $query) {
+        //                         $query->where('category_id', $this->sent_filter['category_id']);
+        //                     }
+        //                 );
+        //             }
+        //         );
+        //     }
+        // );
     }
 
     private function prepareUser()
@@ -206,6 +224,8 @@ class GetPaginatedOrdersByFilterController extends Controller
 
         $this->prepareStatus();
 
+        $this->prepareType();
+
         $this->prepareAmount();
 
         $this->prepareCreatedAt();
@@ -215,6 +235,7 @@ class GetPaginatedOrdersByFilterController extends Controller
         try {
             $this->paginated_orders = $this->order_filter_query
                 ->with('user')
+                ->with('category')
                 ->with('orderItems', function ($query) {
                     $query->with('product');
                 })

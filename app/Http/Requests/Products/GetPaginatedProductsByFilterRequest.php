@@ -53,6 +53,11 @@ class GetPaginatedProductsByFilterRequest extends FormRequest
             ],
 
 
+            'status' => [
+                Rule::in(["valid", "expired", "used", "unexisting", "under_review"])
+            ],
+
+
             'expiration_date' => [
                 'nullable',
                 'array',

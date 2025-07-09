@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Products\GetProductByIdController;
 use App\Http\Controllers\Products\ProductsCreationController;
 use App\Http\Controllers\Products\DeleteProductByIdController;
+use App\Http\Controllers\Products\GetUnsoldProductsController;
 use App\Http\Controllers\Products\GetPaginatedProductsController;
 use App\Http\Controllers\Products\UpdateProductBaseDataController;
 use App\Http\Controllers\Products\GetPaginatedProductsByFilterController;
@@ -36,6 +37,16 @@ Route::post(
     GetPaginatedProductsByFilterController::class
 )
     ->name('products.get-paginated-products-by-filter')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
+
+
+// tests made
+Route::get(
+    '/products/get-unsold-products/{category_id}',
+    GetUnsoldProductsController::class
+)
+    ->name('products.get-unsold-products')
     ->middleware('UsersJwtAuthentication')
     ->middleware('IsAdmin');
 

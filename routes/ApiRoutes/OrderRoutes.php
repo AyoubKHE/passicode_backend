@@ -5,6 +5,7 @@ use App\Http\Controllers\Orders\GetMyOrdersController;
 use App\Http\Controllers\Orders\GetOrderByIdController;
 use App\Http\Controllers\Orders\OrderCreationController;
 use App\Http\Controllers\Orders\GetPaginatedOrdersController;
+use App\Http\Controllers\Orders\UpdateOrderBaseDataController;
 use App\Http\Controllers\Orders\OrdersFilterDialogDataController;
 use App\Http\Controllers\Orders\GetPaginatedOrdersByFilterController;
 
@@ -64,5 +65,15 @@ Route::get(
     OrdersFilterDialogDataController::class
 )
     ->name('orders.orders-filter-dialog-data')
+    ->middleware('UsersJwtAuthentication')
+    ->middleware('IsAdmin');
+
+
+// tests made
+Route::put(
+    '/orders/update-base-data/{order_id}',
+    UpdateOrderBaseDataController::class
+)
+    ->name('orders.update-base-data')
     ->middleware('UsersJwtAuthentication')
     ->middleware('IsAdmin');
