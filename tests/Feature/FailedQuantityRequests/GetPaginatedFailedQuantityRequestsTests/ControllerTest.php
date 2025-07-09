@@ -104,6 +104,7 @@ class ControllerTest extends TestCase
                     'available_quantity' => 2,
                     'requested_quantity' => 5,
                     'status' => "not_settled",
+                    'is_category_active' => true,
                     'created_at' => now(),
                     'settled_at' => null,
                 ],
@@ -113,6 +114,7 @@ class ControllerTest extends TestCase
                     'available_quantity' => 2,
                     'requested_quantity' => 5,
                     'status' => "not_settled",
+                    'is_category_active' => true,
                     'created_at' => now(),
                     'settled_at' => null,
                 ],
@@ -122,6 +124,7 @@ class ControllerTest extends TestCase
                     'available_quantity' => 2,
                     'requested_quantity' => 5,
                     'status' => "settled",
+                    'is_category_active' => true,
                     'created_at' => now(),
                     'settled_at' => "2025-07-05 12:00:00",
                 ],
@@ -131,6 +134,7 @@ class ControllerTest extends TestCase
                     'available_quantity' => 2,
                     'requested_quantity' => 5,
                     'status' => "settled",
+                    'is_category_active' => true,
                     'created_at' => now(),
                     'settled_at' => "2025-07-05 12:00:00",
                 ],
@@ -174,7 +178,7 @@ class ControllerTest extends TestCase
 
             $response->assertStatus(200)
                 ->assertJsonFragment([
-                    'total' => 2
+                    'total' => 4
                 ]);
 
         } catch (Throwable $th) {

@@ -145,13 +145,17 @@ class ControllerTest extends TestCase
                 [
                     'public_id' => (string) Str::ulid(),
                     'user_id' => 2,
-                    'status' => "paid",
+                    'category_id' => 1,
+                    'quantity' => 1,
+                    'status' => "completed",
                     'amount' => 8100,
                     'created_at' => now(),
                 ],
                 [
                     'public_id' => (string) Str::ulid(),
                     'user_id' => 2,
+                    'category_id' => 1,
+                    'quantity' => 1,
                     'status' => "failed",
                     'amount' => 2700,
                     'created_at' => now(),
