@@ -51,6 +51,7 @@ class GetPaginatedOrdersController extends Controller
         } else {
             try {
                 $this->paginated_orders = Order::with('user')
+                    ->with('category')
                     ->with('orderItems', function ($query) {
                         $query->with('product');
                     })
