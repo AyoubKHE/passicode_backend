@@ -36,18 +36,12 @@ class ChargilyPayWebhook extends Controller
         foreach ($this->order_products as $product) {
             $product->sold = 0;
             $product->updated_at = now();
-            try {
-                $is_updated = $product->save();
-            } catch (Throwable $throwable) {
-                throw new Exception(
-                    'An error occurred while accessing the database. Please try again later.',
-                    500
-                );
-            }
+
+            $is_updated = $product->save();
 
             if (!$is_updated) {
                 throw new Exception(
-                    'An error occurred while accessing the database. Please try again later.',
+                    '$is_updated variable = false in updateProductsSoldStatus method. in product with id = ' . $product->id . '.',
                     500
                 );
             }
@@ -58,37 +52,23 @@ class ChargilyPayWebhook extends Controller
         $this->related_category->quantity += count($this->order_products);
         $this->related_category->updated_at = now();
 
-        try {
-            $is_updated = $this->related_category->save();
-        } catch (Throwable $throwable) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
+        $is_updated = $this->related_category->save();
 
         if (!$is_updated) {
             throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
+                '$is_updated variable = false in updateRelatedCategoryQuantity method.',
                 500
             );
         }
     }
     private function loadOrderRestData()
     {
-        try {
-            $orderItems = OrderItem::where(
-                "order_id",
-                $this->order->id
-            )
-                ->lockForUpdate()
-                ->get();
-        } catch (Throwable $th) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
+        $orderItems = OrderItem::where(
+            "order_id",
+            $this->order->id
+        )
+            ->lockForUpdate()
+            ->get();
 
         if (count($orderItems) === 0) {
             throw new Exception(
@@ -99,19 +79,12 @@ class ChargilyPayWebhook extends Controller
 
 
         $this->order_products = $orderItems->map(function ($item) {
-            try {
-                $product = Product::where(
-                    "id",
-                    $item->product_id
-                )
-                    ->lockForUpdate()
-                    ->first();
-            } catch (Throwable $th) {
-                throw new Exception(
-                    'An error occurred while accessing the database. Please try again later.',
-                    500
-                );
-            }
+            $product = Product::where(
+                "id",
+                $item->product_id
+            )
+                ->lockForUpdate()
+                ->first();
 
             if (!$product) {
                 throw new Exception(
@@ -132,19 +105,12 @@ class ChargilyPayWebhook extends Controller
         }
 
 
-        try {
-            $this->related_category = Category::where(
-                "id",
-                $this->order_products[0]->category_id
-            )
-                ->lockForUpdate()
-                ->first();
-        } catch (Throwable $th) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
+        $this->related_category = Category::where(
+            "id",
+            $this->order_products[0]->category_id
+        )
+            ->lockForUpdate()
+            ->first();
 
         if (!$this->related_category) {
             throw new Exception(
@@ -158,18 +124,11 @@ class ChargilyPayWebhook extends Controller
         $this->order->status = "failed";
         $this->order->updated_at = now();
 
-        try {
-            $is_updated = $this->order->save();
-        } catch (Throwable $throwable) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
+        $is_updated = $this->order->save();
 
         if (!$is_updated) {
             throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
+                '$is_updated variable = false in cancelOrder method.',
                 500
             );
         }
@@ -180,18 +139,11 @@ class ChargilyPayWebhook extends Controller
         $this->chargily_payment->status = $status;
         $this->chargily_payment->updated_at = now();
 
-        try {
-            $is_updated = $this->chargily_payment->save();
-        } catch (Throwable $throwable) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
+        $is_updated = $this->chargily_payment->save();
 
         if (!$is_updated) {
             throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
+                '$is_updated variable = false in cancelChargilyPayment method.',
                 500
             );
         }
@@ -218,7 +170,12 @@ class ChargilyPayWebhook extends Controller
             } catch (Throwable $th) {
                 // logging order id
                 Log::channel('order_cancellation_fails')->error(
-                    "Order cancellation failed with payment status: {$status}\nOrder ID : {$this->order->id}.\nError : {$th->getMessage()}.\n----------------------------------------------------------------------------\n"
+                    "Order cancellation failed with payment status: {$status}.\nOrder ID : {$this->order->id}.\nError : {$th->getMessage()}\n----------------------------------------------------------------------------\n"
+                );
+
+                throw new Exception(
+                    'An error occurred while accessing the database.',
+                    500
                 );
             }
         }
@@ -235,18 +192,11 @@ class ChargilyPayWebhook extends Controller
 
         $this->order->updated_at = now();
 
-        try {
-            $is_updated = $this->order->save();
-        } catch (Throwable $throwable) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
+        $is_updated = $this->order->save();
 
         if (!$is_updated) {
             throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
+                '$is_updated variable = false in confirmOrder method.',
                 500
             );
         }
@@ -257,18 +207,11 @@ class ChargilyPayWebhook extends Controller
         $this->chargily_payment->status = "paid";
         $this->chargily_payment->updated_at = now();
 
-        try {
-            $is_updated = $this->chargily_payment->save();
-        } catch (Throwable $throwable) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
+        $is_updated = $this->chargily_payment->save();
 
         if (!$is_updated) {
             throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
+                '$is_updated variable = false in confirmChargilyPayment method.',
                 500
             );
         }
@@ -285,7 +228,12 @@ class ChargilyPayWebhook extends Controller
             } catch (Throwable $th) {
                 // logging order id
                 Log::channel('order_confirmation_fails')->error(
-                    "Order confirmation failed\nOrder ID : {$this->order->id}.\nError : {$th->getMessage()}.\n----------------------------------------------------------------------------\n"
+                    "Order confirmation failed.\nOrder ID : {$this->order->id}.\nError : {$th->getMessage()}\n----------------------------------------------------------------------------\n"
+                );
+
+                throw new Exception(
+                    'An error occurred while accessing the database.',
+                    500
                 );
             }
         }
@@ -297,44 +245,49 @@ class ChargilyPayWebhook extends Controller
         $metadata = $this->checkout->getMetadata();
 
         try {
+
             $this->chargily_payment = ChargilyPayment::where(
                 "id",
                 $metadata['payment_id']
             )
                 ->lockForUpdate()
                 ->first();
-        } catch (Throwable $th) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
 
-        if (!$this->chargily_payment) {
-            throw new Exception(
-                'Payment not found.',
-                404
-            );
-        }
+            if (!$this->chargily_payment) {
+                throw new Exception(
+                    'Payment not found.',
+                    404
+                );
+            }
 
-        try {
             $this->order = Order::where(
                 "id",
                 $this->chargily_payment->order_id
             )
                 ->lockForUpdate()
                 ->first();
-        } catch (Throwable $th) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
 
-        if (!$this->order) {
+            if (!$this->order) {
+                throw new Exception(
+                    'Order not found.',
+                    404
+                );
+            }
+        } catch (Throwable $th) {
+            $checkout_status = $this->checkout->getStatus();
+
+            $log_channel_name = $checkout_status === "paid" ?
+                "order_confirmation_fails" : "order_cancellation_fails";
+
+            $error_type = $checkout_status === "paid" ? "confirmation" : "cancellation";
+
+            $error_message = "Order $error_type failed with payment status: {$checkout_status}.\nPayment ID : {$metadata['payment_id']}.\nError : {$th->getMessage()}\n----------------------------------------------------------------------------\n";
+
+            Log::channel($log_channel_name)->error($error_message);
+
             throw new Exception(
-                'Order not found.',
-                404
+                'An error occurred while accessing the database.',
+                500
             );
         }
 
@@ -354,28 +307,20 @@ class ChargilyPayWebhook extends Controller
         if ($webhook) {
             $this->checkout = $webhook->getData();
             if ($this->checkout && $this->checkout instanceof CheckoutElement) {
-                if ($this->checkout) {
+                return DB::transaction(function () {
 
-                    return DB::transaction(function () {
-                        $this->loadOrderData();
+                    $this->loadOrderData();
 
-                        if ($this->checkout->getStatus() === "paid") {
-                            $this->confirm();
+                    if ($this->checkout->getStatus() === "paid") {
+                        $this->confirm();
 
-                            return response()->json(["status" => true, "message" => "Payment has been completed"]);
-                        } else {
-                            if ($this->checkout->getStatus() === "failed") {
-                                $this->cancel("failed");
-                            } else if ($this->checkout->getStatus() === "canceled") {
-                                $this->cancel("canceled");
-                            } else if ($this->checkout->getStatus() === "expired") {
-                                $this->cancel("expired");
-                            }
+                        return response()->json(["status" => true, "message" => "Payment has been completed"]);
+                    } else {
+                        $this->cancel($this->checkout->getStatus());
 
-                            return response()->json(["status" => true, "message" => "Payment has been canceled"]);
-                        }
-                    });
-                }
+                        return response()->json(["status" => true, "message" => "Payment has been canceled"]);
+                    }
+                });
             }
         }
 
