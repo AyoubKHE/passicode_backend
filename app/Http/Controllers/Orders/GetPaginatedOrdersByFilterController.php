@@ -232,6 +232,18 @@ class GetPaginatedOrdersByFilterController extends Controller
 
         // $sql = $this->order_filter_query->toRawSql();
 
+        $order_by = "desc";
+
+        if (array_key_exists('status', $this->sent_filter)) {
+            if (
+                $this->sent_filter['status'] === "processing" ||
+                $this->sent_filter['status'] === "under_review" ||
+                $this->sent_filter['status'] === "pending"
+            ) {
+                $order_by = "asc";
+            }
+        }
+
         try {
             $this->paginated_orders = $this->order_filter_query
                 ->with('user')
@@ -239,7 +251,7 @@ class GetPaginatedOrdersByFilterController extends Controller
                 ->with('orderItems', function ($query) {
                     $query->with('product');
                 })
-                ->orderBy('created_at', 'desc')
+                ->orderBy('created_at', $order_by)
                 ->paginate(perPage: $limit, page: $page);
         } catch (Throwable $th) {
             throw new Exception(

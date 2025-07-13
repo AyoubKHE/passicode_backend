@@ -39,7 +39,12 @@ class UpdateOrderBaseDataRequest extends FormRequest
 
 
             'status' => [
-                Rule::in(["processing", "completed", "failed", "under_review", "partially_refunded", "refunded"])
+                Rule::in(["pending", "processing", "completed", "failed", "under_review", "partially_refunded", "refunded"])
+            ],
+
+
+            'payment_status' => [
+                Rule::in(["pending", "paid", "failed", "canceled", "expired"])
             ],
 
 
