@@ -24,10 +24,6 @@ class getChildCategoriesByNameController extends Controller
                 'like',
                 $this->global_request_object->category_name . '%'
             )
-                ->where(
-                    "is_active",
-                    1
-                )
                 ->first();
 
         } catch (Throwable $th) {
@@ -53,10 +49,6 @@ class getChildCategoriesByNameController extends Controller
                     "parent_id",
                     $category->id
                 )
-                    ->where(
-                        "is_active",
-                        1
-                    )
                     ->orderBy('id', 'asc')
                     ->get();
             } catch (Throwable $th) {
