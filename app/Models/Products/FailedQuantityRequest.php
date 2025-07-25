@@ -10,7 +10,7 @@ class FailedQuantityRequest extends Model
 {
     use HasFactory;
 
-    protected $table = "failedquantityrequests";
+    protected $table = "failedQuantityRequests";
 
     public $timestamps = false;
 
