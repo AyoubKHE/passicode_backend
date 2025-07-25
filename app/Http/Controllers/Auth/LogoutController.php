@@ -47,7 +47,7 @@ class LogoutController extends Controller
         return response()->json([
             'message' => 'User logged out successfully!',
         ], status: 200)->withCookie(
-                cookie("refresh_token", '', httpOnly: true, secure: true, minutes: -1)
+                cookie("refresh_token", '', httpOnly: true, secure: false, minutes: -1)
             );
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->unsignedInteger("id", true);
 
             $table->string("name", 255)->nullable(false)->unique("idx_categories_name");
-            $table->text("description")->nullable(false)->unique();
+            $table->text("description")->nullable(false);
             $table->decimal('price', 10, 2)->nullable(true);
             $table->unsignedSmallInteger("discount")->nullable(true);
             $table->unsignedInteger("quantity")->nullable(false)->default(0);
