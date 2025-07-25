@@ -19,14 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    // 'allowed_origins' => ['http://localhost:5173'],
-    // 'allowed_origins' => ['http://192.168.1.12:5173'],
-
-    'allowed_origins' => [
-        'http://localhost',
-        'http://localhost:5173',
-        'https://ee9d-105-97-236-168.ngrok-free.app'
-    ],
+    'allowed_origins' => [env('APP_NAME')],
 
     'allowed_origins_patterns' => [],
 

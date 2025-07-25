@@ -52,10 +52,9 @@ class OrderCreationController extends Controller
                 "amount" => $this->chargily_payment->amount,
                 "currency" => $this->chargily_payment->currency,
                 "description" => "Payment ID={$this->chargily_payment->id}",
-                "success_url" => "https://ee9d-105-97-236-168.ngrok-free.app/payment/success",
-                "failure_url" => "https://ee9d-105-97-236-168.ngrok-free.app/payment/failure",
-                // "webhook_endpoint" => route("chargilypay.webhook_endpoint"),
-                "webhook_endpoint" => "https://ee9d-105-97-236-168.ngrok-free.app/api/chargilypay/webhook",
+                "success_url" => env('APP_NAME') . "/payment/success",
+                "failure_url" => env('APP_NAME') . "/payment/failure",
+                "webhook_endpoint" => env('APP_NAME') . "/api/chargilypay/webhook",
             ]);
         } catch (Throwable $th) {
             throw new Exception(
