@@ -61,24 +61,6 @@ class UpdateCategoryBaseDataRequest extends FormRequest
                 "string",
                 "min:5",
                 "max:65535",
-                function ($attribute, $value, $fail) {
-                    try {
-                        $existing_category = Category::where(
-                            'description',
-                            $value
-                        )->where(
-                                'id',
-                                '!=',
-                                $this->category_id
-                            )->first();
-                    } catch (Throwable $th) {
-                        $fail('An error occurred while accessing the database. Please try again later.');
-                    }
-
-                    if ($existing_category) {
-                        $fail("The description has already been taken.");
-                    }
-                },
             ],
 
 
