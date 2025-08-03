@@ -67,7 +67,7 @@ class getChildCategoriesByNameController extends Controller
                 Log::channel('get_child_categories_by_name_requests')->info(
                     "\n\n" .
                     "Description: User attempted to search for a category by name, but the requested category is not found.\n\n" .
-                    "Requested Category Name: <<" . $this->global_request_object->category_name . " >>\n\n" .
+                    "Requested Category Name: << " . $this->global_request_object->category_name . " >>\n\n" .
                     "Ip: " . $this->global_request_object->ip() . "\n\n" .
                     "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
                     "----------------------------------------------------------------------------------------------------------------------------------\n" .
