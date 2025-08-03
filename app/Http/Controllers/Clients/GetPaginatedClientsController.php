@@ -6,6 +6,7 @@ use Exception;
 use Throwable;
 use App\Models\Users\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Clients\ClientsCollectionV2;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -23,6 +24,21 @@ class GetPaginatedClientsController extends Controller
         $full_name = $this->global_request_object->get('full_name', "");
 
         if ($limit > 100) {
+
+            Log::channel('get_paginated_clients_errors')->error(
+                "\n\n" .
+                "Description: Limit must not exceed 100 to ensure optimal performance.\n\n" .
+                "Error message: - .\n\n" .
+                "Page: " . $page . "\n\n" .
+                "Limit: " . $limit . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'Limit must not exceed 100 to ensure optimal performance.',
                 400
@@ -42,6 +58,22 @@ class GetPaginatedClientsController extends Controller
                     ->paginate(perPage: $limit, page: $page);
 
             } catch (Throwable $th) {
+
+                Log::channel('get_paginated_clients_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get paginated clients by full name from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Page: " . $page . "\n\n" .
+                    "Limit: " . $limit . "\n\n" .
+                    "Full Name: " . $full_name . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
                 throw new Exception(
                     'An error occurred while accessing the database. Please try again later.',
                     500
@@ -56,6 +88,21 @@ class GetPaginatedClientsController extends Controller
                     ->with('client')
                     ->paginate(perPage: $limit, page: $page);
             } catch (Throwable $th) {
+
+                Log::channel('get_paginated_clients_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get paginated clients from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Page: " . $page . "\n\n" .
+                    "Limit: " . $limit . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
                 throw new Exception(
                     'An error occurred while accessing the database. Please try again later.',
                     500

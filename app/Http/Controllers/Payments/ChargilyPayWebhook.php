@@ -31,6 +31,25 @@ class ChargilyPayWebhook extends Controller
     private ChargilyPayment|null $chargily_payment;
 
 
+
+    private function logOrderCancellation()
+    {
+        try {
+            Log::channel('order_cancellation_requests')->info(
+                "\n\n" .
+                "Description: Order has been canceled successfully.\n\n" .
+                "Order Data: \n" .
+                json_encode($this->order->toArray(), JSON_PRETTY_PRINT) . "\n\n" .
+                "Payment Data: \n" .
+                json_encode($this->chargily_payment->toArray(), JSON_PRETTY_PRINT) . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
+        } catch (Throwable $th) {
+            //throw $th;
+        }
+    }
     private function updateProductsSoldStatus()
     {
         foreach ($this->order_products as $product) {
@@ -153,25 +172,37 @@ class ChargilyPayWebhook extends Controller
         if ($this->order->status === "pending") {
             try {
 
-                DB::transaction(function () use ($status) {
+                $this->cancelChargilyPayment($status);
 
-                    $this->cancelChargilyPayment($status);
+                $this->cancelOrder();
 
-                    $this->cancelOrder();
+                if ($this->order->type === "instock") {
+                    $this->loadOrderRestData();
 
-                    if ($this->order->type === "instock") {
-                        $this->loadOrderRestData();
+                    $this->updateRelatedCategoryQuantity();
 
-                        $this->updateRelatedCategoryQuantity();
+                    $this->updateProductsSoldStatus();
+                }
 
-                        $this->updateProductsSoldStatus();
-                    }
-                });
+                $this->logOrderCancellation();
+
             } catch (Throwable $th) {
-                // logging order id
-                Log::channel('order_cancellation_fails')->error(
-                    "Order cancellation failed with payment status: {$status}.\nOrder ID : {$this->order->id}.\nError : {$th->getMessage()}\n----------------------------------------------------------------------------\n"
-                );
+
+                try {
+                    // logging order id
+                    Log::channel('order_cancellation_fails')->error(
+                        "\n\n" .
+                        "Description: Order cancellation failed.\n\n" .
+                        "Error message: " . $th->getMessage() . "\n\n" .
+                        "Order ID: " . $this->order->id . "\n" .
+                        "Payment Status: " . $status . "\n\n" .
+                        "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                    );
+                } catch (Throwable $th) {
+                    //throw $th;
+                }
 
                 throw new Exception(
                     'An error occurred while accessing the database.',
@@ -182,6 +213,23 @@ class ChargilyPayWebhook extends Controller
     }
 
 
+    private function logOrderConfirmation()
+    {
+        try {
+            Log::channel('order_confirmation_requests')->info(
+                "\n\n" .
+                "Description: Order has been confirmed successfully.\n\n" .
+                "Order Data: \n" .
+                json_encode($this->order->toArray(), JSON_PRETTY_PRINT) . "\n\n" .
+                "Payment Data: \n" .
+                json_encode($this->chargily_payment->toArray(), JSON_PRETTY_PRINT) . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+        } catch (Throwable $th) {
+            //throw $th;
+        }
+    }
     private function confirmOrder()
     {
         if ($this->order->type === "instock") {
@@ -220,16 +268,31 @@ class ChargilyPayWebhook extends Controller
     {
         if ($this->order->status === "pending") {
             try {
-                DB::transaction(function () {
-                    $this->confirmChargilyPayment();
 
-                    $this->confirmOrder();
-                });
+                $this->confirmChargilyPayment();
+
+                $this->confirmOrder();
+
+                $this->logOrderConfirmation();
+
             } catch (Throwable $th) {
-                // logging order id
-                Log::channel('order_confirmation_fails')->error(
-                    "Order confirmation failed.\nOrder ID : {$this->order->id}.\nError : {$th->getMessage()}\n----------------------------------------------------------------------------\n"
-                );
+
+                try {
+                    // logging order id
+                    Log::channel('order_confirmation_fails')->error(
+                        "\n\n" .
+                        "Description: Order confirmation failed.\n\n" .
+                        "Error message: " . $th->getMessage() . "\n\n" .
+                        "Order ID: " . $this->order->id . "\n" .
+                        "Payment ID: " . $this->chargily_payment->id . "\n" .
+                        "Payment Status: " . $this->chargily_payment->status . "\n" .
+                        "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                    );
+                } catch (Throwable $th) {
+                    //throw $th;
+                }
 
                 throw new Exception(
                     'An error occurred while accessing the database.',
@@ -281,9 +344,20 @@ class ChargilyPayWebhook extends Controller
 
             $error_type = $checkout_status === "paid" ? "confirmation" : "cancellation";
 
-            $error_message = "Order $error_type failed with payment status: {$checkout_status}.\nPayment ID : {$metadata['payment_id']}.\nError : {$th->getMessage()}\n----------------------------------------------------------------------------\n";
-
-            Log::channel($log_channel_name)->error($error_message);
+            try {
+                Log::channel($log_channel_name)->error(
+                    "\n\n" .
+                    "Description: Order $error_type failed.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Payment ID: " . $metadata['payment_id'] . "\n" .
+                    "Payment Status: " . $checkout_status . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database.',

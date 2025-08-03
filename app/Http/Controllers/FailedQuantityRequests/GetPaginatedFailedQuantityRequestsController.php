@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FailedQuantityRequests;
 use Exception;
 use Throwable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Products\FailedQuantityRequest;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -23,6 +24,21 @@ class GetPaginatedFailedQuantityRequestsController extends Controller
         $id = $this->global_request_object->get('id', "");
 
         if ($limit > 100) {
+
+            Log::channel('get_paginated_failed_quantity_requests_errors')->error(
+                "\n\n" .
+                "Description: Limit must not exceed 100 to ensure optimal performance.\n\n" .
+                "Error message: - .\n\n" .
+                "Page: " . $page . "\n\n" .
+                "Limit: " . $limit . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'Limit must not exceed 100 to ensure optimal performance.',
                 400
@@ -40,6 +56,22 @@ class GetPaginatedFailedQuantityRequestsController extends Controller
                     ->orderBy('created_at', 'asc')
                     ->paginate(perPage: $limit, page: $page);
             } catch (Throwable $th) {
+
+                Log::channel('get_paginated_failed_quantity_requests_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get paginated failed quantity requests by id from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Page: " . $page . "\n\n" .
+                    "Limit: " . $limit . "\n\n" .
+                    "ID: " . $id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
                 throw new Exception(
                     'An error occurred while accessing the database. Please try again later.',
                     500
@@ -48,11 +80,26 @@ class GetPaginatedFailedQuantityRequestsController extends Controller
         } else {
             try {
                 $this->paginated_failed_quantity_requests = FailedQuantityRequest::
-                with('category')
+                    with('category')
                     ->with('user')
                     ->orderBy('created_at', 'asc')
                     ->paginate(perPage: $limit, page: $page);
             } catch (Throwable $th) {
+
+                Log::channel('get_paginated_failed_quantity_requests_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get paginated failed quantity requests from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Page: " . $page . "\n\n" .
+                    "Limit: " . $limit . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
                 throw new Exception(
                     'An error occurred while accessing the database. Please try again later.',
                     500

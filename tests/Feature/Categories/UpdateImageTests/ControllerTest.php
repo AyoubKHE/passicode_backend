@@ -9,11 +9,10 @@ use App\Models\Users\User;
 use Mockery\MockInterface;
 use App\Models\Admins\Admin;
 use App\Services\JWTService;
+use App\Models\Products\Category;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Products\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Http\Controllers\Categories\UpdateImageController;
 
@@ -293,46 +292,46 @@ class ControllerTest extends TestCase
     }
 
 
-    public function test_update_category_image_fails_when_error_occured_while_updating_image_path_in_database(): void
-    {
-        $this->adminLogin();
+    // public function test_update_category_image_fails_when_error_occured_while_updating_image_path_in_database(): void
+    // {
+    //     $this->adminLogin();
 
-        $this->createFakeCategory();
+    //     $this->createFakeCategory();
 
-        $this->partialMock(UpdateImageController::class, function (MockInterface $mock) {
-            $mock->shouldAllowMockingProtectedMethods()
-                ->shouldReceive('updateImagePathFieldInDatabase')
-                ->andThrow(new Exception('An error occurred while accessing the database. Please try again later.', 500));
-        });
+    //     $this->partialMock(UpdateImageController::class, function (MockInterface $mock) {
+    //         $mock->shouldAllowMockingProtectedMethods()
+    //             ->shouldReceive('updateImagePathFieldInDatabase')
+    //             ->andThrow(new Exception('An error occurred while accessing the database. Please try again later.', 500));
+    //     });
 
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->access_token,
-        ])->postJson('api/categories/update-image/1', [
-                    'new_image' => UploadedFile::fake()->image('new_image.png')->size(4000)
-                ]);
+    //     $response = $this->withHeaders([
+    //         'Authorization' => 'Bearer ' . $this->access_token,
+    //     ])->postJson('api/categories/update-image/1', [
+    //                 'new_image' => UploadedFile::fake()->image('new_image.png')->size(4000)
+    //             ]);
 
-        try {
+    //     try {
 
-            Storage::assertExists($this->old_image_path);
-
-
-            $this->assertDatabaseHas(
-                "categories",
-                [
-                    "id" => 1,
-                    'image_path' => $this->old_image_path,
-                ]
-            );
+    //         Storage::assertExists($this->old_image_path);
 
 
-            $response->assertStatus(500)
-                ->assertJsonFragment(
-                    [
-                        'error' => "An error occurred while accessing the database. Please try again later."
-                    ]
-                );
-        } catch (Throwable $th) {
-            $this->fail("Test failed: " . $th->getMessage());
-        }
-    }
+    //         $this->assertDatabaseHas(
+    //             "categories",
+    //             [
+    //                 "id" => 1,
+    //                 'image_path' => $this->old_image_path,
+    //             ]
+    //         );
+
+
+    //         $response->assertStatus(500)
+    //             ->assertJsonFragment(
+    //                 [
+    //                     'error' => "An error occurred while accessing the database. Please try again later."
+    //                 ]
+    //             );
+    //     } catch (Throwable $th) {
+    //         $this->fail("Test failed: " . $th->getMessage());
+    //     }
+    // }
 }

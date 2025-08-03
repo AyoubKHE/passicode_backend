@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Exception;
 use Throwable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class LogoutController extends Controller
@@ -15,22 +16,47 @@ class LogoutController extends Controller
     {
         $logged_in_user = $this->global_request_object->get('logged_in_user');
 
-        if (!$logged_in_user->refresh_token) {
-            throw new Exception('The user already logged out.', 403);
-        }
-
         $logged_in_user->refresh_token = null;
 
         try {
             $is_updated = $logged_in_user->save();
-        } catch (Throwable $throwable) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
 
-        if (!$is_updated) {
+            if (!$is_updated) {
+                throw new Exception(
+                    "- .",
+                    500
+                );
+            }
+
+            try {
+                Log::channel('logout_requests')->info(
+                    "\n\n" .
+                    "Description: User logged out successfully.\n\n" .
+                    "User ID: " . $logged_in_user->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
+
+
+        } catch (Throwable $th) {
+
+            Log::channel('logout_errors')->error(
+                "\n\n" .
+                "Description: Failed to logout user.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: " . $logged_in_user->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500

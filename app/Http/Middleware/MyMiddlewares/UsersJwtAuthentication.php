@@ -8,6 +8,7 @@ use Throwable;
 use App\Models\Users\User;
 use App\Services\JWTService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class UsersJwtAuthentication
@@ -50,7 +51,20 @@ class UsersJwtAuthentication
         try {
             $user = User::where("id", $refresh_token_payload["user_data"]->user_id)->first();
 
-        } catch (Throwable $throwable) {
+        } catch (Throwable $th) {
+
+            Log::channel('users_jwt_authentication_errors')->error(
+                "\n\n" .
+                "Description: Failed to get user from database.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
@@ -58,35 +72,75 @@ class UsersJwtAuthentication
         }
 
         if (!$user) {
-            throw new Exception('Logged in user not found.', 404);
+
+            Log::channel('users_jwt_authentication_errors')->error(
+                "\n\n" .
+                "Description: Logged in user not found.\n\n" .
+                "Error message: - .\n\n" .
+                "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
+            throw new Exception(
+                'Logged in user not found.',
+                404
+            );
         }
 
         $user->refresh_token = null;
 
         try {
             $is_updated = $user->save();
-        } catch (Throwable $throwable) {
+
+            if (!$is_updated) {
+                throw new Exception(
+                    "- .",
+                    500
+                );
+            }
+        } catch (Throwable $th) {
+
+            Log::channel('users_jwt_authentication_errors')->error(
+                "\n\n" .
+                "Description: Failed to update user's refresh token in database.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: " . $user->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
             );
         }
-
-        if (!$is_updated) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
-
     }
     private function manageExpiredToken()
     {
         $refresh_token = $this->global_request_object->cookie("refresh_token");
 
         if (!$refresh_token) {
+
+            Log::channel('users_jwt_authentication_errors')->error(
+                "\n\n" .
+                "Description: The refresh token is missing.\n\n" .
+                "Error message: - .\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
-                "The refresh token is missing or invalid format.",
+                "The refresh token is missing.",
                 400
             );
         }
@@ -98,10 +152,38 @@ class UsersJwtAuthentication
             $this->buildNewAccessToken();
 
         } catch (Exception $e) {
+
             if (get_class($e) === "Firebase\JWT\ExpiredException") {
 
-                $this->logoutUser();
+                $refresh_token_payload = JWTService::getTokenPayload(
+                    $refresh_token
+                );
 
+                Log::channel('users_jwt_authentication_errors')->error(
+                    "\n\n" .
+                    "Description: The refresh token is expired.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
+                $this->logoutUser();
+            } else {
+
+                Log::channel('users_jwt_authentication_errors')->error(
+                    "\n\n" .
+                    "Description: The refresh token is invalid.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
             }
 
             $this->is_session_expired = true;
@@ -114,7 +196,20 @@ class UsersJwtAuthentication
         try {
             $logged_in_user = User::find($this->logged_in_user_id);
 
-        } catch (Throwable $throwable) {
+        } catch (Throwable $th) {
+
+            Log::channel('users_jwt_authentication_errors')->error(
+                "\n\n" .
+                "Description: Failed to get user from database.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: " . $this->logged_in_user_id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
@@ -122,6 +217,19 @@ class UsersJwtAuthentication
         }
 
         if (!$logged_in_user) {
+
+            Log::channel('users_jwt_authentication_errors')->error(
+                "\n\n" .
+                "Description: Logged in user not found.\n\n" .
+                "Error message: - .\n\n" .
+                "User ID: " . $this->logged_in_user_id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'Logged in user not found.',
                 404
@@ -129,6 +237,19 @@ class UsersJwtAuthentication
         }
 
         if (!$logged_in_user->is_active) {
+
+            Log::channel('users_jwt_authentication_errors')->error(
+                "\n\n" .
+                "Description: The logged in user has been suspended.\n\n" .
+                "Error message: - .\n\n" .
+                "User ID: " . $this->logged_in_user_id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 "The logged in user has been suspended.",
                 403
@@ -152,6 +273,18 @@ class UsersJwtAuthentication
         $bearer_token = $request->header('Authorization');
 
         if (!$bearer_token || !str_starts_with($bearer_token, 'Bearer ')) {
+
+            Log::channel('users_jwt_authentication_errors')->error(
+                "\n\n" .
+                "Description: Authorization token is missing or invalid format.\n\n" .
+                "Error message: - .\n\n" .
+                "Ip: " . $request->ip() . "\n\n" .
+                "User Agent: " . $request->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 "Authorization token is missing or invalid format.",
                 400
@@ -175,9 +308,37 @@ class UsersJwtAuthentication
         } catch (Exception $e) {
             if (get_class($e) === "Firebase\JWT\ExpiredException") {
 
+                $access_token_payload = JWTService::getTokenPayload(
+                    $access_token
+                );
+
+                Log::channel('users_jwt_authentication_errors')->error(
+                    "\n\n" .
+                    "Description: Authorization token is expired.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: " . $access_token_payload["user_data"]->user_id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
                 $this->manageExpiredToken();
 
             } else {
+
+                Log::channel('users_jwt_authentication_errors')->error(
+                    "\n\n" .
+                    "Description: Authorization token is invalid.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
                 $this->is_session_expired = true;
             }
         }

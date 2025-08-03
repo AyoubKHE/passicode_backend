@@ -147,23 +147,3 @@ class TempLoginController extends Controller
             );
     }
 }
-
-// {
-//   "iss": "https://accounts.google.com",
-//   "azp": "388644099266-3gdatqgc15bgiv5794vbtudkbevpt5ho.apps.googleusercontent.com",
-//   "aud": "388644099266-3gdatqgc15bgiv5794vbtudkbevpt5ho.apps.googleusercontent.com",
-//   "sub": "118205228411259759598",
-//   "email": "ayoub.kheyar06@gmail.com",
-//   "email_verified": "true",
-//   "nbf": "1747576413",
-//   "name": "Ayoub Kheyar",
-//   "picture": "https://lh3.googleusercontent.com/a/ACg8ocKL1cZrAafoxBI-br3KPFNnOzL5K0tjo4YGf6JrLLTtblyr=s96-c",
-//   "given_name": "Ayoub",
-//   "family_name": "Kheyar",
-//   "iat": "1747576713",
-//   "exp": "1747580313",
-//   "jti": "10d52d7d8d1a888c630d1d1c5f8f0eec04dac2cb",
-//   "alg": "RS256",
-//   "kid": "660ef3b9784bdf56ebe859f577f7fb2e8c1ceffb",
-//   "typ": "JWT"
-// }

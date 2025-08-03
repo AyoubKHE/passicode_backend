@@ -11,6 +11,7 @@ use App\Models\Clients\Client;
 use App\Models\Settings\Setting;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -35,6 +36,19 @@ class GoogleLoginController extends Controller
                 )
                     ->value('value');
             } catch (Throwable $th) {
+
+                Log::channel('google_login_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get << is_admin_available_for_backorder >> information from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $this->user->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
                 throw new Exception(
                     'An error occurred while accessing the database. Please try again later.',
                     500
@@ -64,14 +78,28 @@ class GoogleLoginController extends Controller
 
         try {
             $is_updated = $this->user->save();
-        } catch (Throwable $throwable) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
 
-        if (!$is_updated) {
+            if (!$is_updated) {
+                throw new Exception(
+                    "- .",
+                    500
+                );
+            }
+
+        } catch (Throwable $th) {
+
+            Log::channel('google_login_errors')->error(
+                "\n\n" .
+                "Description: Failed to store user's new refresh token after successful login.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: " . $this->user->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
@@ -105,6 +133,19 @@ class GoogleLoginController extends Controller
                 $this->user->load('client');
             }
         } catch (Throwable $th) {
+
+            Log::channel('google_login_errors')->error(
+                "\n\n" .
+                "Description: Failed to load User model relations << ->load() function >>.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: " . $this->user->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
@@ -117,14 +158,46 @@ class GoogleLoginController extends Controller
 
         if ($this->global_request_object->input("role") === "Super Admin") {
             try {
-                $users_count = User::where('role', 'Super Admin')
+                $super_admin_count = User::where('role', 'Super Admin')
                     ->count();
-            } catch (Throwable $throwable) {
-                throw new Exception('An error occurred while accessing the database. Please try again later.', 500);
+            } catch (Throwable $th) {
+
+                Log::channel('google_login_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get super admin's count from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: - .\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
+                throw new Exception(
+                    'An error occurred while accessing the database. Please try again later.',
+                    500
+                );
             }
 
-            if ($users_count > 0) {
-                throw new Exception('Unexpected error.', 500);
+            if ($super_admin_count > 0) {
+
+                Log::channel('google_login_errors')->error(
+                    "\n\n" .
+                    "Description: A super admin account already exists.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: - .\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
+                throw new Exception(
+                    'An error occurred while accessing the database. Please try again later.',
+                    500
+                );
             }
         }
 
@@ -144,10 +217,26 @@ class GoogleLoginController extends Controller
                 ]);
 
                 if (!$this->user) {
-                    throw new Exception();
+                    throw new Exception(
+                        "- .",
+                        500
+                    );
                 }
 
-            } catch (Throwable $throwable) {
+            } catch (Throwable $th) {
+
+                Log::channel('google_login_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to store new user in users table.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: - .\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
                 throw new Exception(
                     'An error occurred while accessing the database. Please try again later.',
                     500
@@ -163,10 +252,26 @@ class GoogleLoginController extends Controller
                     );
 
                     if (!$stored_admin) {
-                        throw new Exception();
+                        throw new Exception(
+                            "- .",
+                            500
+                        );
                     }
 
-                } catch (Throwable $throwable) {
+                } catch (Throwable $th) {
+
+                    Log::channel('google_login_errors')->error(
+                        "\n\n" .
+                        "Description: Failed to store new user in admins table.\n\n" .
+                        "Error message: " . $th->getMessage() . "\n\n" .
+                        "User ID: - .\n\n" .
+                        "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                        "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                        "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                    );
+
                     throw new Exception(
                         'An error occurred while accessing the database. Please try again later.',
                         500
@@ -181,10 +286,26 @@ class GoogleLoginController extends Controller
                     );
 
                     if (!$stored_client) {
-                        throw new Exception();
+                        throw new Exception(
+                            "- .",
+                            500
+                        );
                     }
 
-                } catch (Throwable $throwable) {
+                } catch (Throwable $th) {
+
+                    Log::channel('google_login_errors')->error(
+                        "\n\n" .
+                        "Description: Failed to store new user in clients table.\n\n" .
+                        "Error message: " . $th->getMessage() . "\n\n" .
+                        "User ID: - .\n\n" .
+                        "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                        "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                        "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                    );
+
                     throw new Exception(
                         'An error occurred while accessing the database. Please try again later.',
                         500
@@ -197,6 +318,19 @@ class GoogleLoginController extends Controller
     private function checkUserValidity()
     {
         if (!$this->user->is_active) {
+
+            Log::channel('google_login_errors')->error(
+                "\n\n" .
+                "Description: User tried to log in but his account has been suspended.\n\n" .
+                "Error message: - .\n\n" .
+                "User ID: " . $this->user->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 "The logged in user has been suspended.",
                 403
@@ -213,7 +347,20 @@ class GoogleLoginController extends Controller
             )
                 ->first();
 
-        } catch (Throwable $throwable) {
+        } catch (Throwable $th) {
+
+            Log::channel('google_login_errors')->error(
+                "\n\n" .
+                "Description: Failed to get user from database.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User Email: " . $this->google_response["email"] . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
@@ -231,7 +378,10 @@ class GoogleLoginController extends Controller
             ]);
 
             if ($response->failed()) {
-                throw new Exception('Invalid Google Token.', 401);
+                throw new Exception(
+                    'Invalid Google Token.',
+                    401
+                );
             }
 
             $this->google_response = $response->json();
@@ -240,17 +390,51 @@ class GoogleLoginController extends Controller
                 $this->google_response['exp'] < time() ||
                 $this->google_response['aud'] !== config('app.GOOGLE_CLIENT_ID')
             ) {
-                throw new Exception('Invalid Google Token.', 401);
+                throw new Exception(
+                    'Invalid Google Token.',
+                    401
+                );
             }
         } catch (Throwable $th) {
+
+            Log::channel('google_login_errors')->error(
+                "\n\n" .
+                "Description: Invalid Google Token.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: - .\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             if ($th->getMessage() === 'Invalid Google Token.') {
-                throw new Exception('Invalid Google Token.', 401);
+                throw $th;
             } else {
                 throw new Exception(
                     'Google Login failed. Please try again later.',
                     500
                 );
             }
+        }
+
+    }
+
+    private function logRequest()
+    {
+        try {
+            Log::channel('google_login_requests')->info(
+                "\n\n" .
+                "Description: User logged in successfully via google login.\n\n" .
+                "User ID: " . $this->user->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+        } catch (Throwable $th) {
+            //throw $th;
         }
 
     }
@@ -277,6 +461,8 @@ class GoogleLoginController extends Controller
 
         $this->loadIsAdminAvailableForBackorder();
 
+        $this->logRequest();
+
         return response()->json([
             'message' => 'User logged in successfully!',
             'user' => new UserResource($this->user),
@@ -286,23 +472,3 @@ class GoogleLoginController extends Controller
             );
     }
 }
-
-// {
-//   "iss": "https://accounts.google.com",
-//   "azp": "388644099266-3gdatqgc15bgiv5794vbtudkbevpt5ho.apps.googleusercontent.com",
-//   "aud": "388644099266-3gdatqgc15bgiv5794vbtudkbevpt5ho.apps.googleusercontent.com",
-//   "sub": "118205228411259759598",
-//   "email": "ayoub.kheyar06@gmail.com",
-//   "email_verified": "true",
-//   "nbf": "1747576413",
-//   "name": "Ayoub Kheyar",
-//   "picture": "https://lh3.googleusercontent.com/a/ACg8ocKL1cZrAafoxBI-br3KPFNnOzL5K0tjo4YGf6JrLLTtblyr=s96-c",
-//   "given_name": "Ayoub",
-//   "family_name": "Kheyar",
-//   "iat": "1747576713",
-//   "exp": "1747580313",
-//   "jti": "10d52d7d8d1a888c630d1d1c5f8f0eec04dac2cb",
-//   "alg": "RS256",
-//   "kid": "660ef3b9784bdf56ebe859f577f7fb2e8c1ceffb",
-//   "typ": "JWT"
-// }

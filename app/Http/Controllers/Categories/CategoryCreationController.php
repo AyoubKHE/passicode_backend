@@ -7,6 +7,7 @@ use Throwable;
 use App\Models\Products\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\Products\CategoryResource;
@@ -26,6 +27,19 @@ class CategoryCreationController extends Controller
         try {
             $this->stored_category->load('parentCategory');
         } catch (Throwable $th) {
+
+            Log::channel('category_creation_errors')->error(
+                "\n\n" .
+                "Description: Failed to load Category model relations << ->load() function >>.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
@@ -45,6 +59,19 @@ class CategoryCreationController extends Controller
                 )
                     ->first();
             } catch (Throwable $th) {
+
+                Log::channel('category_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get parent category from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
                 throw new Exception(
                     'An error occurred while accessing the database. Please try again later.',
                     500
@@ -57,14 +84,28 @@ class CategoryCreationController extends Controller
 
                 try {
                     $is_updated = $parent_category->save();
-                } catch (Throwable $throwable) {
-                    throw new Exception(
-                        'An error occurred while accessing the database. Please try again later.',
-                        500
-                    );
-                }
 
-                if (!$is_updated) {
+                    if (!$is_updated) {
+                        throw new Exception(
+                            "- .",
+                            500
+                        );
+                    }
+
+                } catch (Throwable $th) {
+
+                    Log::channel('category_creation_errors')->error(
+                        "\n\n" .
+                        "Description: Failed to update parent category is_leaf_category status.\n\n" .
+                        "Error message: - .\n\n" .
+                        "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                        "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                        "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                        "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                    );
+
                     throw new Exception(
                         'An error occurred while accessing the database. Please try again later.',
                         500
@@ -72,8 +113,6 @@ class CategoryCreationController extends Controller
                 }
             }
         }
-
-
     }
 
 
@@ -81,14 +120,28 @@ class CategoryCreationController extends Controller
     {
         try {
             $this->stored_category = Category::create($this->prepared_category);
-        } catch (Throwable $throwable) {
-            throw new Exception(
-                'An error occurred while accessing the database. Please try again later.',
-                500
-            );
-        }
 
-        if (!$this->stored_category) {
+            if (!$this->stored_category) {
+                throw new Exception(
+                    "- .",
+                    500
+                );
+            }
+
+        } catch (Throwable $th) {
+
+            Log::channel('category_creation_errors')->error(
+                "\n\n" .
+                "Description: Failed to store new category in database.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
@@ -103,6 +156,19 @@ class CategoryCreationController extends Controller
             $table_status = DB::select("SHOW TABLE STATUS LIKE 'categories'");
 
         } catch (Throwable $th) {
+
+            Log::channel('category_creation_errors')->error(
+                "\n\n" .
+                "Description: Failed to get categories TABLE STATUS from database.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
@@ -110,6 +176,19 @@ class CategoryCreationController extends Controller
         }
 
         if (count($table_status) === 0) {
+
+            Log::channel('category_creation_errors')->error(
+                "\n\n" .
+                "Description: table_status array count = 0.\n\n" .
+                "Error message: - .\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
@@ -121,12 +200,36 @@ class CategoryCreationController extends Controller
         $image_file = $this->global_request_object->file('image');
         $folder_path = 'categories/id_' . $this->category_id;
 
-        $this->prepared_category["image_path"] = $image_file->store($folder_path);
-        if (!$this->prepared_category["image_path"]) {
-            throw new Exception("An error occurred while saving the category's image.", 500);
-        }
+        try {
+            $this->prepared_category["image_path"] = $image_file->store($folder_path);
 
-        unset($this->prepared_category["image"]);
+            if (!$this->prepared_category["image_path"]) {
+                throw new Exception(
+                    "- .",
+                    500
+                );
+            }
+
+            unset($this->prepared_category["image"]);
+        } catch (Throwable $th) {
+
+            Log::channel('category_creation_errors')->error(
+                "\n\n" .
+                "Description: An error occurred while saving the category's image.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
+            throw new Exception(
+                "An error occurred while saving the category's image.",
+                500
+            );
+        }
     }
 
 
@@ -143,6 +246,27 @@ class CategoryCreationController extends Controller
         $this->prepared_category['updated_at'] = null;
     }
 
+
+    private function logRequest()
+    {
+        try {
+
+            Log::channel('category_creation_requests')->info(
+                "\n\n" .
+                "Description: Category created successfully.\n\n" .
+                "Category Data: \n" .
+                json_encode($this->stored_category->toArray(), JSON_PRETTY_PRINT) . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+        } catch (Throwable $th) {
+            //throw $th;
+        }
+
+    }
 
     public function __invoke(CategoryCreationRequest $request): JsonResponse
     {
@@ -163,16 +287,18 @@ class CategoryCreationController extends Controller
                 $this->eagerLoadRelations();
             });
 
+            $this->logRequest();
+
             return response()->json([
                 'message' => 'Category created successfully.',
                 'category' => new CategoryResource($this->stored_category),
             ], 201);
 
-        } catch (Throwable $throwable) {
+        } catch (Throwable $th) {
 
             Storage::deleteDirectory("categories/id_" . $this->category_id);
 
-            throw $throwable;
+            throw $th;
         }
     }
 }

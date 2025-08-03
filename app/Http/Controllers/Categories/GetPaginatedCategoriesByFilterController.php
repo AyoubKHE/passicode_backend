@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Categories;
 
 use Exception;
 use Throwable;
+use App\Models\Products\Category;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use App\Models\Products\Category;
 use App\Http\Resources\Products\CategoriesCollection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Http\Requests\Categories\GetPaginatedCategoriesByFilterRequest;
 
 class GetPaginatedCategoriesByFilterController extends Controller
@@ -33,6 +34,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
                         try {
                             $min_updated_at = Category::min("updated_at");
                         } catch (Throwable $th) {
+
+                            Log::channel('get_paginated_categories_by_filter_errors')->error(
+                                "\n\n" .
+                                "Description: Failed to get minimum updated_at of categories from database.\n\n" .
+                                "Error message: " . $th->getMessage() . "\n\n" .
+                                "Page: " . (int) $this->global_request_object->get('page', 1) . "\n\n" .
+                                "Limit: " . (int) $this->global_request_object->get('limit', 10) . "\n\n" .
+                                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                            );
+
                             throw new Exception(
                                 'An error occurred while accessing the database. Please try again later.',
                                 500
@@ -47,6 +63,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
                         try {
                             $max_updated_at = Category::max("updated_at");
                         } catch (Throwable $th) {
+
+                            Log::channel('get_paginated_categories_by_filter_errors')->error(
+                                "\n\n" .
+                                "Description: Failed to get maximum updated_at of categories from database.\n\n" .
+                                "Error message: " . $th->getMessage() . "\n\n" .
+                                "Page: " . (int) $this->global_request_object->get('page', 1) . "\n\n" .
+                                "Limit: " . (int) $this->global_request_object->get('limit', 10) . "\n\n" .
+                                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                            );
+
                             throw new Exception(
                                 'An error occurred while accessing the database. Please try again later.',
                                 500
@@ -72,6 +103,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
                     try {
                         $min_created_at = Category::min("created_at");
                     } catch (Throwable $th) {
+
+                        Log::channel('get_paginated_categories_by_filter_errors')->error(
+                            "\n\n" .
+                            "Description: Failed to get minimum created_at of categories from database.\n\n" .
+                            "Error message: " . $th->getMessage() . "\n\n" .
+                            "Page: " . (int) $this->global_request_object->get('page', 1) . "\n\n" .
+                            "Limit: " . (int) $this->global_request_object->get('limit', 10) . "\n\n" .
+                            "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                            "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                            "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                            "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                        );
+
                         throw new Exception(
                             'An error occurred while accessing the database. Please try again later.',
                             500
@@ -86,6 +132,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
                     try {
                         $max_created_at = Category::max("created_at");
                     } catch (Throwable $th) {
+
+                        Log::channel('get_paginated_categories_by_filter_errors')->error(
+                            "\n\n" .
+                            "Description: Failed to get maximum created_at of categories from database.\n\n" .
+                            "Error message: " . $th->getMessage() . "\n\n" .
+                            "Page: " . (int) $this->global_request_object->get('page', 1) . "\n\n" .
+                            "Limit: " . (int) $this->global_request_object->get('limit', 10) . "\n\n" .
+                            "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                            "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                            "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                            "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                        );
+
                         throw new Exception(
                             'An error occurred while accessing the database. Please try again later.',
                             500
@@ -148,6 +209,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
                     try {
                         $min_quantity = Category::min("quantity");
                     } catch (Throwable $th) {
+
+                        Log::channel('get_paginated_categories_by_filter_errors')->error(
+                            "\n\n" .
+                            "Description: Failed to get minimum quantity of categories from database.\n\n" .
+                            "Error message: " . $th->getMessage() . "\n\n" .
+                            "Page: " . (int) $this->global_request_object->get('page', 1) . "\n\n" .
+                            "Limit: " . (int) $this->global_request_object->get('limit', 10) . "\n\n" .
+                            "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                            "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                            "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                            "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                        );
+
                         throw new Exception(
                             'An error occurred while accessing the database. Please try again later.',
                             500
@@ -161,6 +237,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
                     try {
                         $max_quantity = Category::max("quantity");
                     } catch (Throwable $th) {
+
+                        Log::channel('get_paginated_categories_by_filter_errors')->error(
+                            "\n\n" .
+                            "Description: Failed to get maximum quantity of categories from database.\n\n" .
+                            "Error message: " . $th->getMessage() . "\n\n" .
+                            "Page: " . (int) $this->global_request_object->get('page', 1) . "\n\n" .
+                            "Limit: " . (int) $this->global_request_object->get('limit', 10) . "\n\n" .
+                            "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                            "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                            "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                            "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                        );
+
                         throw new Exception(
                             'An error occurred while accessing the database. Please try again later.',
                             500
@@ -187,6 +278,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
                             $min_discount = 0;
                         }
                     } catch (Throwable $th) {
+
+                        Log::channel('get_paginated_categories_by_filter_errors')->error(
+                            "\n\n" .
+                            "Description: Failed to get minimum discount of categories from database.\n\n" .
+                            "Error message: " . $th->getMessage() . "\n\n" .
+                            "Page: " . (int) $this->global_request_object->get('page', 1) . "\n\n" .
+                            "Limit: " . (int) $this->global_request_object->get('limit', 10) . "\n\n" .
+                            "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                            "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                            "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                            "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                        );
+
                         throw new Exception(
                             'An error occurred while accessing the database. Please try again later.',
                             500
@@ -203,6 +309,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
                             $max_discount = 0;
                         }
                     } catch (Throwable $th) {
+
+                        Log::channel('get_paginated_categories_by_filter_errors')->error(
+                            "\n\n" .
+                            "Description: Failed to get maximum discount of categories from database.\n\n" .
+                            "Error message: " . $th->getMessage() . "\n\n" .
+                            "Page: " . (int) $this->global_request_object->get('page', 1) . "\n\n" .
+                            "Limit: " . (int) $this->global_request_object->get('limit', 10) . "\n\n" .
+                            "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                            "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                            "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                            "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                        );
+
                         throw new Exception(
                             'An error occurred while accessing the database. Please try again later.',
                             500
@@ -229,6 +350,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
                             $min_price = 0;
                         }
                     } catch (Throwable $th) {
+
+                        Log::channel('get_paginated_categories_by_filter_errors')->error(
+                            "\n\n" .
+                            "Description: Failed to get minimum price of categories from database.\n\n" .
+                            "Error message: " . $th->getMessage() . "\n\n" .
+                            "Page: " . (int) $this->global_request_object->get('page', 1) . "\n\n" .
+                            "Limit: " . (int) $this->global_request_object->get('limit', 10) . "\n\n" .
+                            "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                            "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                            "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                            "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                        );
+
                         throw new Exception(
                             'An error occurred while accessing the database. Please try again later.',
                             500
@@ -245,6 +381,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
                             $max_price = 0;
                         }
                     } catch (Throwable $th) {
+
+                        Log::channel('get_paginated_categories_by_filter_errors')->error(
+                            "\n\n" .
+                            "Description: Failed to get maximum price of categories from database.\n\n" .
+                            "Error message: " . $th->getMessage() . "\n\n" .
+                            "Page: " . (int) $this->global_request_object->get('page', 1) . "\n\n" .
+                            "Limit: " . (int) $this->global_request_object->get('limit', 10) . "\n\n" .
+                            "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                            "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                            "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                            "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                            "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                        );
+
                         throw new Exception(
                             'An error occurred while accessing the database. Please try again later.',
                             500
@@ -291,6 +442,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
         $limit = (int) $this->global_request_object->get('limit', 10);
 
         if ($limit > 100) {
+
+            Log::channel('get_paginated_categories_by_filter_errors')->error(
+                "\n\n" .
+                "Description: Limit must not exceed 100 to ensure optimal performance.\n\n" .
+                "Error message: - .\n\n" .
+                "Page: " . $page . "\n\n" .
+                "Limit: " . $limit . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'Limit must not exceed 100 to ensure optimal performance.',
                 400
@@ -327,6 +493,21 @@ class GetPaginatedCategoriesByFilterController extends Controller
             $this->paginated_categories = $this->category_filter_query
                 ->paginate(perPage: $limit, page: $page);
         } catch (Throwable $th) {
+
+            Log::channel('get_paginated_categories_by_filter_errors')->error(
+                "\n\n" .
+                "Description: Failed to get paginated categories by filter from database.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "Page: " . $page . "\n\n" .
+                "Limit: " . $limit . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
