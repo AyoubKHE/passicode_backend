@@ -317,15 +317,18 @@ class ReloadUserSessionController extends Controller
     {
         try {
             if ($this->user) {
-                Log::channel('reload_user_session_requests')->info(
-                    "\n\n" .
-                    "Description: New reload user session request from an existing user.\n\n" .
-                    "User ID: " . $this->user->id . "\n\n" .
-                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-                );
+
+                if ($this->user->role !== "Super Admin") {
+                    Log::channel('reload_user_session_requests')->info(
+                        "\n\n" .
+                        "Description: New reload user session request from an existing user.\n\n" .
+                        "User ID: " . $this->user->id . "\n\n" .
+                        "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                        "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                        "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                    );
+                }
             } else {
                 Log::channel('reload_user_session_requests')->info(
                     "\n\n" .
