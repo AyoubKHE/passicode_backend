@@ -106,13 +106,13 @@ class TempLoginController extends Controller
 
     private function loadUser()
     {
-        // itsayoubkheyar06@gmail.com => super admin account
+        // passicode.dz@gmail.com => super admin account
         // ayoub.kheyar06@gmail.com => client account
 
         try {
             $this->user = User::where(
                 "email",
-                "itsayoubkheyar06@gmail.com"
+                "passicode.dz@gmail.com"
             )
                 ->first();
 
