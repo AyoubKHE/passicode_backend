@@ -34,7 +34,7 @@ class UpdateImageRequest extends FormRequest
                 'required',
                 'image',
                 'mimes:jpg,png,jpeg,svg',
-                // 'max:5000'
+                'max:5000'
             ]
         ];
 
