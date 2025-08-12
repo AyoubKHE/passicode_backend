@@ -15,6 +15,7 @@ use App\Http\Resources\Users\UserResource;
 
 class TempLoginController extends Controller
 {
+    private Request $global_request_object;
     private User|null $user;
 
     private function loadIsAdminAvailableForBackorder()
@@ -109,10 +110,23 @@ class TempLoginController extends Controller
         // passicode.dz@gmail.com => super admin account
         // ayoub.kheyar06@gmail.com => client account
 
+        $email = "";
+
+        if ($this->global_request_object->role === "admin") {
+            $email = "passicode.dz@gmail.com";
+        } else if ($this->global_request_object->role === "client") {
+            $email = "ayoub.kheyar06@gmail.com";
+        } else {
+            throw new Exception(
+                'Invalid role provided. Please provide a valid role.',
+                500
+            );
+        }
+
         try {
             $this->user = User::where(
                 "email",
-                "passicode.dz@gmail.com"
+                $email
             )
                 ->first();
 
@@ -128,6 +142,8 @@ class TempLoginController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
+        $this->global_request_object = $request;
+
         $this->user = $this->loadUser();
 
         $this->eagerLoadUserRelations();
