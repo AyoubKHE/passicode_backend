@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Str;
+
+use Illuminate\Http\Request;
 use App\Models\Products\Product;
 use App\Models\Products\Category;
 use Illuminate\Support\Facades\DB;
@@ -17,9 +19,9 @@ use App\Http\Controllers\Products\GetPaginatedProductsByFilterController;
 
 // tests made
 Route::get(
-    '/products/create-random-products',
-    function () {
-        DB::transaction(function () {
+    '/products/create-random-products/{category_id}',
+    function (Request $request) {
+        DB::transaction(function () use ($request) {
 
             for ($i = 1; $i < 500; $i++) {
                 $code = strtoupper(Str::random(20));
@@ -27,7 +29,7 @@ Route::get(
                 $code_start = substr($code, 0, 5);
 
                 Product::create([
-                    'category_id' => 3,
+                    'category_id' => $request->category_id,
                     'code' => Crypt::encryptString($code),
                     'code_start' => $code_start,
                     'sold' => 0,
@@ -40,7 +42,7 @@ Route::get(
                 ]);
             }
 
-            $category = Category::where('id', 3)->first();
+            $category = Category::where('id', $request->category_id)->first();
 
             $category->update([
                 'quantity' => $category->quantity + 500,
