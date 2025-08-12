@@ -96,7 +96,7 @@ class OrderCreationController extends Controller
         $this->chargily_payment->chargily_payment_id = null;
         $this->chargily_payment->user_id = $this->global_request_object->get('logged_in_user')->id;
         $this->chargily_payment->order_id = $this->order->id;
-        $this->chargily_payment->status = 'pending';
+        $this->chargily_payment->status = 'paid';
         $this->chargily_payment->currency = 'dzd';
         $this->chargily_payment->amount = $this->order->amount;
         $this->chargily_payment->created_at = now();
@@ -188,7 +188,7 @@ class OrderCreationController extends Controller
         $this->order->user_id = $this->global_request_object->get('logged_in_user')->id;
         $this->order->category_id = $this->requested_category->id;
         $this->order->quantity = (int) $this->received_data['quantity'];
-        $this->order->status = 'pending';
+        $this->order->status = 'completed';
         $this->order->amount = (int) $this->requested_category->discount ?
             ((float) $this->requested_category->price - (float) $this->requested_category->price * (int) $this->requested_category->discount / 100)
             * (int) $this->received_data['quantity'] :
@@ -549,6 +549,7 @@ class OrderCreationController extends Controller
 
     public function __invoke(OrderCreationRequest $global_request_object)
     {
+
         $this->global_request_object = $global_request_object;
 
         $this->received_data = $this->global_request_object->validated();
@@ -556,28 +557,19 @@ class OrderCreationController extends Controller
         try {
             DB::transaction(function () {
                 $this->loadRequestedCategory();
-                if ($this->isQuantityAvailableInStock()) {
-                    $this->loadProducts();
-                    $this->updateRequestedCategoryQuantity();
-                    $this->updateProductsSoldStatus();
-                    $this->createOrder("instock");
-                    $this->createOrderItems();
-                    $this->createChargilyPayment();
-                    $this->createCheckout();
-                } else {
-                    if ($this->isAdminAvailableForBackorder()) {
-                        $this->createOrder("backorder");
-                        $this->createChargilyPayment();
-                        $this->createCheckout();
-                    }
-                }
+                $this->loadProducts();
+                $this->updateRequestedCategoryQuantity();
+                $this->updateProductsSoldStatus();
+                $this->createOrder("instock");
+                $this->createOrderItems();
+                $this->createChargilyPayment();
             });
 
             $this->logRequest();
 
             return response()->json([
                 'message' => 'Order created successfully.',
-                'payment_redirection_url' => (string) $this->checkout->getUrl(),
+                'payment_redirection_url' => 'payment_redirection_url',
             ], 201);
 
         } catch (Throwable $th) {
@@ -587,5 +579,44 @@ class OrderCreationController extends Controller
 
             throw $th;
         }
+
+        // $this->global_request_object = $global_request_object;
+
+        // $this->received_data = $this->global_request_object->validated();
+
+        // try {
+        //     DB::transaction(function () {
+        //         $this->loadRequestedCategory();
+        //         if ($this->isQuantityAvailableInStock()) {
+        //             $this->loadProducts();
+        //             $this->updateRequestedCategoryQuantity();
+        //             $this->updateProductsSoldStatus();
+        //             $this->createOrder("instock");
+        //             $this->createOrderItems();
+        //             $this->createChargilyPayment();
+        //             $this->createCheckout();
+        //         } else {
+        //             if ($this->isAdminAvailableForBackorder()) {
+        //                 $this->createOrder("backorder");
+        //                 $this->createChargilyPayment();
+        //                 $this->createCheckout();
+        //             }
+        //         }
+        //     });
+
+        //     $this->logRequest();
+
+        //     return response()->json([
+        //         'message' => 'Order created successfully.',
+        //         'payment_redirection_url' => (string) $this->checkout->getUrl(),
+        //     ], 201);
+
+        // } catch (Throwable $th) {
+        //     if ($th->getMessage() === "Requested category is not available.") {
+        //         $this->logFailedQuantityRequest();
+        //     }
+
+        //     throw $th;
+        // }
     }
 }
