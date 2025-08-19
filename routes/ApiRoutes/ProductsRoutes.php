@@ -1,56 +1,13 @@
 <?php
 
-use Illuminate\Support\Str;
-
-use Illuminate\Http\Request;
-use App\Models\Products\Product;
-use App\Models\Products\Category;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Products\GetProductByIdController;
 use App\Http\Controllers\Products\ProductsCreationController;
 use App\Http\Controllers\Products\DeleteProductByIdController;
 use App\Http\Controllers\Products\GetUnsoldProductsController;
-
 use App\Http\Controllers\Products\GetPaginatedProductsController;
 use App\Http\Controllers\Products\UpdateProductBaseDataController;
 use App\Http\Controllers\Products\GetPaginatedProductsByFilterController;
-
-// tests made
-Route::get(
-    '/products/create-random-products/{category_id}',
-    function (Request $request) {
-        DB::transaction(function () use ($request) {
-
-            for ($i = 1; $i < 500; $i++) {
-                $code = strtoupper(Str::random(20));
-
-                $code_start = substr($code, 0, 5);
-
-                Product::create([
-                    'category_id' => $request->category_id,
-                    'code' => Crypt::encryptString($code),
-                    'code_start' => $code_start,
-                    'sold' => 0,
-                    'status' => 'valid',
-                    'expiration_date' => '9999-12-31',
-                    'purchase_price' => 4000,
-                    'supplier' => 'Supplier Name',
-                    'created_at' => now(),
-                    'updated_at' => null,
-                ]);
-            }
-
-            $category = Category::where('id', $request->category_id)->first();
-
-            $category->update([
-                'quantity' => $category->quantity + 500,
-            ]);
-        });
-    }
-
-);
 
 // tests made
 Route::post(
