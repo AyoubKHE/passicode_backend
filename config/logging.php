@@ -333,6 +333,20 @@ return [
             'ignore_exceptions' => true
         ],
 
+        'get_category_price_errors' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/controllers_logs/categories/get_category_price/get_category_price_errors.log'),
+            'level' => 'error',
+            'ignore_exceptions' => true,
+        ],
+
+        'get_category_price_requests' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/controllers_logs/categories/get_category_price/get_category_price_requests.log'),
+            'level' => 'info',
+            'ignore_exceptions' => true
+        ],
+
         'delete_category_by_id_errors' => [
             'driver' => 'single',
             'path' => storage_path('logs/controllers_logs/categories/delete_category_by_id/delete_category_by_id_errors.log'),

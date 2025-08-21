@@ -20,6 +20,7 @@ class PublicCategoryResource extends JsonResource
             "name" => $this->name,
             "category_image_url" => Storage::url($this->image_path),
             "is_leaf_category" => $this->is_leaf_category,
+            "parent_id" => $this->parent_id,
         ];
 
         if ($this->is_leaf_category) {

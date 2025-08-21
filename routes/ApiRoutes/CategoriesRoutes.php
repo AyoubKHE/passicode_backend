@@ -6,6 +6,7 @@ use App\Http\Controllers\Categories\getParentCategories;
 use App\Http\Controllers\Categories\UpdateImageController;
 use App\Http\Controllers\Categories\GetCategoryByIdController;
 use App\Http\Controllers\Categories\CategoryCreationController;
+use App\Http\Controllers\Categories\getCategoryPriceController;
 use App\Http\Controllers\Categories\DeleteCategoryByIdController;
 use App\Http\Controllers\Categories\getChildCategoriesController;
 use App\Http\Controllers\Categories\UpdateParentCategoryController;
@@ -34,6 +35,14 @@ Route::get(
     ->name('categories.create-category-page-data')
     ->middleware('UsersJwtAuthentication')
     ->middleware('IsAdmin');
+
+
+//! tests not made
+Route::get(
+    '/categories/get-price/{category_id}',
+    getCategoryPriceController::class
+)
+    ->name('categories.get-price');
 
 
 // tests made
