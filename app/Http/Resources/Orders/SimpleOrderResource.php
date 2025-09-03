@@ -19,7 +19,18 @@ class SimpleOrderResource extends JsonResource
 
         if ($this->status === "completed") {
             $profit = $this->orderItems->sum(function ($item) {
-                return (float) $item->price - ((float) $item->price * (int) $item->discount / 100) - (float) $item->product->purchase_price;
+
+                $impot = (float) $item->price * 5 / 100;
+                $chargily = 0;
+                if ($item->price < 1000) {
+                    $chargily = 12.5;
+                } else if ($item->price >= 1000 && $item->price <= 100000) {
+                    $chargily = (float) $item->price * 1.25 / 100;
+                } else if ($item->price > 100000) {
+                    $chargily = 1250;
+                }
+
+                return (float) $item->price - (float) $impot - (float) $chargily - (float) $item->product->purchase_price;
             });
         }
 

@@ -89,7 +89,7 @@ class ControllerTest extends TestCase
                 [
                     'name' => 'Netflix 10$',
                     'description' => 'Netflix 10$ Description',
-                    'price' => 2700,
+                    'price' => 2940,
                     'discount' => 0,
                     'quantity' => 1,
                     'is_active' => true,
@@ -148,7 +148,7 @@ class ControllerTest extends TestCase
                     'category_id' => 1,
                     'quantity' => 1,
                     'status' => "completed",
-                    'amount' => 8100,
+                    'amount' => 8820,
                     'created_at' => now(),
                 ],
                 [
@@ -157,7 +157,7 @@ class ControllerTest extends TestCase
                     'category_id' => 1,
                     'quantity' => 1,
                     'status' => "failed",
-                    'amount' => 2700,
+                    'amount' => 2940,
                     'created_at' => now(),
                 ],
             ));
@@ -167,25 +167,25 @@ class ControllerTest extends TestCase
                 [
                     'order_id' => 1,
                     'product_id' => 1,
-                    'price' => 2700,
+                    'price' => 2940,
                     'discount' => 0,
                 ],
                 [
                     'order_id' => 1,
                     'product_id' => 2,
-                    'price' => 2700,
+                    'price' => 2940,
                     'discount' => 0,
                 ],
                 [
                     'order_id' => 1,
                     'product_id' => 3,
-                    'price' => 2700,
+                    'price' => 2940,
                     'discount' => 0,
                 ],
                 [
                     'order_id' => 2,
                     'product_id' => 4,
-                    'price' => 2700,
+                    'price' => 2940,
                     'discount' => 0,
                 ],
             ));
@@ -198,7 +198,7 @@ class ControllerTest extends TestCase
                     'order_id' => 1,
                     'status' => "paid",
                     'currency' => "dzd",
-                    'amount' => 8100,
+                    'amount' => 8820,
                     'created_at' => now(),
                 ],
                 [
@@ -207,7 +207,7 @@ class ControllerTest extends TestCase
                     'order_id' => 2,
                     'status' => "failed",
                     'currency' => "dzd",
-                    'amount' => 2700,
+                    'amount' => 2940,
                     'created_at' => now(),
                 ],
             ));
