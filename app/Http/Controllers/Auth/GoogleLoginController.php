@@ -468,7 +468,7 @@ class GoogleLoginController extends Controller
             'user' => new UserResource($this->user),
             'access_token' => $access_token,
         ], status: 200)->withCookie(
-                cookie("refresh_token", $refresh_token, httpOnly: true, secure: false, minutes: 60 * 24 * 30)
+                cookie("refresh_token", $refresh_token, httpOnly: true, secure: true, minutes: 60 * 24 * 30)
             );
     }
 }
