@@ -53,9 +53,9 @@ class OrderCreationController extends Controller
                 "amount" => $this->chargily_payment->amount,
                 "currency" => $this->chargily_payment->currency,
                 "description" => "Payment ID={$this->chargily_payment->id}",
-                "success_url" => config('url') . "/payment/success",
-                "failure_url" => config('url') . "/payment/failure",
-                "webhook_endpoint" => config('url') . "/api/chargilypay/webhook",
+                "success_url" => config('app.url') . "/payment/success",
+                "failure_url" => config('app.url') . "/payment/failure",
+                "webhook_endpoint" => config('app.url') . "/api/chargilypay/webhook",
             ]);
 
             if (!$this->checkout) {
