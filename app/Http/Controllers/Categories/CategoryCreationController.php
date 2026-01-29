@@ -276,9 +276,9 @@ class CategoryCreationController extends Controller
 
                 $this->manageParentCategory();
 
-                $this->storeCategoryImage();
-
                 $this->eagerLoadRelations();
+
+                $this->storeCategoryImage();
             });
 
             $this->logRequest();
