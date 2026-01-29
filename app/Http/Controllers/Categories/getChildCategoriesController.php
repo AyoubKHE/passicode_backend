@@ -24,7 +24,7 @@ class getChildCategoriesController extends Controller
                 "parent_id",
                 $this->global_request_object->category_id
             )
-                ->orderBy('id', 'asc')
+                ->orderBy('price', 'asc')
                 ->get();
         } catch (Throwable $th) {
 

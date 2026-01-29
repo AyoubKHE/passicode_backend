@@ -116,7 +116,7 @@ class getChildCategoriesByNameController extends Controller
                     "parent_id",
                     $category->id
                 )
-                    ->orderBy('id', 'asc')
+                    ->orderBy('price', 'asc')
                     ->get();
             } catch (Throwable $th) {
 
