@@ -8,6 +8,47 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class SimpleOrderResource extends JsonResource
 {
+    private float $tax;
+    private float $payment_gateway;
+
+    private function calculateUnitProfit(
+        float $supplier_price,
+        float $customer_price
+    ): float {
+
+        $gateway_fee = 0.0;
+
+        if ($this->payment_gateway !== 0.0) {
+            $payment_gateway_configs = [
+                1.25 => [
+                    'percentage' => 0.0125,
+                    'low_fixed' => 12.5,
+                    'high_fixed' => 1250,
+                ],
+                2.5 => [
+                    'percentage' => 0.025,
+                    'low_fixed' => 25,
+                    'high_fixed' => 2500,
+                ],
+            ];
+
+            $payment_gateway_config = $payment_gateway_configs[$this->payment_gateway];
+
+            if ($customer_price <= 1000) {
+                $gateway_fee = $payment_gateway_config['low_fixed'];
+            } elseif ($customer_price >= 100000) {
+                $gateway_fee = $payment_gateway_config['high_fixed'];
+            } else {
+                $gateway_fee = $customer_price * $payment_gateway_config['percentage'];
+            }
+        }
+
+        $tax_amount = $customer_price * $this->tax;
+
+        return $customer_price - $tax_amount - $gateway_fee - $supplier_price;
+    }
+
+
     /**
      * Transform the resource into an array.
      *
@@ -18,19 +59,16 @@ class SimpleOrderResource extends JsonResource
         $profit = null;
 
         if ($this->status === "completed") {
+
+            $this->tax = config('app.TAX');
+            $this->payment_gateway = config('app.PAYMENT_GATEWAY');
+
             $profit = $this->orderItems->sum(function ($item) {
 
-                $impot = (float) $item->price * 5 / 100;
-                $chargily = 0;
-                if ($item->price < 1000) {
-                    $chargily = 12.5;
-                } else if ($item->price >= 1000 && $item->price <= 100000) {
-                    $chargily = (float) $item->price * 1.25 / 100;
-                } else if ($item->price > 100000) {
-                    $chargily = 1250;
-                }
-
-                return (float) $item->price - (float) $impot - (float) $chargily - (float) $item->product->purchase_price;
+                return $this->calculateUnitProfit(
+                    (float) $item->product->purchase_price,
+                    (float) $item->price
+                );
             });
         }
 

@@ -135,6 +135,21 @@ return [
 
     'CHARGILY_SECRET_KEY' => (string) env('CHARGILY_SECRET_KEY'),
 
+    'ONECLICKDZ_API_TOKEN_PROD' => (string) env('ONECLICKDZ_API_TOKEN_PROD'),
+
+    'ONECLICKDZ_API_TOKEN_TEST' => (string) env('ONECLICKDZ_API_TOKEN_TEST'),
+
+    'MARGIN' => (float) env('MARGIN'),
+
+    'TAX' => (float) env('TAX'),
+
+    'PAYMENT_GATEWAY' => (float) env('PAYMENT_GATEWAY'),
+
+    'MAX_AMOUNT' => (float) env('MAX_AMOUNT'),
+
+    'ONECLICKDZ_SYNC_TOKEN' => (string) env('ONECLICKDZ_SYNC_TOKEN'),
+
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

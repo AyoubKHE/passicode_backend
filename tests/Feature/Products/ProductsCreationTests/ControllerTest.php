@@ -8,11 +8,7 @@ use App\Models\Users\User;
 use App\Models\Admins\Admin;
 use App\Services\JWTService;
 use App\Models\Products\Category;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 /**

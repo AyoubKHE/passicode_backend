@@ -15,6 +15,8 @@ use App\Http\Controllers\Categories\UpdateCategoryBaseDataController;
 use App\Http\Controllers\Categories\CategoryCreationPageDataController;
 use App\Http\Controllers\Categories\getChildCategoriesByNameController;
 use App\Http\Controllers\Categories\GetPaginatedCategoriesByFilterController;
+use App\Http\Controllers\Categories\OneClickDzCategoriesSyncController;
+use App\Http\Controllers\Categories\OneClickDzCategoriesValidationController;
 
 // tests made
 Route::post(
@@ -148,3 +150,16 @@ Route::delete(
     ->name('categories.delete-by-id')
     ->middleware('UsersJwtAuthentication')
     ->middleware('IsAdmin');
+
+
+Route::get(
+    '/categories/ocd-sync/{token}',
+    OneClickDzCategoriesSyncController::class
+)
+    ->name('categories.ocd-sync');
+
+Route::get(
+    '/categories/ocd-val/{token}',
+    OneClickDzCategoriesValidationController::class
+)
+    ->name('categories.ocd-val');

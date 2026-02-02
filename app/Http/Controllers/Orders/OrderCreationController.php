@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Models\Products\FailedQuantityRequest;
 use App\Http\Requests\Orders\OrderCreationRequest;
 use Chargily\ChargilyPay\Elements\CheckoutElement;
+use Illuminate\Support\Facades\Http;
 
 
 class OrderCreationController extends Controller
@@ -357,6 +358,7 @@ class OrderCreationController extends Controller
                 "id",
                 $this->received_data['category_id']
             )
+                ->with("parentCategory")
                 ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
@@ -442,6 +444,34 @@ class OrderCreationController extends Controller
                 422
             );
         }
+
+        if (
+            (double) $this->requested_category->price * (int) $this->received_data['quantity'] >
+            config("app.MAX_AMOUNT")
+        ) {
+
+            Log::channel('order_creation_errors')->error(
+                "\n\n" .
+                "Description: Order amount exceed allowed max amount.\n\n" .
+                "Error message: - .\n\n" .
+                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                "Category Price: " . (double) $this->requested_category->price . "\n\n" .
+                "Received quantity: " . (int) $this->received_data['quantity'] . "\n\n" .
+                "Order amount: " . $this->requested_category->price * (int) $this->received_data['quantity'] . "\n\n" .
+                "Max Amount: " . config("app.MAX_AMOUNT") . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
+            throw new Exception(
+                'Requested category is not available.',
+                422
+            );
+        }
     }
 
     private function logFailedQuantityRequest()
@@ -502,6 +532,200 @@ class OrderCreationController extends Controller
                 422
             );
         }
+    }
+
+
+    private function getCategoryFromOneClickDz(string $oneclickdz_category_id, string $oneclickdz_parent_category_id)
+    {
+        try {
+            $response = Http::withHeaders([
+                'X-Access-Token' => config('app.ONECLICKDZ_API_TOKEN_TEST')
+            ])->get("https://api.oneclickdz.com/v3/gift-cards/checkProduct/" . $oneclickdz_parent_category_id);
+
+            if ($response->failed()) {
+
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get category from oneclickdz.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
+                throw new Exception(
+                    '- .',
+                    500
+                );
+            }
+        } catch (Throwable $th) {
+            throw new Exception(
+                'Failed to get category from oneclickdz.',
+                500
+            );
+        }
+
+        $child_categories = $response->json()["data"]["types"];
+
+        foreach ($child_categories as $child_category) {
+
+            if ($child_category["id"] === $oneclickdz_category_id) {
+                return $child_category;
+            }
+
+        }
+
+        try {
+            Log::channel('order_creation_errors')->error(
+                "\n\n" .
+                "Description: Category not found at oneclickdz.\n\n" .
+                "Error message: - .\n\n" .
+                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+        } catch (Throwable $th) {
+            //throw $th;
+        }
+
+        throw new Exception(
+            'Category not found at oneclickdz.',
+            500
+        );
+    }
+    private function getParentCategoryFromOneClickDz(string $oneclickdz_parent_category_id)
+    {
+        try {
+            $response = Http::withHeaders([
+                'X-Access-Token' => config('app.ONECLICKDZ_API_TOKEN_TEST')
+            ])->get("https://api.oneclickdz.com/v3/gift-cards/catalog");
+
+            if ($response->failed()) {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get parent category from oneclickdz.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+
+                throw new Exception(
+                    '- .',
+                    500
+                );
+            }
+        } catch (Throwable $th) {
+            throw new Exception(
+                'Failed to get parent category from oneclickdz.',
+                500
+            );
+        }
+
+        $oneclickdz_catalog = $response->json();
+
+        foreach ($oneclickdz_catalog["data"]["categories"] as $oneclickdz_category) {
+
+            if ($oneclickdz_category["title"] === "Mobile & Internet") {
+                continue;
+            }
+
+            foreach ($oneclickdz_category["products"] as $oneclickdz_product) {
+
+                if ($oneclickdz_product["id"] === $oneclickdz_parent_category_id) {
+                    return $oneclickdz_product;
+                }
+
+            }
+        }
+
+        try {
+            Log::channel('order_creation_errors')->error(
+                "\n\n" .
+                "Description: Parent category not found at oneclickdz.\n\n" .
+                "Error message: - .\n\n" .
+                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+        } catch (Throwable $th) {
+            //throw $th;
+        }
+
+        throw new Exception(
+            'Parent category not found at oneclickdz.',
+            500
+        );
+    }
+    private function isCategoryAvailableAtOneClickDz()
+    {
+        $oneclickdz_parent_category = $this->getParentCategoryFromOneClickDz(
+            $this->requested_category->parentCategory->oneclickdz_id
+        );
+
+        if ($oneclickdz_parent_category["enabled"] === false) {
+            Log::channel('order_creation_errors')->error(
+                "\n\n" .
+                "Description: Parent category is not enabled at oneclickdz.\n\n" .
+                "Error message: - .\n\n" .
+                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
+            throw new Exception(
+                'Requested category is not available.',
+                422
+            );
+        }
+
+        $oneclickdz_category = $this->getCategoryFromOneClickDz(
+            $this->requested_category->oneclickdz_id,
+            $this->requested_category->parentCategory->oneclickdz_id
+        );
+
+        if ($oneclickdz_category["quantity"] < 20) {
+            Log::channel('order_creation_errors')->error(
+                "\n\n" .
+                "Description: Category quantity at oneclickdz is less than 20.\n\n" .
+                "Error message: - .\n\n" .
+                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                "Quantity At OneClickDz: " . $oneclickdz_category["quantity"] . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
+            throw new Exception(
+                'Requested category is not available.',
+                422
+            );
+        }
+
+        return true;
     }
 
     private function logRequest()
@@ -565,7 +789,10 @@ class OrderCreationController extends Controller
                     $this->createChargilyPayment();
                     $this->createCheckout();
                 } else {
-                    if ($this->isAdminAvailableForBackorder()) {
+                    if (
+                        $this->isAdminAvailableForBackorder() &&
+                        $this->isCategoryAvailableAtOneClickDz()
+                    ) {
                         $this->createOrder("backorder");
                         $this->createChargilyPayment();
                         $this->createCheckout();

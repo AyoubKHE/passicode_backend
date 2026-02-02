@@ -13,10 +13,10 @@ use App\Http\Controllers\Auth\ReloadUserSessionController;
 
 
 //! temp function for testing purposes 
-Route::get(
-    '/auth/temp-login/{role}',
-    TempLoginController::class
-);
+// Route::get(
+//     '/auth/temp-login/{role}',
+//     TempLoginController::class
+// );
 //! temp function for testing purposes 
 
 

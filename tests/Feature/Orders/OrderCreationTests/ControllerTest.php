@@ -132,6 +132,14 @@ class ControllerTest extends TestCase
                         'created_at' => now(),
                     ],
                 ));
+
+
+                Setting::create([
+                    'key' => "is_admin_available_for_backorder",
+                    'value' => "true",
+                    'created_at' => now(),
+                    'updated_at' => null,
+                ]);
             });
 
 
@@ -217,7 +225,7 @@ class ControllerTest extends TestCase
                     'key' => "is_admin_available_for_backorder",
                     'value' => "true",
                     'created_at' => now(),
-                    'settled_at' => null,
+                    'updated_at' => null,
                 ]);
             });
 

@@ -501,6 +501,20 @@ return [
             'ignore_exceptions' => true
         ],
 
+        'sync_with_oneclickdz_errors' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/controllers_logs/categories/sync_with_oneclickdz/sync_with_oneclickdz_errors.log'),
+            'level' => 'error',
+            'ignore_exceptions' => true,
+        ],
+
+        'sync_with_oneclickdz_requests' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/controllers_logs/categories/sync_with_oneclickdz/sync_with_oneclickdz_requests.log'),
+            'level' => 'info',
+            'ignore_exceptions' => true
+        ],
+
         // ____________________________________________________________________________________________________________
         // ____________________________________________________________________________________________________________
         // __________________________________________ Orders Items Channels ___________________________________________
