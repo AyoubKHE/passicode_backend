@@ -593,8 +593,8 @@ class OrderCreationController extends Controller
             );
 
             throw new Exception(
-                'Failed to get category from oneclickdz.',
-                500
+                'Requested category is not available.',
+                422
             );
         }
 
@@ -626,8 +626,8 @@ class OrderCreationController extends Controller
         }
 
         throw new Exception(
-            'Category not found at oneclickdz.',
-            500
+            'Requested category is not available.',
+            422
         );
     }
     private function getParentCategoryFromOneClickDz(string $oneclickdz_parent_category_id)
@@ -660,8 +660,8 @@ class OrderCreationController extends Controller
             );
 
             throw new Exception(
-                'Failed to get parent category from oneclickdz.',
-                500
+                'Requested category is not available.',
+                422
             );
         }
 
@@ -700,8 +700,8 @@ class OrderCreationController extends Controller
         }
 
         throw new Exception(
-            'Parent category not found at oneclickdz.',
-            500
+            'Requested category is not available.',
+            422
         );
     }
     private function isCategoryAvailableAtOneClickDz()
