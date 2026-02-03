@@ -539,7 +539,7 @@ class OrderCreationController extends Controller
     {
         try {
             $response = Http::withHeaders([
-                'X-Access-Token' => config('app.ONECLICKDZ_API_TOKEN_TEST')
+                'X-Access-Token' => config('app.ONECLICKDZ_API_TOKEN')
             ])->get("https://api.oneclickdz.com/v3/gift-cards/checkProduct/" . $oneclickdz_parent_category_id);
 
             if ($response->failed()) {
@@ -605,7 +605,7 @@ class OrderCreationController extends Controller
     {
         try {
             $response = Http::withHeaders([
-                'X-Access-Token' => config('app.ONECLICKDZ_API_TOKEN_TEST')
+                'X-Access-Token' => config('app.ONECLICKDZ_API_TOKEN')
             ])->get("https://api.oneclickdz.com/v3/gift-cards/catalog");
 
             if ($response->failed()) {

@@ -135,9 +135,7 @@ return [
 
     'CHARGILY_SECRET_KEY' => (string) env('CHARGILY_SECRET_KEY'),
 
-    'ONECLICKDZ_API_TOKEN_PROD' => (string) env('ONECLICKDZ_API_TOKEN_PROD'),
-
-    'ONECLICKDZ_API_TOKEN_TEST' => (string) env('ONECLICKDZ_API_TOKEN_TEST'),
+    'ONECLICKDZ_API_TOKEN' => (string) env('ONECLICKDZ_API_TOKEN'),
 
     'MARGIN' => (float) env('MARGIN'),
 
