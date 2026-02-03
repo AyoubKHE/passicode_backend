@@ -518,6 +518,20 @@ class OrderCreationController extends Controller
             )
                 ->value('value');
         } catch (Throwable $th) {
+
+            Log::channel('order_creation_errors')->error(
+                "\n\n" .
+                "Description: Failed to get is_admin_available_for_backorder setting from database.\n\n" .
+                "Error message: " . $th->getMessage() . "\n\n" .
+                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
                 500
@@ -527,6 +541,20 @@ class OrderCreationController extends Controller
         if ($is_admin_available_for_backorder === "true") {
             return true;
         } else {
+
+            Log::channel('order_creation_errors')->error(
+                "\n\n" .
+                "Description: Admin is not available for backorder.\n\n" .
+                "Error message: - .\n\n" .
+                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+            );
+
             throw new Exception(
                 'Requested category is not available.',
                 422
