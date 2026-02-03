@@ -45,7 +45,7 @@ class SimpleOrderResource extends JsonResource
 
         $tax_amount = $customer_price * $this->tax;
 
-        return $customer_price - $tax_amount - $gateway_fee - $supplier_price;
+        return round($customer_price - $tax_amount - $gateway_fee - $supplier_price, 2);
     }
 
 
