@@ -60,18 +60,21 @@ class ReloadUserSessionController extends Controller
                 $this->user->load('client');
             }
         } catch (Throwable $th) {
-
-            Log::channel('reload_user_session_errors')->error(
-                "\n\n" .
-                "Description: Failed to load User model relations << ->load() function >>.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "User ID: " . $this->user->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('reload_user_session_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to load User model relations << ->load() function >>.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $this->user->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -104,18 +107,21 @@ class ReloadUserSessionController extends Controller
             $this->user = User::where("id", $refresh_token_payload["user_data"]->user_id)->first();
 
         } catch (Throwable $th) {
-
-            Log::channel('reload_user_session_errors')->error(
-                "\n\n" .
-                "Description: Failed to get user from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('reload_user_session_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get user from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -124,18 +130,21 @@ class ReloadUserSessionController extends Controller
         }
 
         if (!$this->user) {
-
-            Log::channel('reload_user_session_errors')->error(
-                "\n\n" .
-                "Description: User not found.\n\n" .
-                "Error message: - .\n\n" .
-                "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('reload_user_session_errors')->error(
+                    "\n\n" .
+                    "Description: User not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception('User not found', 404);
         }
@@ -153,18 +162,21 @@ class ReloadUserSessionController extends Controller
             }
 
         } catch (Throwable $th) {
-
-            Log::channel('reload_user_session_errors')->error(
-                "\n\n" .
-                "Description: Failed to logout user.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "User ID: " . $this->user->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('reload_user_session_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to logout user.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $this->user->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -177,18 +189,21 @@ class ReloadUserSessionController extends Controller
         $refresh_token = $this->global_request_object->cookie("refresh_token");
 
         if (!$refresh_token) {
-
-            Log::channel('reload_user_session_errors')->error(
-                "\n\n" .
-                "Description: Failed to reload user session: The refresh token is missing.\n\n" .
-                "Error message: - .\n\n" .
-                "User ID: - .\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('reload_user_session_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to reload user session: The refresh token is missing.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: - .\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 "The refresh token is missing.",
@@ -251,18 +266,21 @@ class ReloadUserSessionController extends Controller
                 ->first();
 
         } catch (Throwable $th) {
-
-            Log::channel('reload_user_session_errors')->error(
-                "\n\n" .
-                "Description: Failed to get user from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('reload_user_session_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get user from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -271,18 +289,21 @@ class ReloadUserSessionController extends Controller
         }
 
         if (!$this->user) {
-
-            Log::channel('reload_user_session_errors')->error(
-                "\n\n" .
-                "Description: User not found.\n\n" .
-                "Error message: - .\n\n" .
-                "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('reload_user_session_errors')->error(
+                    "\n\n" .
+                    "Description: User not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception('User not found', 404);
         }
@@ -293,18 +314,21 @@ class ReloadUserSessionController extends Controller
                 $this->user->refresh_token
             )
         ) {
-
-            Log::channel('reload_user_session_errors')->error(
-                "\n\n" .
-                "Description: Failed to reload user session: The refresh token received from the request does not match the refresh token stored in the database.\n\n" .
-                "Error message: - .\n\n" .
-                "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('reload_user_session_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to reload user session: The refresh token received from the request does not match the refresh token stored in the database.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: " . $refresh_token_payload["user_data"]->user_id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 "The refresh token is invalid. Authentication required.",

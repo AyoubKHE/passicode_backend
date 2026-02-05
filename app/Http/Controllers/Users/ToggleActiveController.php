@@ -29,19 +29,22 @@ class ToggleActiveController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('toggle_active_errors')->error(
-                "\n\n" .
-                "Description: Failed to update requested user's is_active status in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Requested User ID: " . $this->global_request_object->user_id . "\n\n" .
-                "Logged In User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('toggle_active_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to update requested user's is_active status in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Requested User ID: " . $this->global_request_object->user_id . "\n\n" .
+                    "Logged In User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -60,19 +63,22 @@ class ToggleActiveController extends Controller
                 $this->global_request_object->user_id
             )->first();
         } catch (Throwable $th) {
-
-            Log::channel('toggle_active_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested user from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Requested User ID: " . $this->global_request_object->user_id . "\n\n" .
-                "Logged In User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('toggle_active_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested user from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Requested User ID: " . $this->global_request_object->user_id . "\n\n" .
+                    "Logged In User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -81,19 +87,22 @@ class ToggleActiveController extends Controller
         }
 
         if (!$this->requested_user) {
-
-            Log::channel('toggle_active_errors')->error(
-                "\n\n" .
-                "Description: Requested user not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Requested User ID: " . $this->global_request_object->user_id . "\n\n" .
-                "Logged In User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('toggle_active_errors')->error(
+                    "\n\n" .
+                    "Description: Requested user not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Requested User ID: " . $this->global_request_object->user_id . "\n\n" .
+                    "Logged In User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested user not found.',
@@ -102,19 +111,22 @@ class ToggleActiveController extends Controller
         }
 
         if ($this->requested_user->role === "Super Admin") {
-
-            Log::channel('toggle_active_errors')->error(
-                "\n\n" .
-                "Description: Attemp to toggle super admin account's is_active status.\n\n" .
-                "Error message: - .\n\n" .
-                "Requested User ID: " . $this->global_request_object->user_id . "\n\n" .
-                "Logged In User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('toggle_active_errors')->error(
+                    "\n\n" .
+                    "Description: Attemp to toggle super admin account's is_active status.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Requested User ID: " . $this->global_request_object->user_id . "\n\n" .
+                    "Logged In User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Access denied',

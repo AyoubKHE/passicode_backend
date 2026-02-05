@@ -28,18 +28,22 @@ class DeleteCategoryByIdController extends Controller
                 );
             }
         } catch (Throwable $th) {
-            Log::channel('delete_category_by_id_errors')->error(
-                "\n\n" .
-                "Description: An error occurred while deleting the category's image on disk.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_category_by_id_errors')->error(
+                    "\n\n" .
+                    "Description: An error occurred while deleting the category's image on disk.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 "An error occurred while deleting the category's image.",
@@ -61,19 +65,22 @@ class DeleteCategoryByIdController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('delete_category_by_id_errors')->error(
-                "\n\n" .
-                "Description: An error occurred while deleting the category in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_category_by_id_errors')->error(
+                    "\n\n" .
+                    "Description: An error occurred while deleting the category in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -91,19 +98,22 @@ class DeleteCategoryByIdController extends Controller
                 $this->global_request_object->category_id
             )->first();
         } catch (Throwable $th) {
-
-            Log::channel('delete_category_by_id_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested category from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_category_by_id_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested category from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -112,19 +122,22 @@ class DeleteCategoryByIdController extends Controller
         }
 
         if (!$this->requested_category) {
-
-            Log::channel('delete_category_by_id_errors')->error(
-                "\n\n" .
-                "Description: Requested category not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_category_by_id_errors')->error(
+                    "\n\n" .
+                    "Description: Requested category not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category not found.',

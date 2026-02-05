@@ -88,18 +88,21 @@ class UpdateOrderBaseDataController extends Controller
             }
 
         } catch (Throwable $th) {
-
-            Log::channel('update_order_base_data_errors')->error(
-                "\n\n" .
-                "Description: Failed to update order.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_order_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to update order.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -128,18 +131,21 @@ class UpdateOrderBaseDataController extends Controller
         }
 
         if (count($this->sent_inputs) === 0) {
-
-            Log::channel('update_order_base_data_errors')->error(
-                "\n\n" .
-                "Description: No updates were made. Please ensure there is at least one modification before submitting.\n\n" .
-                "Error message: - .\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_order_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: No updates were made. Please ensure there is at least one modification before submitting.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'No updates were made. Please ensure there is at least one modification before submitting.',
@@ -160,18 +166,21 @@ class UpdateOrderBaseDataController extends Controller
                 ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
-
-            Log::channel('update_order_base_data_errors')->error(
-                "\n\n" .
-                "Description: Failed to get order's related payment from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_order_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get order's related payment from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -180,18 +189,21 @@ class UpdateOrderBaseDataController extends Controller
         }
 
         if (!$this->related_chargily_payment) {
-
-            Log::channel('update_order_base_data_errors')->error(
-                "\n\n" .
-                "Description: Related payment not found.\n\n" .
-                "Error message: - .\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_order_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Related payment not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception('Related payment not found.', 404);
         }
@@ -211,18 +223,21 @@ class UpdateOrderBaseDataController extends Controller
                 ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
-
-            Log::channel('update_order_base_data_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested order from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_order_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested order from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -231,18 +246,21 @@ class UpdateOrderBaseDataController extends Controller
         }
 
         if (!$this->requested_order) {
-
-            Log::channel('update_order_base_data_errors')->error(
-                "\n\n" .
-                "Description: Requested order not found.\n\n" .
-                "Error message: - .\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_order_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Requested order not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested order not found.',

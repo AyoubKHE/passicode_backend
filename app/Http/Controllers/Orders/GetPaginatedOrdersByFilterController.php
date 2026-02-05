@@ -263,20 +263,23 @@ class GetPaginatedOrdersByFilterController extends Controller
         $limit = (int) $this->global_request_object->get('limit', 10);
 
         if ($limit > 100) {
-
-            Log::channel('get_paginated_orders_by_filter_errors')->error(
-                "\n\n" .
-                "Description: Limit must not exceed 100 to ensure optimal performance.\n\n" .
-                "Error message: - .\n\n" .
-                "Page: " . $page . "\n\n" .
-                "Limit: " . $limit . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('get_paginated_orders_by_filter_errors')->error(
+                    "\n\n" .
+                    "Description: Limit must not exceed 100 to ensure optimal performance.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Page: " . $page . "\n\n" .
+                    "Limit: " . $limit . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Limit must not exceed 100 to ensure optimal performance.',
@@ -330,20 +333,23 @@ class GetPaginatedOrdersByFilterController extends Controller
                 ->orderBy('created_at', $order_by)
                 ->paginate(perPage: $limit, page: $page);
         } catch (Throwable $th) {
-
-            Log::channel('get_paginated_orders_by_filter_errors')->error(
-                "\n\n" .
-                "Description: Failed to get paginated orders by filter from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Page: " . $page . "\n\n" .
-                "Limit: " . $limit . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('get_paginated_orders_by_filter_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get paginated orders by filter from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Page: " . $page . "\n\n" .
+                    "Limit: " . $limit . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',

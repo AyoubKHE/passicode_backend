@@ -49,19 +49,22 @@ class UpdateProductBaseDataController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('update_product_base_data_errors')->error(
-                "\n\n" .
-                "Description: Failed to update requested product from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_product_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to update requested product from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -90,19 +93,22 @@ class UpdateProductBaseDataController extends Controller
         }
 
         if (count($this->sent_inputs) === 0) {
-
-            Log::channel('update_product_base_data_errors')->error(
-                "\n\n" .
-                "Description: No updates were made. Please ensure there is at least one modification before submitting.\n\n" .
-                "Error message: - .\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_product_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: No updates were made. Please ensure there is at least one modification before submitting.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'No updates were made. Please ensure there is at least one modification before submitting.',
@@ -122,19 +128,22 @@ class UpdateProductBaseDataController extends Controller
                 ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
-
-            Log::channel('update_product_base_data_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested product from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_product_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested product from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -143,19 +152,22 @@ class UpdateProductBaseDataController extends Controller
         }
 
         if (!$this->requested_product) {
-
-            Log::channel('update_product_base_data_errors')->error(
-                "\n\n" .
-                "Description: Requested product not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_product_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Requested product not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested product not found.',

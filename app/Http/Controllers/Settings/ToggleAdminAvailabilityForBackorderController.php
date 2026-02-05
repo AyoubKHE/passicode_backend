@@ -28,19 +28,22 @@ class ToggleAdminAvailabilityForBackorderController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('toggle_admin_availability_for_backorder_errors')->error(
-                "\n\n" .
-                "Description: failed to update << is_admin_available_for_backorder >> value in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "old is_admin_available_for_backorder: " . $this->is_admin_available_for_backorder_record->value . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('toggle_admin_availability_for_backorder_errors')->error(
+                    "\n\n" .
+                    "Description: failed to update << is_admin_available_for_backorder >> value in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "old is_admin_available_for_backorder: " . $this->is_admin_available_for_backorder_record->value . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -60,18 +63,21 @@ class ToggleAdminAvailabilityForBackorderController extends Controller
             )
                 ->first();
         } catch (Throwable $th) {
-
-            Log::channel('toggle_admin_availability_for_backorder_errors')->error(
-                "\n\n" .
-                "Description: Failed to get << is_admin_available_for_backorder >> information from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('toggle_admin_availability_for_backorder_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get << is_admin_available_for_backorder >> information from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -81,18 +87,21 @@ class ToggleAdminAvailabilityForBackorderController extends Controller
 
 
         if (!$this->is_admin_available_for_backorder_record) {
-
-            Log::channel('toggle_admin_availability_for_backorder_errors')->error(
-                "\n\n" .
-                "Description: << is_admin_available_for_backorder >> setting not found.\n\n" .
-                "Error message: - .\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('toggle_admin_availability_for_backorder_errors')->error(
+                    "\n\n" .
+                    "Description: << is_admin_available_for_backorder >> setting not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'is_admin_available_for_backorder setting not found.',

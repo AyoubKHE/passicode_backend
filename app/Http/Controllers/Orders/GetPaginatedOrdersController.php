@@ -24,27 +24,30 @@ class GetPaginatedOrdersController extends Controller
         $order_public_id = $this->global_request_object->get('order_public_id', "");
 
         if ($limit > 100) {
-
-            Log::channel('get_paginated_orders_errors')->error(
-                "\n\n" .
-                "Description: Limit must not exceed 100 to ensure optimal performance.\n\n" .
-                "Error message: - .\n\n" .
-                "Page: " . $page . "\n\n" .
-                "Limit: " . $limit . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('get_paginated_orders_errors')->error(
+                    "\n\n" .
+                    "Description: Limit must not exceed 100 to ensure optimal performance.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Page: " . $page . "\n\n" .
+                    "Limit: " . $limit . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Limit must not exceed 100 to ensure optimal performance.',
                 400
             );
         }
-        
+
         if ($order_public_id) {
             try {
                 $this->paginated_orders = Order::where(

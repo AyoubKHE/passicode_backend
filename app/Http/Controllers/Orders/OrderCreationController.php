@@ -67,21 +67,24 @@ class OrderCreationController extends Controller
             }
 
         } catch (Throwable $th) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Failed to create chargily checkout.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Order ID: " . $this->order->id . "\n\n" .
-                "Payment ID: " . $this->chargily_payment->id . "\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to create chargily checkout.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Order ID: " . $this->order->id . "\n\n" .
+                    "Payment ID: " . $this->chargily_payment->id . "\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while creating chargily checkout. Please try again later.',
@@ -114,20 +117,23 @@ class OrderCreationController extends Controller
             }
 
         } catch (Throwable $th) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Failed to create payment in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Order ID: " . $this->order->id . "\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to create payment in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Order ID: " . $this->order->id . "\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -214,19 +220,22 @@ class OrderCreationController extends Controller
             }
 
         } catch (Throwable $th) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Failed to create order in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to create order in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -289,19 +298,22 @@ class OrderCreationController extends Controller
             }
 
         } catch (Throwable $th) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Failed to update requested category quantity in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to update requested category quantity in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -324,19 +336,22 @@ class OrderCreationController extends Controller
                 ->lockForUpdate()
                 ->get();
         } catch (Throwable $th) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Failed to get products from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get products from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -362,19 +377,22 @@ class OrderCreationController extends Controller
                 ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested category from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested category from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -383,19 +401,22 @@ class OrderCreationController extends Controller
         }
 
         if (!$this->requested_category) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Requested category not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Requested category not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category not found.',
@@ -404,19 +425,22 @@ class OrderCreationController extends Controller
         }
 
         if (!$this->requested_category->is_active) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Requested category is not active.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Requested category is not active.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category is not available.',
@@ -425,19 +449,22 @@ class OrderCreationController extends Controller
         }
 
         if (!$this->requested_category->is_leaf_category) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Requested category is not a leaf category.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Requested category is not a leaf category.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category is not a leaf category.',
@@ -449,23 +476,26 @@ class OrderCreationController extends Controller
             (double) $this->requested_category->price * (int) $this->received_data['quantity'] >
             config("app.MAX_AMOUNT")
         ) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Order amount exceed allowed max amount.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "Category Price: " . (double) $this->requested_category->price . "\n\n" .
-                "Received quantity: " . (int) $this->received_data['quantity'] . "\n\n" .
-                "Order amount: " . $this->requested_category->price * (int) $this->received_data['quantity'] . "\n\n" .
-                "Max Amount: " . config("app.MAX_AMOUNT") . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Order amount exceed allowed max amount.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "Category Price: " . (double) $this->requested_category->price . "\n\n" .
+                    "Received quantity: " . (int) $this->received_data['quantity'] . "\n\n" .
+                    "Order amount: " . $this->requested_category->price * (int) $this->received_data['quantity'] . "\n\n" .
+                    "Max Amount: " . config("app.MAX_AMOUNT") . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category is not available.',
@@ -488,19 +518,22 @@ class OrderCreationController extends Controller
                 'settled_at' => null,
             ]);
         } catch (Throwable $th) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Failed to create FailedQuantityRequest record in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->requested_category->id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to create FailedQuantityRequest record in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->requested_category->id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -518,19 +551,22 @@ class OrderCreationController extends Controller
             )
                 ->value('value');
         } catch (Throwable $th) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Failed to get is_admin_available_for_backorder setting from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get is_admin_available_for_backorder setting from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -541,19 +577,22 @@ class OrderCreationController extends Controller
         if ($is_admin_available_for_backorder === "true") {
             return true;
         } else {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Admin is not available for backorder.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Admin is not available for backorder.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category is not available.',
@@ -578,19 +617,22 @@ class OrderCreationController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Failed to get category from oneclickdz.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get category from oneclickdz.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category is not available.',
@@ -645,19 +687,22 @@ class OrderCreationController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Failed to get parent category from oneclickdz.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get parent category from oneclickdz.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category is not available.',
@@ -711,18 +756,22 @@ class OrderCreationController extends Controller
         );
 
         if ($oneclickdz_parent_category["enabled"] === false) {
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Parent category is not enabled at oneclickdz.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Parent category is not enabled at oneclickdz.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category is not available.',
@@ -736,19 +785,23 @@ class OrderCreationController extends Controller
         );
 
         if ($oneclickdz_category["quantity"] < 20) {
-            Log::channel('order_creation_errors')->error(
-                "\n\n" .
-                "Description: Category quantity at oneclickdz is less than 20.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->received_data['category_id'] . "\n\n" .
-                "Quantity At OneClickDz: " . $oneclickdz_category["quantity"] . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('order_creation_errors')->error(
+                    "\n\n" .
+                    "Description: Category quantity at oneclickdz is less than 20.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->received_data['category_id'] . "\n\n" .
+                    "Quantity At OneClickDz: " . $oneclickdz_category["quantity"] . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category is not available.',

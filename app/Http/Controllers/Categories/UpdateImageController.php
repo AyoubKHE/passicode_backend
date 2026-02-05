@@ -31,19 +31,22 @@ class UpdateImageController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('update_image_errors')->error(
-                "\n\n" .
-                "Description: Failed to update category's image path in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_image_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to update category's image path in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             BackupService::makeImagesRestoration(
                 "categories",
@@ -86,19 +89,22 @@ class UpdateImageController extends Controller
         if (
             !$this->createCategoryImageBackup()
         ) {
-
-            Log::channel('update_image_errors')->error(
-                "\n\n" .
-                "Description: An error occurred while creating a backup of the old image.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_image_errors')->error(
+                    "\n\n" .
+                    "Description: An error occurred while creating a backup of the old image.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while creating a backup of the old image.',
@@ -114,19 +120,22 @@ class UpdateImageController extends Controller
                 "categories",
                 $this->requested_category->id
             );
-
-            Log::channel('update_image_errors')->error(
-                "\n\n" .
-                "Description: An error occurred while deleting the old image.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_image_errors')->error(
+                    "\n\n" .
+                    "Description: An error occurred while deleting the old image.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while deleting the old image.',
@@ -140,19 +149,22 @@ class UpdateImageController extends Controller
                 "categories",
                 $this->requested_category->id
             );
-
-            Log::channel('update_image_errors')->error(
-                "\n\n" .
-                "Description: An error occurred while saving the category's new image.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_image_errors')->error(
+                    "\n\n" .
+                    "Description: An error occurred while saving the category's new image.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 "An error occurred while saving the category's new image.",
@@ -171,19 +183,22 @@ class UpdateImageController extends Controller
                 $this->global_request_object->category_id
             )->first();
         } catch (Throwable $th) {
-
-            Log::channel('update_image_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested category from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_image_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested category from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -192,19 +207,22 @@ class UpdateImageController extends Controller
         }
 
         if (!$this->requested_category) {
-
-            Log::channel('update_image_errors')->error(
-                "\n\n" .
-                "Description: Requested category not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_image_errors')->error(
+                    "\n\n" .
+                    "Description: Requested category not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category not found.',

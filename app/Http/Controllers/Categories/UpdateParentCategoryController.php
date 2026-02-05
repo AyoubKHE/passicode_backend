@@ -152,19 +152,22 @@ class UpdateParentCategoryController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('update_parent_category_errors')->error(
-                "\n\n" .
-                "Description: Failed to update requested category's parent id in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_parent_category_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to update requested category's parent id in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -377,19 +380,22 @@ class UpdateParentCategoryController extends Controller
                 $this->global_request_object->category_id
             )->first();
         } catch (Throwable $th) {
-
-            Log::channel('update_parent_category_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested category from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_parent_category_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested category from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -398,19 +404,22 @@ class UpdateParentCategoryController extends Controller
         }
 
         if (!$this->requested_category) {
-
-            Log::channel('update_parent_category_errors')->error(
-                "\n\n" .
-                "Description: Requested category not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_parent_category_errors')->error(
+                    "\n\n" .
+                    "Description: Requested category not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category not found.',
@@ -421,20 +430,23 @@ class UpdateParentCategoryController extends Controller
         $this->new_parent_id = $this->global_request_object->validated()['new_parent_id'];
 
         if ($this->requested_category->id === $this->new_parent_id) {
-
-            Log::channel('update_parent_category_errors')->error(
-                "\n\n" .
-                "Description: The parent ID cannot be the same as the category ID. Please choose a different parent category.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "New Parent Category ID: " . $this->new_parent_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_parent_category_errors')->error(
+                    "\n\n" .
+                    "Description: The parent ID cannot be the same as the category ID. Please choose a different parent category.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "New Parent Category ID: " . $this->new_parent_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'The parent ID cannot be the same as the category ID. Please choose a different parent category.',
@@ -443,19 +455,22 @@ class UpdateParentCategoryController extends Controller
         }
 
         if ($this->requested_category->parent_id === $this->new_parent_id) {
-
-            Log::channel('update_parent_category_errors')->error(
-                "\n\n" .
-                "Description: No updates were made. Please ensure there is at least one modification before submitting.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_parent_category_errors')->error(
+                    "\n\n" .
+                    "Description: No updates were made. Please ensure there is at least one modification before submitting.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'No updates were made. Please ensure there is at least one modification before submitting.',

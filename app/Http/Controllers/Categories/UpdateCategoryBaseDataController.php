@@ -34,19 +34,22 @@ class UpdateCategoryBaseDataController extends Controller
             }
 
         } catch (Throwable $th) {
-
-            Log::channel('update_category_base_data_errors')->error(
-                "\n\n" .
-                "Description: Failed to update category's base data in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_category_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to update category's base data in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -68,19 +71,22 @@ class UpdateCategoryBaseDataController extends Controller
         }
 
         if (count($this->sent_inputs) === 0) {
-
-            Log::channel('update_category_base_data_errors')->error(
-                "\n\n" .
-                "Description: No updates were made. Please ensure there is at least one modification before submitting.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_category_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: No updates were made. Please ensure there is at least one modification before submitting.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'No updates were made. Please ensure there is at least one modification before submitting.',
@@ -99,19 +105,22 @@ class UpdateCategoryBaseDataController extends Controller
                 $this->global_request_object->category_id
             )->first();
         } catch (Throwable $th) {
-
-            Log::channel('update_category_base_data_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested category from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_category_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested category from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -120,19 +129,22 @@ class UpdateCategoryBaseDataController extends Controller
         }
 
         if (!$this->requested_category) {
-
-            Log::channel('update_category_base_data_errors')->error(
-                "\n\n" .
-                "Description: Requested category not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Category ID: " . $this->global_request_object->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('update_category_base_data_errors')->error(
+                    "\n\n" .
+                    "Description: Requested category not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Category ID: " . $this->global_request_object->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception('Requested category not found.', 404);
         }

@@ -42,18 +42,21 @@ class getChildCategoriesByNameController extends Controller
             } catch (Throwable $th) {
                 //throw $th;
             }
-
-            Log::channel('get_child_categories_by_name_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested category by name from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Requested Category Name: << " . $this->global_request_object->category_name . " >>\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('get_child_categories_by_name_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested category by name from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Requested Category Name: << " . $this->global_request_object->category_name . " >>\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -77,17 +80,21 @@ class getChildCategoriesByNameController extends Controller
                 //throw $th;
             }
 
-            Log::channel('get_child_categories_by_name_errors')->error(
-                "\n\n" .
-                "Description: Requested category not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Requested Category Name: << " . $this->global_request_object->category_name . " >>\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('get_child_categories_by_name_errors')->error(
+                    "\n\n" .
+                    "Description: Requested category not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Requested Category Name: << " . $this->global_request_object->category_name . " >>\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category not found.',
@@ -97,17 +104,20 @@ class getChildCategoriesByNameController extends Controller
 
         if ($category->is_leaf_category) {
             $this->categories = new Collection([$category]);
-
-            Log::channel('get_child_categories_by_name_requests')->info(
-                "\n\n" .
-                "Description: A user searched for category by name.\n\n" .
-                "Requested Category Name: << " . $this->global_request_object->category_name . " >>\n\n" .
-                "Returned Category: << " . $category->name . " >>\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('get_child_categories_by_name_requests')->info(
+                    "\n\n" .
+                    "Description: A user searched for category by name.\n\n" .
+                    "Requested Category Name: << " . $this->global_request_object->category_name . " >>\n\n" .
+                    "Returned Category: << " . $category->name . " >>\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
         } else {
             try {

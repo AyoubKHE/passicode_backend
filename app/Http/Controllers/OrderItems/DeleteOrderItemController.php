@@ -35,21 +35,24 @@ class DeleteOrderItemController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Failed to update requested category's quantity in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "Category ID: " . $this->requested_category->id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to update requested category's quantity in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "Category ID: " . $this->requested_category->id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -72,20 +75,23 @@ class DeleteOrderItemController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Failed to update requested product's sold status in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to update requested product's sold status in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -106,20 +112,23 @@ class DeleteOrderItemController extends Controller
                 );
             }
         } catch (Throwable $th) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Failed to delete requested order item in database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to delete requested order item in database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -139,21 +148,24 @@ class DeleteOrderItemController extends Controller
                 ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested category from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "Category ID: " . $this->requested_product->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested category from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "Category ID: " . $this->requested_product->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -162,21 +174,24 @@ class DeleteOrderItemController extends Controller
         }
 
         if (!$this->requested_category) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Requested category not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "Category ID: " . $this->requested_product->category_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Requested category not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "Category ID: " . $this->requested_product->category_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested category not found.',
@@ -195,20 +210,23 @@ class DeleteOrderItemController extends Controller
                 ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested product from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested product from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -217,20 +235,23 @@ class DeleteOrderItemController extends Controller
         }
 
         if (!$this->requested_product) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Requested product not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Requested product not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested product not found.',
@@ -253,20 +274,23 @@ class DeleteOrderItemController extends Controller
                 ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested order item from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested order item from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -275,20 +299,23 @@ class DeleteOrderItemController extends Controller
         }
 
         if (!$this->requested_order_item) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Requested order item not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Requested order item not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested order item not found.',
@@ -307,20 +334,23 @@ class DeleteOrderItemController extends Controller
                 ->lockForUpdate()
                 ->first();
         } catch (Throwable $th) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Failed to get requested order from database.\n\n" .
-                "Error message: " . $th->getMessage() . "\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Failed to get requested order from database.\n\n" .
+                    "Error message: " . $th->getMessage() . "\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'An error occurred while accessing the database. Please try again later.',
@@ -329,20 +359,23 @@ class DeleteOrderItemController extends Controller
         }
 
         if (!$this->requested_order) {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: Requested order not found.\n\n" .
-                "Error message: - .\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: Requested order not found.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'Requested order not found.',
@@ -351,20 +384,23 @@ class DeleteOrderItemController extends Controller
         }
 
         if ($this->requested_order->status === "completed") {
-
-            Log::channel('delete_order_item_errors')->error(
-                "\n\n" .
-                "Description: You cannot remove items from an order that is marked as completed.\n\n" .
-                "Error message: - .\n\n" .
-                "Order ID: " . $this->global_request_object->order_id . "\n\n" .
-                "Product ID: " . $this->global_request_object->product_id . "\n\n" .
-                "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
-                "Ip: " . $this->global_request_object->ip() . "\n\n" .
-                "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
-                "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n" .
-                "----------------------------------------------------------------------------------------------------------------------------------\n\n"
-            );
+            try {
+                Log::channel('delete_order_item_errors')->error(
+                    "\n\n" .
+                    "Description: You cannot remove items from an order that is marked as completed.\n\n" .
+                    "Error message: - .\n\n" .
+                    "Order ID: " . $this->global_request_object->order_id . "\n\n" .
+                    "Product ID: " . $this->global_request_object->product_id . "\n\n" .
+                    "User ID: " . $this->global_request_object->get('logged_in_user')->id . "\n\n" .
+                    "Ip: " . $this->global_request_object->ip() . "\n\n" .
+                    "User Agent: " . $this->global_request_object->userAgent() . "\n\n" .
+                    "File: " . __FILE__ . ". Line: " . __LINE__ . "\n\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n" .
+                    "----------------------------------------------------------------------------------------------------------------------------------\n\n"
+                );
+            } catch (Throwable $th) {
+                //throw $th;
+            }
 
             throw new Exception(
                 'You cannot remove items from an order that is marked as completed.',
