@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('APP_URL')],
+    'allowed_origins' => explode(',', env('ALLOWED_ORIGINS')),
 
     'allowed_origins_patterns' => [],
 
