@@ -75,6 +75,7 @@ class OneClickDzCategoriesSyncController extends Controller
 
                 $is_updated = $passicode_category->update([
                     "price" => $received_price_ttc,
+                    "is_active" => $received_price_ttc == 0 ? 0 : 1,
                     "updated_at" => now()
                 ]);
 
